@@ -1,7 +1,7 @@
 """Model backends behind one method: complete(system, messages) -> str.
 
 Real backends import their SDK lazily so tests run with no keys and no extras.
-Pick one with SWARM_BACKEND=mock|anthropic|openai (OpenAI-compatible covers
+Pick one with SWARM_BACKEND=mock|anthropic|openai|adaption (OpenAI-compatible covers
 OpenRouter, vLLM, Ollama via OPENAI_BASE_URL)."""
 
 from __future__ import annotations
@@ -55,6 +55,53 @@ class OpenAICompatBackend:
         return r.choices[0].message.content or ""
 
 
+class AdaptionBackend:
+    """Adaption Labs /api/v1/responses (Responses-API shape), billed to the team's
+    Adaption credits. Stdlib HTTP so it needs no extra dependency.
+    Models: GET /api/v1/models (e.g. gemma-4-26b-a4b-it, qwen3.8-27b, deepseek-v4-flash)."""
+
+    url = "https://api.prod.adaptionlabs.ai/api/v1/responses"
+
+    def __init__(self, model: str | None = None, max_tokens: int = 300):
+        self.key = os.environ["ADAPTION_API_KEY"]
+        self.model = model or os.environ.get("SWARM_MODEL", "gemma-4-26b-a4b-it")
+        self.max_tokens = max_tokens
+
+    def _post(self, body: dict) -> dict:
+        import json
+        import urllib.request
+
+        req = urllib.request.Request(
+            self.url,
+            data=json.dumps(body).encode(),
+            headers={"Authorization": f"Bearer {self.key}", "Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=120) as r:
+            return json.load(r)
+
+    def complete(self, system: str, messages: list[dict]) -> str:
+        r = self._post(
+            {
+                "model": self.model,
+                "instructions": system,
+                "input": messages,
+                "max_output_tokens": self.max_tokens,
+            }
+        )
+        return "".join(
+            c.get("text", "")
+            for item in r.get("output", [])
+            if item.get("type") == "message"
+            for c in item.get("content", [])
+            if c.get("type") == "output_text"
+        )
+
+
 def get_backend(name: str | None = None) -> Backend:
     name = name or os.environ.get("SWARM_BACKEND", "mock")
-    return {"mock": MockBackend, "anthropic": AnthropicBackend, "openai": OpenAICompatBackend}[name]()
+    return {
+        "mock": MockBackend,
+        "anthropic": AnthropicBackend,
+        "openai": OpenAICompatBackend,
+        "adaption": AdaptionBackend,
+    }[name]()

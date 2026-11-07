@@ -44,3 +44,19 @@ def test_llm_swarm_runs_on_mock_and_is_consistent():
     logs = llm_swarm(MockBackend(), 4, "ring", rounds=2, task="sum numbers", seed=0)
     assert sum(len(v) for v in logs.values()) == 2 * 4 * 2
     assert diagnose(logs).status == "clean"
+
+
+def test_adaption_backend_parses_output(monkeypatch):
+    from swarm.llm import AdaptionBackend
+
+    monkeypatch.setenv("ADAPTION_API_KEY", "test")
+    b = AdaptionBackend(model="m")
+    sent = {}
+
+    def fake_post(body):
+        sent.update(body)
+        return {"output": [{"type": "message", "content": [{"type": "output_text", "text": "TO: a1"}]}]}
+
+    monkeypatch.setattr(b, "_post", fake_post)
+    assert b.complete("sys", [{"role": "user", "content": "hi"}]) == "TO: a1"
+    assert sent["instructions"] == "sys" and sent["model"] == "m"
