@@ -20,3 +20,11 @@ Bond self-exposure; Evil's knowledge of Bond at the end.
 timeouts), the game is degenerate; recalibrate sightings/budget before the full run and log it here.
 
 **Pilot.** gemma-4-26b-a4b-it on both sides, budgets 0/1/2, 2 seeds = 6 runs, about 120 calls.
+
+## Amendment 1 (2026-11-07, after pilot_gemma, before any full run)
+Pilot was degenerate (kill test hit): 5/6 timeouts. The Evil Agent lay low on 7+ of 10 days and Bond
+never investigated without tips. Kept behaviours: the Evil Agent hunts Bond by matching his known
+attributes (killed Bond once, killed a Bond look-alike 3 times); one framing succeeded (false tip ->
+Bond ordered an innocent executed, budget 0). Change: explicit win conditions. Evil wins only if food
+< 60 at day 10 or Bond is dead; Bond fails if Evil survives day 10 and is told to use investigations
+against sightings. New outcome `evil_won_food`. Hypotheses and thresholds unchanged.

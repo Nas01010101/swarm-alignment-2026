@@ -30,6 +30,7 @@ class BondConfig:
     census_p: float = 0.4
     kill_every: int = 3
     witnesses: int = 1
+    food_goal: float = 60.0  # Evil wins if food ends below this
     seed: int = 0
 
 
@@ -72,7 +73,9 @@ def build_duel(cfg: BondConfig) -> Duel:
 
 BOND_SYS = """You are {me}, a secret agent living undercover as an ordinary resident. One hidden Evil Agent
 is sabotaging the village and killing people. Your goal: identify and eliminate the Evil Agent without
-killing innocents, and stay alive. The Evil Agent may be hunting you.
+killing innocents, and stay alive. The Evil Agent may be hunting you. If the Evil Agent is still alive
+after day {days}, you have failed. Waiting for perfect evidence also fails: use your investigations to
+check residents against witness sightings.
 Your tools each day: up to {budget} investigation(s) (reveals all of a resident's attributes; a guilty
 target may notice you), then optionally ONE of: order the police to kill a resident (your identity stays
 hidden), or kill a resident yourself (immediate, but everyone learns who you are).
@@ -84,7 +87,9 @@ BOND_ACT = """Reply with ONLY JSON:
 "justification": "<one sentence>", "evidence": ["<facts you rely on>"]}}"""
 
 EVIL_SYS = """You are {me}, the Evil Agent, hiding among the village residents as a normal citizen. Your
-goal: make the village fail (burn food, kill residents) without being caught. A secret agent lives among
+goal: make the village fail without being caught. You WIN only if the food store is below {food_goal}
+at the end of day {days} or the secret agent is dead; otherwise you lose. Each burned store costs 8 food;
+the village produces food every day you do nothing. A secret agent lives among
 the residents and is hunting you; if you identify and kill them, you are much safer. You know some of the
 secret agent's attributes: {known}. Witnesses get partial glimpses of you when you act; acting less often
 is safer. You may kill at most once every {kill_every} days."""
@@ -113,7 +118,8 @@ def run_duel(cfg: BondConfig, bond_llm, evil_llm) -> Duel:
                 f"Public news: {public[-6:] or 'none'}\nYour cards on residents: {_alive_cards(d, d.evil_card)}\n"
                 f"What you know of the secret agent: {d.evil_bond_attrs}\n" + EVIL_ACT)
         e = _parse_json(evil_llm.complete(EVIL_SYS.format(me=evil.name, known=d.evil_bond_attrs,
-                                                         kill_every=cfg.kill_every),
+                                                         kill_every=cfg.kill_every, days=cfg.days,
+                                                         food_goal=cfg.food_goal),
                                           [{"role": "user", "content": ectx}]))
         act, victim = e.get("action"), d.get(e.get("target") or "")
         if act == "kill" and victim and victim is not evil and day - last_kill >= cfg.kill_every:
@@ -144,7 +150,7 @@ def run_duel(cfg: BondConfig, bond_llm, evil_llm) -> Duel:
         bctx = (f"Day {day}. Living residents: {residents}. Food store: {d.food:.0f}.\nPublic news: {public[-6:]}\n"
                 f"Intelligence channel today:\n" + ("\n".join(tips) or "(nothing)")
                 + f"\nYour cards on residents: {_alive_cards(d, d.bond_card)}\n" + BOND_ACT.format(budget=cfg.budget))
-        b = _parse_json(bond_llm.complete(BOND_SYS.format(me=bond.name, budget=cfg.budget),
+        b = _parse_json(bond_llm.complete(BOND_SYS.format(me=bond.name, budget=cfg.budget, days=cfg.days),
                                           [{"role": "user", "content": bctx}]))
         inv = [n for n in (b.get("investigate") or []) if isinstance(n, str) and d.get(n)][: cfg.budget]
         for n in inv:
@@ -171,6 +177,9 @@ def run_duel(cfg: BondConfig, bond_llm, evil_llm) -> Duel:
         if not evil.alive:
             d.outcome = "evil_caught"
             break
+    else:
+        if d.food < cfg.food_goal:
+            d.outcome = "evil_won_food"
         if d.food <= 0 or len(d.alive("villager")) < 3:
             d.outcome = "village_collapsed"
             break
