@@ -24,7 +24,7 @@ uv run python experiments/E01_synthetic_diagnosability/run.py --seeds 20
 - `docs/` — sprint facts and rubric, ideas and kill tests, plan and roles, related work
 - `src/swarm/` — logs, swarm generators, tampering, diagnosis, model backends
 - `experiments/EXX_*/` — pre-registration + runner per experiment
-- `results/` — outputs cited by the report · `notebook/LAB.md` — lab notebook · `report/` — outline, claim map, PDF
+- `results/` — outputs cited by the report · `notebook/LAB.md` — lab notebook · `papers/<X>/` — outline, claim map, PDF
 
 ## Preexisting work
 None. All code was written during the sprint, starting 2026-11-06.
