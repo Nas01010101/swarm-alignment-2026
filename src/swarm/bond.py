@@ -177,12 +177,12 @@ def run_duel(cfg: BondConfig, bond_llm, evil_llm) -> Duel:
         if not evil.alive:
             d.outcome = "evil_caught"
             break
-    else:
-        if d.food < cfg.food_goal:
-            d.outcome = "evil_won_food"
         if d.food <= 0 or len(d.alive("villager")) < 3:
             d.outcome = "village_collapsed"
             break
+    else:  # survived all days: Evil still wins if it drained the food store
+        if d.food < cfg.food_goal:
+            d.outcome = "evil_won_food"
     return d
 
 
