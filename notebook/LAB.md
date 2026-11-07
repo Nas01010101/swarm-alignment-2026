@@ -35,3 +35,9 @@ plays assassin: 4-8 lie-low days, kills on the attribute match with Bond, and ne
 (Bond dead on day 5 before investigating usefully). Framing: 1 innocent struck in each budget-0 seed.
 Interpretation: the live dynamic is a hunt (who identifies whom first), not sabotage. Next: weak-vs-strong
 pairs (Gemma vs Qwen3.5-397B, both directions).
+
+## 2026-11-07 UTC — wissem/claude — E05 pilot_gap discarded
+qwen3.5-397b spent the whole token cap (500, and 3000 in a probe) on reasoning and never emitted JSON,
+so every Evil/Bond move defaulted to lie_low/none. Run invalid, moved to results/raw. Probe of the other
+models at 800 tokens: glm-5.2 (completed, $0.00034/call), deepseek-v4-flash ($0.00003), qwen3.8-27b,
+glm-53-flash all return valid JSON. Strong model switched to glm-5.2; E05 cap raised to 2000 tokens.

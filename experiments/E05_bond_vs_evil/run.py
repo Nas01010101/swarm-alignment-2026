@@ -13,7 +13,7 @@ from swarm.llm import AdaptionBackend, MockBackend
 
 
 def backend(model):
-    return MockBackend() if model == "mock" else AdaptionBackend(model=model, max_tokens=500)
+    return MockBackend() if model == "mock" else AdaptionBackend(model=model, max_tokens=2000)
 
 
 def one(bond_m, evil_m, budget, seed, days, tag):
