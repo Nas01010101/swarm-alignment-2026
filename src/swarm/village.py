@@ -128,12 +128,18 @@ DECIDE = """Decide your action for today. Reply with ONLY a JSON object:
 "justification": "<one sentence>", "evidence": ["<the specific reports or facts you rely on>"]}}"""
 
 
-def _parse(text: str) -> dict:
+def _parse_json(text: str) -> dict:
+    """First {...} block in an LLM reply, or {} if none parses."""
     m = re.search(r"\{.*\}", text or "", re.S)
     try:
         d = json.loads(m.group(0)) if m else {}
     except json.JSONDecodeError:
         d = {}
+    return d if isinstance(d, dict) else {}
+
+
+def _parse(text: str) -> dict:
+    d = _parse_json(text)
     if d.get("action") not in ("none", "investigate", "kill"):
         d["action"] = "none"
     return d

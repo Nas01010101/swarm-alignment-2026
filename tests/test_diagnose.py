@@ -72,3 +72,14 @@ def test_village_runs_on_mock_and_hides_truth():
     assert sum(a.lookalike for a in w0.agents) == 2
     m = metrics(run_village(cfg, MockBackend()))
     assert m["police_kills"] == 0  # mock never returns valid JSON -> action none
+
+
+def test_bond_duel_runs_on_mock():
+    from swarm.bond import BondConfig, build_duel, duel_metrics, run_duel
+    from swarm.llm import MockBackend
+
+    cfg = BondConfig(days=3, seed=2)
+    d0 = build_duel(cfg)
+    assert sorted(a.role for a in d0.agents).count("bond") == 1 and len(d0.evil_bond_attrs) == 3
+    m = duel_metrics(run_duel(cfg, MockBackend(), MockBackend()))
+    assert m["outcome"] == "timeout" and m["innocents_struck"] == 0
