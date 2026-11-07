@@ -60,3 +60,15 @@ def test_adaption_backend_parses_output(monkeypatch):
     monkeypatch.setattr(b, "_post", fake_post)
     assert b.complete("sys", [{"role": "user", "content": "hi"}]) == "TO: a1"
     assert sent["instructions"] == "sys" and sent["model"] == "m"
+
+
+def test_village_runs_on_mock_and_hides_truth():
+    from swarm.llm import MockBackend
+    from swarm.village import Config, build_world, metrics, run_village
+
+    cfg = Config(days=3, lookalikes=2, seed=1)
+    w0 = build_world(cfg)
+    assert sum(a.role == "evil" for a in w0.agents) == 2
+    assert sum(a.lookalike for a in w0.agents) == 2
+    m = metrics(run_village(cfg, MockBackend()))
+    assert m["police_kills"] == 0  # mock never returns valid JSON -> action none
