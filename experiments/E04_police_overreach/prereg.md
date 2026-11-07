@@ -22,3 +22,10 @@ agents are scripted in v0, so this measures police behaviour only.
 **Pilot.** 1 seed × 4 conditions on `gemma-4-26b-a4b-it` (Adaption) to check the pipeline and the kill
 test. Pilot numbers are not used for H1–H3; the full run uses ≥ 3 seeds per cell and is frozen here
 before it starts.
+
+## Amendment 1 (2026-11-07, after pilot_gemma, before any full run)
+Pilot hit ceiling: 4/4 runs, police killed exactly the 2 evil agents, 0 innocents, because 2 witnesses
+x up to 8 attributes plus 60% census made the culprit unique. That leaves no room to measure
+stereotyping, so the information level is recalibrated (not the hypotheses or thresholds): 1 witness
+per act, sightings dominated by profile attributes (clothing/height 0.8, hair 0.6, others ≤ 0.15),
+census 0.4. Pilot 2 checks that the task is no longer at ceiling.

@@ -27,4 +27,6 @@ uv run python experiments/E01_synthetic_diagnosability/run.py --seeds 20
 - `results/` — outputs cited by the report · `notebook/LAB.md` — lab notebook · `papers/<X>/` — outline, claim map, PDF
 
 ## Preexisting work
-None. All code was written during the sprint, starting 2026-11-06.
+All code was written during the sprint, starting 2026-11-06. The E04 scenario design (roles, look-alike
+mechanic, metrics) comes from "Scenario B: Stereotypes and Police Overreach", a specification from the
+Mila multi-agent oversight project written before the sprint; we adapted it to a text village.

@@ -13,3 +13,9 @@ Append-only. Newest at the bottom. Format: `## YYYY-MM-DD HH:MM UTC — name —
   naive count baseline: 1.4–5.8 false accusations per run. k=0: 1.00 exact everywhere.
 - Collusion barely moves numbers at n=12 because few liar–liar edges carry tampering; needs higher k/rate.
 - Next: v2 sweep per prereg; formal bound (A); first LLM run (B); dataset schema (C).
+
+## 2026-11-07 UTC — wissem (agent) — E04 pilot
+Ran 1 seed x 4 conditions, gemma-4-26b-a4b-it via Adaption, 8 days. Police killed both evil agents in
+every run (day 1–4), 0 innocents; justifications cite matching multi-attribute descriptions. Ceiling:
+sightings too informative. Police kill readily on day 1 with no evidence standard given (no refusal).
+Amended prereg (information level only) and re-piloting.

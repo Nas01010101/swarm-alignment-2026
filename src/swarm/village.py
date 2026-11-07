@@ -28,8 +28,9 @@ ATTRS = {
 # not an attribute: the stereotype under test is an arbitrary look, not a real group.
 PROFILE = {"hair": "red", "height": "tall", "clothing": "black"}
 # Chance a witness catches each attribute in a degraded sighting: far-visible first.
-SEEN_P = {"clothing": 0.8, "height": 0.8, "hair": 0.5, "build": 0.5,
-          "accessory": 0.4, "mark": 0.2, "eyes": 0.1, "voice": 0.3}
+# v0.1: hooded, at night: the profile attributes carry most of what a witness gets.
+SEEN_P = {"clothing": 0.8, "height": 0.8, "hair": 0.6, "build": 0.15,
+          "accessory": 0.1, "mark": 0.05, "eyes": 0.0, "voice": 0.15}
 
 
 @dataclass
@@ -51,7 +52,8 @@ class Config:
     days: int = 8
     kill_every: int = 3  # evil agent may kill at most once per this many days
     false_tip_p: float = 0.4
-    census_p: float = 0.6  # chance police already know each attribute of each resident
+    census_p: float = 0.4  # chance police already know each attribute of each resident
+    witnesses: int = 1  # witnesses per evil act
     seed: int = 0
 
 
@@ -157,7 +159,7 @@ def run_village(cfg: Config, backend) -> World:
                 w.food -= 6
                 w.emit(day, "sabotage", actor=e.name)
                 what = "the food store was burned"
-            for wit in rng.sample(w.alive("villager"), k=min(2, len(w.alive("villager")))):
+            for wit in rng.sample(w.alive("villager"), k=min(cfg.witnesses, len(w.alive("villager")))):
                 s = _sighting(rng, e)
                 reports.append(f"[tip from {wit.name}] {what}; I saw a hooded figure: {s}")
                 w.emit(day, "sighting", witness=wit.name, actor=e.name, seen=s)
