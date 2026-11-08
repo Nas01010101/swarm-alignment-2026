@@ -77,3 +77,39 @@ def naive_count(logs: Logs, threshold: int = 1) -> set[str]:
         c[a] += 1
         c[b] += 1
     return {k for k, v in c.items() if v >= threshold}
+
+
+def bounded_covers(edges: set[tuple[str, str]], t: int) -> list[set[str]]:
+    """All inclusion-minimal vertex covers of size <= t (enumeration over endpoint nodes)."""
+    if not edges:
+        return [set()]
+    nodes = sorted({x for e in edges for x in e})
+    found: list[set[str]] = []
+    for k in range(1, min(t, len(nodes)) + 1):
+        for c in combinations(nodes, k):
+            s = set(c)
+            if any(f <= s for f in found):
+                continue
+            if all(a in s or b in s for a, b in edges):
+                found.append(s)
+    return found
+
+
+def diagnose_bounded(logs: Logs, t: int) -> Verdict:
+    """t-bounded attribution: accuse only agents that are in EVERY vertex cover of size <= t.
+
+    Guarantee: every discrepancy has a liar endpoint (honest records always agree), so the
+    true liar set is a vertex cover. If it has <= t members it is one of the covers we
+    intersect, hence accused is a subset of the liars: no honest agent is ever accused while
+    the bound holds, even with colluding liars. The min-cover rule in `diagnose` has no such
+    guarantee (two liars sharing an honest peer make that peer the unique minimum cover).
+    Status: clean | identified (someone provably lied) | insufficient_evidence | exceeds_bound.
+    """
+    d = discrepancies(logs)
+    if not d:
+        return Verdict(d)
+    covers = bounded_covers({(a, b) for a, b, _ in d}, t)
+    if not covers:
+        return Verdict(d, status="exceeds_bound")
+    accused = set.intersection(*covers)
+    return Verdict(d, accused, covers, "identified" if accused else "insufficient_evidence")
