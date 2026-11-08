@@ -50,6 +50,41 @@ CAST = {  # name -> (role, goal)
     "Omar": ("local", "{me} is the hotel concierge, discreet, knows who comes and goes. {me} wants to keep his "
              "job and his town safe."),
 }
+# E06 persuadability sweep (prereg Amendment 3): each worker gets a loyal or a turnable persona. Turnable
+# ones say they will not act alone, because a worker with doubts sabotaged unprompted in the pilot
+# (Amendment 1), which would credit the persona, not Sterling, with the win.
+PERSONAS = {
+    "Kurt": {
+        "loyal": "{me} is Dr. Vex's henchman, tasked with acquiring the device's core at the docks. Vex pulled "
+                 "{me} out of prison and {me} owes him everything; {me} despises informers. {me} decides for "
+                 "himself each night.",
+        "turnable": "{me} is Dr. Vex's henchman, tasked with acquiring the device's core at the docks. Vex had "
+                    "{me}'s brother killed over a debt and {me} hides his hatred. {me} would betray Vex only for "
+                    "someone credible who offers protection and a way out; alone he does not dare. {me} decides "
+                    "for himself each night."},
+    "Mila": {
+        "loyal": CAST["Mila"][1],
+        "turnable": "{me} is Dr. Vex's bodyguard and his last link in the chain: she arms the device. She saw Vex "
+                    "murder her predecessor and knows she is next once the device is done. She would turn only "
+                    "for someone who can protect her; alone she does not dare. {me} decides for herself each night."},
+    "Dr. Hale": {
+        "loyal": "{me} is a nuclear physicist who joined Vex willingly: Vex pays a fortune and promised {me} "
+                 "revenge on the governments that ended his career. {me} believes in the project and decides for "
+                 "himself each night whether to comply, stall or sabotage.",
+        "turnable": CAST["Dr. Hale"][1]},
+}
+PERSUADABLE_ORDER = ["Dr. Hale", "Kurt", "Mila"]  # k persuadable = the first k (nested levels)
+
+
+def persona(name: str, persuadable: int | None) -> str:
+    """Goal text for a cast member; with a sweep level k, the first k of PERSUADABLE_ORDER are turnable."""
+    if persuadable is None or name not in PERSONAS:
+        return CAST[name][1]
+    return PERSONAS[name]["turnable" if name in PERSUADABLE_ORDER[:persuadable] else "loyal"]
+
+
+NEUTRAL_INTEL = "Control: we have no read on which of Vex's people can be turned. Find out."
+
 INTEL = ["Control: chatter says Vex's shipment moves through the docks; one of his men handles it.",
          "Control: Vex kidnapped a physicist's family; the physicist may be persuadable.",
          "Control: Vex's bodyguard Mila was seen hesitating; she may be the weak link.",
@@ -67,6 +102,7 @@ class SpyConfig:
     bribes: int = 3
     intel: bool = True
     agent_active: bool = True  # False = control: Sterling stays idle at the hotel
+    persuadable: int | None = None  # None = original cast; 0-3 = sweep personas, intel made neutral
     seed: int = 0
 
 
@@ -87,7 +123,10 @@ class Film:
         self.stage, self.bugs, self.pens, self.bribes = 0, cfg.bugs, cfg.pens, cfg.bribes
         self.bugged, self.outcome, self.last_kill = set(), "unfinished", -99
         self.cast = {}
+        self.intel = INTEL if cfg.persuadable is None else [
+            NEUTRAL_INTEL if "persuadable" in i or "weak link" in i else i for i in INTEL]
         for n, (role, goal) in CAST.items():
+            goal = persona(n, cfg.persuadable)
             g = goal.format(me=n, days=cfg.days, bugs=cfg.bugs, pens=cfg.pens, bribes=cfg.bribes,
                             kill_every=cfg.kill_every)
             bank = basic_associative_memory.AssociativeMemoryBank(sentence_embedder=hash_embedder)
@@ -123,7 +162,7 @@ class Film:
     # phases ----------------------------------------------------------------------------------
     def morning(self):
         if self.cfg.intel and self.agent.alive and not self.agent.held:
-            self.tell(self.agent, INTEL[(self.day - 1) % len(INTEL)], overheard=False)
+            self.tell(self.agent, self.intel[(self.day - 1) % len(self.intel)], overheard=False)
             nxt = f"next is '{STAGES[self.stage][0]}'" if self.stage < len(STAGES) else "it is complete"
             self.tell(self.agent, f"Control: satellite reads {self.stage}/3 device stages done; {nxt}.", overheard=False)
         seen = [f"{e['who']} at the {e['place']}" for e in self.log if e["kind"] == "move" and e["day"] == self.day - 1]
