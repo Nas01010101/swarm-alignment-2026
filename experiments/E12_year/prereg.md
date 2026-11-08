@@ -55,3 +55,5 @@ extinction itself reported as a result.
   in on the other. Starvation, spoilage, births, the market and assemblies stay in Python.
 - E12-MC is a transfer check, not a test of Y1-Y6: we report Y1-Y6 for it next to the text open arm
   seed 0, and the differences, with n = 1.
+- Seeds run on three machines with separate API keys, same code and parameters: seed 0 tag `main`
+  (Wissem), seed 1 tag `main_s1` (Alex), seed 2 tag `main_s2` (Quan). The analysis reads all three.
