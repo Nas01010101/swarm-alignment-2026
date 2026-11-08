@@ -256,7 +256,8 @@ def _add(d: dict, k: str, v: float):
     d[k] = d.get(k, 0) + v
 
 
-def _work(isl: Island, p: Citizen, job: str, rng: random.Random, day: int) -> str:
+def _work(isl: Island, p: Citizen, job: str, rng: random.Random, day: int, got: dict | None = None) -> str:
+    """got: goods a Minecraft bot dug for this job today (E09); replaces the text yields and mine accidents."""
     if job not in JOBS:
         job = "rest"
     if p.energy <= 0:
@@ -267,7 +268,10 @@ def _work(isl: Island, p: Citizen, job: str, rng: random.Random, day: int) -> st
     p.energy -= 1
     pot = isl.store if pooled(isl.cfg) else p.inv
     plan = isl.cfg.island == "planned"
-    if job == "farm":
+    if got is not None and job in SKILL_JOBS:
+        for k, v in got.items():
+            _add(pot, k, v)
+    elif job == "farm":
         _add(pot, "food", _yield(p, job) if plan else 3)
     elif job == "chop":
         _add(pot, "wood", _yield(p, job) if plan else 3)
@@ -334,7 +338,7 @@ def _bank(isl: Island, p: Citizen):
         p.coins += gross - tax
 
 
-def _night(isl: Island, day: int, rng: random.Random, mob_need: float):
+def _night(isl: Island, day: int, rng: random.Random, mob_need: float, world=None):
     c = isl.cfg
     for p in isl.alive():  # eat
         if not pooled(c):
@@ -350,7 +354,11 @@ def _night(isl: Island, day: int, rng: random.Random, mob_need: float):
             p.alive, p.cause = False, "starved"
             isl.emit(day, "death", who=p.name, cause="starved")
     short = max(0.0, mob_need - isl.wall)
-    if short > 0 and mob_need > 0:  # each living person dies with prob proportional to the shortfall
+    if world is not None:  # E09: zombies in Minecraft decide who dies
+        for p in world.night(day, isl, mob_need):
+            p.alive, p.cause = False, "mobs"
+            isl.emit(day, "death", who=p.name, cause="mobs")
+    elif short > 0 and mob_need > 0:  # each living person dies with prob proportional to the shortfall
         p_die = c.mob_lethality * short / mob_need
         for p in isl.alive():
             if rng.random() < p_die:
@@ -369,7 +377,8 @@ def _take_report(isl: Island, p: Citizen, r: dict, day: int):
         isl.emit(day, "report", who=p.name, true=dict(p.skill), said=dict(p.report))
 
 
-def run_island(cfg: IslandConfig, llm) -> Island:
+def run_island(cfg: IslandConfig, llm, world=None) -> Island:
+    """world: optional E09 Minecraft bridge with work(day, isl, jobs) -> {name: goods} and night(day, isl, mob_need)."""
     isl = build_island(cfg)
     rng = random.Random(cfg.seed + 1)
     soc, plan = pooled(cfg), cfg.island == "planned"
@@ -418,9 +427,10 @@ def run_island(cfg: IslandConfig, llm) -> Island:
         replies = list(pool.map(lambda p: _ask(llm, _system(isl, p), _status(isl, p, day, mob_need) + "\n" + act), al))
         assigned = {p.name: _assigned(isl, p) for p in al} if soc else {}
         orders, said = {}, []
-        for p, r in zip(al, replies):
-            want = r.get("job") if r.get("job") in JOBS else "rest"
-            done = _work(isl, p, want, rng, day)
+        wants = [r.get("job") if r.get("job") in JOBS else "rest" for r in replies]
+        dug = world.work(day, isl, {p.name: w if p.energy > 0 else "rest" for p, w in zip(al, wants)}) if world else {}
+        for p, r, want in zip(al, replies, wants):
+            done = _work(isl, p, want, rng, day, dug.get(p.name) if world else None)
             isl.emit(day, "job", who=p.name, trait=p.trait, want=want, done=done, assigned=assigned.get(p.name))
             if plan:
                 _take_report(isl, p, r, day)
@@ -440,7 +450,7 @@ def run_island(cfg: IslandConfig, llm) -> Island:
             isl.emit(day, "market", volume=_market(isl, orders, day))
         isl.board = ([f"{isl.leader} ({_role(cfg)}): {str(lead_say)[:160]}"] if lead_say else []) + \
             rng.sample(said, k=min(8, len(said)))
-        _night(isl, day, rng, mob_need)
+        _night(isl, day, rng, mob_need, world)
         isl.emit(day, "night", alive=len(isl.alive()), wall=round(isl.wall, 2), mob_need=round(mob_need, 2))
     pool.shutdown()
     return isl
