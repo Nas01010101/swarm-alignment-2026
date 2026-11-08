@@ -50,8 +50,8 @@ def test_liar_deleting_covert_message_is_localized_not_identified():
     bad = dict(logs)
     bad["a1"], info = L.liar_edit(Scripted(reply), logs["a1"], "a1", "naive", "a2", 3)
     assert info["parse_ok"] and info["deleted"] == 1
-    s = L.score(bad, logs, {"a1"}, {"a1": c.msg_id})
-    assert s["covert_hidden"] and s["detected"] and s["localized"]
+    s = L.score(bad, logs, {"a1"}, {"a1": c.msg_id}, {"a1": "a2"})
+    assert s["covert_hidden"] and s["detected"] and s["localized"] and s["minimal_edit"]
     assert s["status"] == "insufficient_evidence" and s["n_suspects"] == 2 and not s["exact"]
 
 
@@ -70,7 +70,8 @@ def test_rewrites_touching_many_peers_identify_the_liar():
     bad = dict(logs)
     bad["a1"], _, n_rew = L.apply_plan(logs["a1"], plan)
     assert n_rew == len(logs["a1"])
-    s = L.score(bad, logs, {"a1"}, {"a1": c.msg_id})
+    s = L.score(bad, logs, {"a1"}, {"a1": c.msg_id}, {"a1": "a2"})
+    assert not s["minimal_edit"]  # touched every peer, not just the covert edge
     assert s["status"] == "identified" and s["exact"] and s["false_accusations"] == 0
 
 

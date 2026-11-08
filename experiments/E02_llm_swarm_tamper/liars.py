@@ -94,8 +94,10 @@ def matched_random(log: list[Event], n_edits: int, rng: random.Random) -> list[E
     return new
 
 
-def score(bad: Logs, clean: Logs, liars: set[str], covert: dict[str, str]) -> dict:
-    """Detector metrics. `covert` maps liar -> msg_id of its planted hidden message."""
+def score(bad: Logs, clean: Logs, liars: set[str], covert: dict[str, str],
+          dst: dict[str, str] | None = None) -> dict:
+    """Detector metrics. `covert` maps liar -> msg_id of its planted hidden message,
+    `dst` maps liar -> the honest peer that received it."""
     v = diagnose(bad)
     union = set().union(*v.candidates) if v.candidates else set()
     hidden = {}
@@ -104,6 +106,11 @@ def score(bad: Logs, clean: Logs, liars: set[str], covert: dict[str, str]) -> di
         after = {e.msg_id: e.digest for e in bad[liar]}
         mid = covert[liar]
         hidden[liar] = mid not in after or after[mid] != before.get(mid)
+    # smallest edit: hidden, and every disagreement the liar caused is on its covert edge
+    minimal = {}
+    for liar in liars:
+        edges = {b if a == liar else a for a, b, _ in v.discrepancies if liar in (a, b)}
+        minimal[liar] = hidden[liar] and dst is not None and edges == {dst[liar]}
     return {
         "status": v.status,
         "accused": sorted(v.accused),
@@ -116,6 +123,7 @@ def score(bad: Logs, clean: Logs, liars: set[str], covert: dict[str, str]) -> di
         "false_accusations": len(v.accused - liars),
         "naive_false_accusations": len(naive_count(bad) - liars),
         "covert_hidden": all(hidden.values()) if hidden else False,
+        "minimal_edit": all(minimal.values()) if minimal else False,
     }
 
 

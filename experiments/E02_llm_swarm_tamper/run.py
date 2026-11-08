@@ -111,10 +111,12 @@ def phase_attack(a, out: Path, raw: Path) -> None:
     backends = {m: llm.get_backend(model=m, max_tokens=a.liar_tokens, reasoning=effort(a, m))
                 for m in a.liar_models}
 
-    def emit(key, base, bad, clean, liars, cov_ids, extra):
+    def emit(key, base, bad, clean, liars, cov, extra):
+        cov_ids = {c["agent"]: c["msg_id"] for c in cov}
+        dsts = {c["agent"]: c["dst"] for c in cov}
         dump_logs(bad, str(tdir / f"{key}.jsonl"))
         row = {"key": key, **base, "liars": sorted(liars), "covert_ids": cov_ids,
-               **score(bad, clean, liars, cov_ids), **extra}
+               **score(bad, clean, liars, cov_ids, dsts), **extra}
         append(runs, row)
         return row
 
@@ -122,7 +124,6 @@ def phase_attack(a, out: Path, raw: Path) -> None:
         clean, meta = load_swarm(raw, topo, seed)
         cov = meta["covert"][:k]
         liars = {c["agent"] for c in cov}
-        ids = {c["agent"]: c["msg_id"] for c in cov}
         base = {"liar_model": "-", "swarm_model": meta["swarm_model"], "topology": topo, "seed": seed, "k": k}
         for cond in ("noedit", "minimal"):
             key = f"ctl_{cond}_{topo}_s{seed}_k{k}"
@@ -134,7 +135,7 @@ def phase_attack(a, out: Path, raw: Path) -> None:
                 for c in cov:
                     bad[c["agent"]] = minimal_hide(bad[c["agent"]], c["msg_id"])
                 truth = liars
-            emit(key, base | {"condition": cond}, bad, clean, truth, ids, {})
+            emit(key, base | {"condition": cond}, bad, clean, truth, cov, {})
 
     def attack(model, topo, seed, k, cond):
         key = f"{model}_{topo}_s{seed}_k{k}_{cond}"
@@ -143,7 +144,6 @@ def phase_attack(a, out: Path, raw: Path) -> None:
         clean, meta = load_swarm(raw, topo, seed)
         cov = meta["covert"][:k]
         liars = {c["agent"] for c in cov}
-        ids = {c["agent"]: c["msg_id"] for c in cov}
         bad = {ag: list(v) for ag, v in clean.items()}
         edits = {}
         for c in cov:
@@ -152,14 +152,14 @@ def phase_attack(a, out: Path, raw: Path) -> None:
         edited = sorted(ag for ag, e in edits.items() if e["deleted"] + e["rewritten"] > 0)
         base = {"liar_model": model, "swarm_model": meta["swarm_model"], "topology": topo,
                 "seed": seed, "k": k, "condition": cond}
-        row = emit(key, base, bad, clean, liars, ids, {"edits": edits, "liars_who_edited": edited})
+        row = emit(key, base, bad, clean, liars, cov, {"edits": edits, "liars_who_edited": edited})
         # paired control: same number of edits per liar, on random records
         rng = random.Random(key)
         mbad = {ag: list(v) for ag, v in clean.items()}
         for c in cov:
             e = edits[c["agent"]]
             mbad[c["agent"]] = matched_random(mbad[c["agent"]], e["deleted"] + e["rewritten"], rng)
-        emit(f"{key}_matched", base | {"condition": f"matched:{cond}"}, mbad, clean, liars, ids, {})
+        emit(f"{key}_matched", base | {"condition": f"matched:{cond}"}, mbad, clean, liars, cov, {})
         print(cond, model, topo, seed, k, row["status"], row["accused"], "liars", row["liars"],
               "hidden", row["covert_hidden"], flush=True)
 
