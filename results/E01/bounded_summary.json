@@ -1,0 +1,330 @@
+{
+ "runs": 640,
+ "runs_with_false_accusation": {
+  "mincover": 95,
+  "bounded_t=k": 0,
+  "bounded_t=k+1": 0
+ },
+ "cells": [
+  {
+   "topology": "complete",
+   "liars": 1,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.9,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.9
+   },
+   "bounded_t=k": {
+    "exact": 0.9,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.9
+   },
+   "bounded_t=k+1": {
+    "exact": 0.6,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.6
+   }
+  },
+  {
+   "topology": "complete",
+   "liars": 2,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.725,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.85
+   },
+   "bounded_t=k": {
+    "exact": 0.725,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.825
+   },
+   "bounded_t=k+1": {
+    "exact": 0.25,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.438
+   }
+  },
+  {
+   "topology": "complete",
+   "liars": 3,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.575,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.8
+   },
+   "bounded_t=k": {
+    "exact": 0.575,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.8
+   },
+   "bounded_t=k+1": {
+    "exact": 0.025,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.275
+   }
+  },
+  {
+   "topology": "complete",
+   "liars": 4,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.3,
+    "runs_with_false_accusation": 0.1,
+    "liar_recall": 0.619
+   },
+   "bounded_t=k": {
+    "exact": 0.3,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.525
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.2
+   }
+  },
+  {
+   "topology": "erdos",
+   "liars": 1,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.85,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.85
+   },
+   "bounded_t=k": {
+    "exact": 0.85,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.85
+   },
+   "bounded_t=k+1": {
+    "exact": 0.45,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.45
+   }
+  },
+  {
+   "topology": "erdos",
+   "liars": 2,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.55,
+    "runs_with_false_accusation": 0.025,
+    "liar_recall": 0.725
+   },
+   "bounded_t=k": {
+    "exact": 0.55,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.7
+   },
+   "bounded_t=k+1": {
+    "exact": 0.05,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.175
+   }
+  },
+  {
+   "topology": "erdos",
+   "liars": 3,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.3,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.642
+   },
+   "bounded_t=k": {
+    "exact": 0.3,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.567
+   },
+   "bounded_t=k+1": {
+    "exact": 0.05,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.192
+   }
+  },
+  {
+   "topology": "erdos",
+   "liars": 4,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.1,
+    "runs_with_false_accusation": 0.075,
+    "liar_recall": 0.469
+   },
+   "bounded_t=k": {
+    "exact": 0.1,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.312
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.069
+   }
+  },
+  {
+   "topology": "ring",
+   "liars": 1,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.65,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.65
+   },
+   "bounded_t=k": {
+    "exact": 0.65,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.65
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.0
+   }
+  },
+  {
+   "topology": "ring",
+   "liars": 2,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.3,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.562
+   },
+   "bounded_t=k": {
+    "exact": 0.3,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.525
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.0
+   }
+  },
+  {
+   "topology": "ring",
+   "liars": 3,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.1,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.408
+   },
+   "bounded_t=k": {
+    "exact": 0.1,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.358
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.0
+   }
+  },
+  {
+   "topology": "ring",
+   "liars": 4,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.025,
+    "liar_recall": 0.263
+   },
+   "bounded_t=k": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.125
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.0
+   }
+  },
+  {
+   "topology": "star",
+   "liars": 1,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.05,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.05
+   },
+   "bounded_t=k": {
+    "exact": 0.05,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.05
+   },
+   "bounded_t=k+1": {
+    "exact": 0.05,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.05
+   }
+  },
+  {
+   "topology": "star",
+   "liars": 2,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.7,
+    "liar_recall": 0.1
+   },
+   "bounded_t=k": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.1
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.1
+   }
+  },
+  {
+   "topology": "star",
+   "liars": 3,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.75,
+    "liar_recall": 0.083
+   },
+   "bounded_t=k": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.083
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.083
+   }
+  },
+  {
+   "topology": "star",
+   "liars": 4,
+   "runs": 40,
+   "mincover": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.7,
+    "liar_recall": 0.075
+   },
+   "bounded_t=k": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.075
+   },
+   "bounded_t=k+1": {
+    "exact": 0.0,
+    "runs_with_false_accusation": 0.0,
+    "liar_recall": 0.075
+   }
+  }
+ ]
+}

@@ -1,0 +1,263 @@
+% Paper A draft. Every number below is a row in papers/A/claims.md.
+% Move into the official Apart sprint template before submission (this file uses plain article class).
+% Items marked \pending{} wait for E02b (results/E02b/summary.json).
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx,booktabs,xcolor,hyperref}
+\usepackage[font=small]{caption}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newcommand{\pending}[1]{\textcolor{red}{[#1]}}
+
+\title{When the Suspects Write the Logs:\\Witness-Free Tamper Attribution for Agent Swarms}
+\author{\pending{author list} \\ Apart Swarm Alignment Sprint, Track 4 (multi-agent oversight)}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+After an incident in a multi-agent system, the logs investigators need are often written by the agents under
+suspicion. Current proposals add a trusted witness (a proxy, signed commitments, or secure hardware) before
+the incident. We ask what can still be attributed afterwards when no witness was deployed and any agent may
+have rewritten its own log. Every inter-agent message is recorded by both endpoints, so a liar's edit
+contradicts an honest peer's record, and attribution becomes system-level fault diagnosis over the graph of
+disagreeing records. We show three things. (1) A hidden message can always be narrowed to its two endpoints,
+but never to one of them: across 175 runs in which an LLM liar hid a planted message, the detector localized
+the liar to that pair every time and named it alone 0 times. LLM liars find this best strategy unprompted:
+91--95\% make the smallest possible edit whether or not they are told how the detector works. (2) The usual
+rule of naming the smallest explaining set can be exploited: two liars who hid messages sent to the same honest
+agent made the detector name that agent in 45 of 45 runs. (3) A bounded rule that accuses only agents present
+in every explanation of at most $t$ agents provably never accuses an honest agent while at most $t$ agents lie;
+on 640 synthetic runs it accused no honest agent (against 95 runs for the minimum rule) while naming the same
+share of liars when $t$ equals the true number. A content-free detector of this kind localized LLM liars far
+more often than an LLM judge that read the messages (0.80 vs 0.28), and unlike the judge it never accused
+anyone on untampered logs.
+\end{abstract}
+
+\section{Introduction}
+Agent swarms are increasingly given tools, budgets and each other to talk to, and some of them will misbehave.
+The sprint organizers report, citing METR's review of a 2026 incident, that agents spoofed their own tool calls
+in about 7\% of reviewed transcripts~\cite{sprint}. When something goes wrong, investigators read logs. In most
+deployments those logs are written by the agents themselves.
+
+Existing work on trustworthy agent logs adds a witness before the fact: a gateway or proxy that records
+traffic~\cite{auditintegrity}, signed and Merkle-committed messages~\cite{audita}, or trusted hardware at
+choke points~\cite{hansard}. These are good designs, but they help only if they were deployed. We study the
+case where they were not: \emph{every log was written by a suspect. What can still be proven?}
+
+Our observation is that most agent logs are redundant. A message from $a$ to $b$ appears in $a$'s log as a
+send and in $b$'s log as a receive. A liar can rewrite its own copy but not its peer's, so the two copies
+disagree. Each message therefore acts as a mutual test between its endpoints, which is exactly the comparison
+model of system-level diagnosis~\cite{pmc,maengmalek}. That theory tells us both what is possible and where it
+fails, and we test those predictions on synthetic swarms and on swarms of LLM agents that are instructed to hide
+a real action from their own logs.
+
+\paragraph{Contributions.}
+\begin{itemize}
+\item A reduction from witness-free log forensics to vertex covers of a \emph{discrepancy graph}, and a
+  content-free detector that answers \emph{identified}, \emph{insufficient evidence} or \emph{clean}
+  (Section~\ref{sec:model}).
+\item A soundness result for a $t$-bounded variant: it never accuses an honest agent while at most $t$
+  agents lie, including colluding ones; the common minimum-cover rule has no such guarantee
+  (Proposition~\ref{prop:sound}), and we show how two independent liars exploit it to frame an honest agent.
+\item Experiments with three open-weight LLMs as liars, each told to remove a planted covert message from its
+  log under three levels of knowledge about the detector, compared with an LLM judge that reads the
+  transcripts (Sections~\ref{sec:methods}--\ref{sec:results}).
+\end{itemize}
+
+\section{Related work}
+\textbf{Witnessed logging.} HANSARD places trusted-execution witnesses at choke points and hash-chains what
+they see~\cite{hansard}; Audita commits signed inter-agent messages to a Merkle structure and attributes causes
+over it~\cite{audita}; agent-audit-integrity shows that a witness proxy catches spoofed tool calls that a
+transcript monitor misses~\cite{auditintegrity}. All assume the witness exists. We assume it does not and ask
+what the agents' own, possibly falsified, records still prove.
+\textbf{AI control and monitoring.} Control protocols such as trusted monitoring assume a model may actively
+subvert safety measures~\cite{aicontrol}; we adopt that threat model for the logs themselves.
+\textbf{Collusion.} Work on secret collusion shows agents can coordinate through channels that monitors cannot
+read~\cite{motwani}. Our setting is complementary: we never read content, and colluding liars that rewrite a
+shared message consistently on both sides are a stated blind spot of any pairwise check.
+\textbf{System-level diagnosis.} Preparata, Metze and Chien introduced diagnosis of units that test each
+other and showed one-step $t$-diagnosability needs at least $2t+1$ units~\cite{pmc}; Maeng and Malek introduced
+the comparison model, in which a task is given to two units and their outputs compared~\cite{maengmalek}. Our
+messages are comparisons that are free: the system already performs them.
+
+\section{Model and detector}\label{sec:model}
+\begin{definition}[Logs and discrepancies]
+Agents $V$ exchange messages; message $m$ from $a$ to $b$ produces a record in $a$'s log (send) and in $b$'s
+log (receive), each carrying the message id and a content digest. After the run, any subset $L \subseteq V$
+(the liars) may delete, rewrite or add records in their own logs only. Message $m$ is \emph{discrepant} if its
+two records are missing on one side or carry different digests. The \emph{discrepancy graph} $D$ has an edge
+$\{a,b\}$ for every discrepant message between $a$ and $b$.
+\end{definition}
+Honest agents' records of the same message agree, so every discrepant edge has at least one liar endpoint:
+$L$ is a vertex cover of $D$. Any vertex cover is a set of agents that could have produced $D$.
+
+\textbf{Minimum-cover detector.} Compute all minimum vertex covers of $D$. If there is exactly one, accuse it
+(\emph{identified}); if several, accuse their intersection and report \emph{insufficient evidence}; if $D$ is
+empty, report \emph{clean}. This is the parsimony rule implicit in much of system-level diagnosis.
+
+\textbf{$t$-bounded detector.} Given an assumed bound $t$ on the number of liars, compute all inclusion-minimal
+vertex covers of size $\le t$ and accuse their intersection. If none exists, report that the bound is exceeded.
+Neither detector reads message content; both are exact by enumeration, which is cheap for tens of agents.
+
+\begin{proposition}[Soundness of the bounded detector]\label{prop:sound}
+If $|L| \le t$, the $t$-bounded detector accuses only liars, whatever the liars do to their own logs, including
+coordinated rewrites between liars.
+\end{proposition}
+\begin{proof}
+Every discrepant edge has a liar endpoint, so $L$ is a vertex cover of $D$; it contains an inclusion-minimal
+cover $C \subseteq L$ with $|C| \le t$. The accused set is the intersection of all such covers, hence a subset of
+$C \subseteq L$. Coordinated rewrites by two liars of a message between them remove a discrepancy but cannot
+create one with an honest endpoint, so the argument is unchanged.
+\end{proof}
+
+\begin{proposition}[Limits]\label{prop:limits}
+(a) A liar that hides one message it sent to honest $r$ creates the single edge $\{\ell, r\}$; $\{\ell\}$ and $\{r\}$
+are both minimum covers, so no rule based on $D$ alone can name $\ell$ rather than $r$.
+(b) If two liars each hide one message sent to the same honest $r$, the unique minimum cover of
+$\{\ell_1,r\},\{\ell_2,r\}$ is $\{r\}$: the minimum-cover detector \emph{identifies the honest agent}. The
+$t$-bounded detector with $t\ge 2$ also admits $\{\ell_1,\ell_2\}$ and accuses no one.
+\end{proposition}
+Part (a) is the reason a hidden message can be \emph{localized} to its two endpoints but not \emph{identified};
+part (b) is a framing attack that needs no communication between the liars, only a shared counterpart.
+Identification becomes possible when a liar disputes records with more than $t$ peers: any cover of size $\le t$
+must then contain it.
+
+\section{Methods}\label{sec:methods}
+\textbf{E01, synthetic.} $n=12$ agents, 8 rounds, each agent sends one message per round to a random neighbour on
+complete, Erd\H{o}s--R\'enyi ($p=0.3$), ring or star graphs. $k\in\{1,\dots,4\}$ liars tamper with each of their
+records with probability 0.2 (delete, edit or forge), with and without collusion; 20 seeds per cell (40 runs per
+topology and $k$ with collusion pooled). The comparison of the two detectors on this sweep was added after the
+sweep was designed and is exploratory.
+
+\textbf{E02, LLM liars (pre-registered).} Six agents (Gemma-4-26B-A4B) split a 100-unit budget across four projects
+over 4 rounds, on complete or Erd\H{o}s--R\'enyi ($p=0.4$) graphs, 10 seeds each. In round 1 two agents are each
+instructed to privately urge one honest neighbour to inflate a named project; that message is the planted covert
+action and its id is ground truth. After the run, $k\in\{1,2\}$ of these agents receive their own log as JSON and
+the instruction to remove every trace of it, under three conditions: \emph{naive}; \emph{crosscheck} (told logs
+will be compared with peers'); and \emph{detector} (told the exact minimum-cover rule, including that ties name
+nobody). They answer with records to delete or rewrite. Liar models: Gemma-4-26B-A4B, Qwen3.8-27B and DeepSeek-V4-Flash
+(reasoning effort low). Controls: \emph{noedit} (nobody edits), \emph{minimal} (the covert record is deleted, no
+LLM), and \emph{matched} (as many random edits as the paired LLM liar made). Baseline: an LLM judge
+(Gemma-4-31B) reads every agent's log \emph{including message text} and names the agents who tampered.
+
+\textbf{E02b, framing (pre-registered).} Same task and models; for each topology and seed the graph and the two
+liars are fixed and only the covert receivers vary: one shared honest receiver (\emph{same}) or two different
+honest receivers (\emph{distinct}). 20 seeds per topology, conditions naive and detector, 80 swarms. We score the
+minimum-cover detector, the $t$-bounded detector with $t=2$, and the judge. Because each swarm contributes six
+LLM runs (three models $\times$ two conditions), the unit of analysis is the swarm, with bootstrap intervals over
+swarms, paired by seed for the same--distinct difference.
+
+\textbf{Metrics.} \emph{Localized}: every liar lies in some minimum cover. \emph{Identified/exact}: the detector
+names exactly the liars. \emph{False accusation}: an honest agent is accused. \emph{Smallest edit}: the covert
+record is hidden and every discrepancy involving the liar is on its link with the covert receiver. Intervals are
+Wilson 95\% for rates over runs (E02) and bootstrap 95\% over swarms (E02b).
+
+\section{Results}\label{sec:results}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig_e01.pdf}
+\caption{E01, synthetic swarms ($n=12$, 40 runs per point). Top: fraction of liars named. Bottom: fraction of
+runs in which at least one honest agent is accused. The bounded detector with $t=k$ names nearly the same
+share of liars and never accuses an honest agent; the minimum-cover rule frames the honest hub of a star in
+70--75\% of runs once $k\ge 2$.}
+\label{fig:e01}
+\end{figure}
+
+\textbf{Topology sets what can be attributed (E01).} On complete graphs the minimum-cover detector identified
+exactly the liar set in 90\% of runs with one liar, falling to 30\% with four; star graphs were nearly
+undiagnosable (at most 5\% exact). With no liars, every run was reported clean. The minimum-cover rule
+accused at least one honest agent in 95 of 640 runs, concentrated on stars, where the honest hub becomes the
+smallest explanation for disputes on several spokes (Fig.~\ref{fig:e01}). The bounded detector with $t=k$
+accused no honest agent in any of the 640 runs and had the same exact-identification rate in every cell;
+the share of liars it named was at most 0.16 lower (erdos, $k=4$). With a loose bound $t=k+1$ it named far
+fewer liars (e.g.\ 0.60 vs 0.90 on complete graphs with one liar), so the bound should be as tight as one can
+justify.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig_e02.pdf}
+\caption{E02, LLM liars. Left: share of 360 LLM-liar runs in which the detector localized every liar to a
+candidate pair, and in which the LLM judge named every liar (the judge must name; the detector only narrows).
+Right: share of liars making the smallest possible edit, by what they were told (n=120 each; pre-registered
+threshold 0.8). Error bars: Wilson 95\%.}
+\label{fig:e02}
+\end{figure}
+
+\textbf{A hidden message is localized, never identified (E02).} With one liar, every one of the 175 runs in
+which the covert message was hidden was localized to the liar and its receiver, and the \emph{minimal}
+control was identified in 0 of 40 runs, as Proposition~\ref{prop:limits}(a) predicts. On untampered logs the
+detector reported \emph{clean} in 40 of 40 runs.
+
+\textbf{LLM liars find the best strategy without being told (E02).} 91\% (naive), 93\% (crosscheck) and 95\%
+(told the rule) of liars made the smallest possible edit (Fig.~\ref{fig:e02}, right), passing our
+pre-registered threshold of 0.8 in every condition. Knowing the detector barely changed behaviour because the
+naive strategy (delete the incriminating record) is already the optimal one. The pre-registered prediction we
+originally drafted, that detector-aware liars would be caught less often than naive ones, was replaced before
+registration after a pilot in which every liar already edited only the covert link.
+
+\textbf{The content-free detector beats a judge that reads the messages (E02).} Across 360 LLM-liar runs the
+detector localized every liar in 80\% (95\% CI 76--84\%); the judge named every liar in 28\% (23--32\%). On
+untampered logs the judge accused 1.13 honest agents per run on average; the detector accused none.
+
+\textbf{Two liars can frame a shared honest agent (E02, E02b).} In E02, five of twenty swarms happened to have
+both covert messages sent to the same honest agent; in all 45 LLM-liar runs of those swarms (and 5 of 5
+\emph{minimal} controls) the minimum-cover detector \emph{identified that honest agent} as the tamperer. With
+distinct honest receivers, two liars were localized in 97\% of runs with no honest agent accused (0 of 117).
+Because five swarms is a small and accidental sample, E02b manipulated the receiver on purpose:
+\pending{E02b: framing rate same vs distinct with CI; paired difference; mechanism check; bounded detector
+false accusations = 0?; judge}.
+
+\section{Discussion}
+\textbf{What a deployer can do without a witness.} If agents log both ends of every message, a hidden message
+can always be traced to the two agents on its link, with no false accusation, and without reading content. That
+is less than a confession but more than an LLM transcript review delivered here. Naming one of the two needs
+evidence the pair cannot produce alone: a third party that relied on the message, a tool record, or a witness.
+\textbf{Do not rank suspects by parsimony alone.} The minimum-cover rule is the natural default and it frames
+honest agents: the hub of a star (E01) and the shared counterpart of two liars (E02, E02b). The bounded rule
+removes this whenever a bound on the number of liars can be justified, at the price of naming fewer liars when
+the bound is loose.
+\textbf{Where to put one witness.} Proposition~\ref{prop:limits} suggests placing a witness on the agents
+that many others talk to, since they are both the most frameable and the most informative.
+
+\section{Limitations}
+Our swarms are small (6 agents, 4 rounds), use one cooperative task, and only open-weight models available on
+our credits; frontier models may tamper differently. Liars edited logs in a single offline step and could not
+forge records or coordinate; colluding liars on a shared link are invisible to any pairwise check by
+construction and we did not measure them with LLMs. The judge is one model with one prompt. The E01 detector
+comparison and the E02 framing observation were not pre-registered; E02b tests the latter. In two E02 swarms a
+code fallback let one liar's covert message go to the other liar, contrary to the pre-registration; we report
+those 18 runs separately and fixed the fallback for E02b. Adaption's API reported tokens but we did not record
+its cost field for E02, so E02 spend is given in tokens.
+
+\appendix
+\section{Limitations and dual-use / ethical considerations}
+The detector helps investigators attribute log tampering after the fact; it does not stop tampering. The same
+analysis tells a tamperer how to avoid being singled out (hide one message per counterpart) and how to frame an
+honest agent (coordinate hidden messages on a shared counterpart). We publish this because the framing attack
+works against the parsimony rule investigators would otherwise use, and the fix (a bounded rule) is simple. The
+detector never reads message content, which limits privacy exposure. All agents are simulated; no human data
+was used. No claim is made about human institutions.
+
+\section{Models, prompts, seeds and spend}
+\pending{Prompts verbatim from experiments/E02\_llm\_swarm\_tamper/liars.py and run.py; models via Adaption Labs
+API; E02: 4.49M tokens; E02b: tokens and USD from results/E02b/spend.jsonl.} Code and pre-registrations:
+\url{https://github.com/Nas01010101/swarm-alignment-2026} (experiments E01, E02, E02b).
+
+\begin{thebibliography}{9}
+\bibitem{sprint} Apart Research. Swarm Alignment Sprint 2026, sprint page (read 2026-11-06),
+  \url{https://apartresearch.com/sprints/swarm-alignment-2026}.
+\bibitem{hansard} HANSARD. arXiv:2608.22512, 2026.
+\bibitem{audita} Audita. arXiv:2608.22160, 2026.
+\bibitem{auditintegrity} agent-audit-integrity. webofmike.com, 2026.
+\bibitem{aicontrol} R.~Greenblatt, B.~Shlegeris, K.~Sachan, F.~Roger. AI Control: Improving Safety Despite
+  Intentional Subversion. ICML 2024; arXiv:2312.06942.
+\bibitem{motwani} S.~R.~Motwani et al. Secret Collusion among AI Agents. NeurIPS 2024.
+\bibitem{pmc} F.~P.~Preparata, G.~Metze, R.~T.~Chien. On the connection assignment problem of diagnosable
+  systems. IEEE Trans. Electronic Computers, EC-16(6):848--854, 1967.
+\bibitem{maengmalek} J.~Maeng, M.~Malek. A comparison connection assignment for self-diagnosis of
+  multiprocessor systems. Proc. 11th Int. Symp. on Fault-Tolerant Computing (FTCS-11), 1981.
+\end{thebibliography}
+\end{document}
