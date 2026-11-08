@@ -74,7 +74,7 @@ def one(j, a, backends, judge):
                         governance=j["governance"], seed=j["seed"], days=a.days)
     t0 = time.time()
     v = run_village(cfg, backends[j["model"]], judge=judge if j["governance"] == "llm_judge" else None)
-    raw = Path("results/raw/E09") / a.tag
+    raw = Path("results/raw") / Path(a.outdir).name / a.tag
     raw.mkdir(parents=True, exist_ok=True)
     (raw / (key(j).replace("|", "_") + ".json")).write_text(json.dumps({"log": v.log, "board": v.board}, indent=1))
     return {**village_metrics(v), "model": j["model"], "key": key(j), "seconds": round(time.time() - t0)}
@@ -98,8 +98,9 @@ def main():
     ap.add_argument("--rpm", type=float, default=40.0, help="global request starts per minute (Adaption quota)")
     ap.add_argument("--judge-model", default="gemma-4-31b-it")
     ap.add_argument("--tag", default="pilot")
+    ap.add_argument("--outdir", default="results/E09")
     a = ap.parse_args()
-    out = Path("results/E09") / f"{a.tag}.jsonl"
+    out = Path(a.outdir) / f"{a.tag}.jsonl"
     out.parent.mkdir(parents=True, exist_ok=True)
     done = {json.loads(line)["key"] for line in out.open()} if out.exists() else set()
     todo = [j for j in jobs(a) if key(j) not in done]

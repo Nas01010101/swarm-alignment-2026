@@ -85,6 +85,58 @@ def fig_e08_governance():
     save(fig, "fig_e08_governance")
 
 
+def _rows(path):
+    p = ROOT / path
+    return [json.loads(x) for x in p.open()] if p.exists() else []
+
+
+def fig_e09():
+    """Gemma c3 villages: share of non-seeded villagers who ever used ledger_sync, by bloc, and survivors."""
+    rows = [r for r in _rows("results/E09/main.jsonl") if r["model"] == "gemma-4-26b-a4b-it"]
+    if not rows:
+        return
+    conds = [(2.0, False, "abundant\nunseeded"), (2.0, True, "abundant\nseeded"),
+             (0.6, False, "scarce\nunseeded"), (0.6, True, "scarce\nseeded")]
+    xs = range(len(conds))
+    fig, axes = plt.subplots(1, 2, figsize=(6.4, 2.4))
+    for ec, col, mk, label, dx in (("c1", S1, "o", "private villagers", -0.08), ("c2", S2, "s", "commune villagers", 0.08)):
+        ys = []
+        for rho, sd, _ in conds:
+            rs = [r for r in rows if r["rho"] == rho and r["seeded"] == sd]
+            ys.append(statistics.fmean(r["by_econ"][ec]["adopters_nonseed"] / max(1, r["by_econ"][ec]["nonseed"])
+                                       for r in rs) if rs else float("nan"))
+        axes[0].plot([x + dx for x in xs], ys, color=col, marker=mk, ls="none", markersize=7, label=label)
+    axes[0].set_ylabel("non-seeded villagers who\never used ledger_sync")
+    axes[0].set_ylim(-0.03, 1.03)
+    axes[0].legend(loc="upper left", fontsize=7)
+    alive = [statistics.fmean(r["alive_end"] for r in rows if r["rho"] == rho and r["seeded"] == sd) for rho, sd, _ in conds]
+    axes[1].plot(list(xs), alive, color=S1, marker="o", ls="none", markersize=7)
+    axes[1].set_ylabel("villagers alive at day 10 (of 8)")
+    axes[1].set_ylim(-0.2, 8.2)
+    for ax in axes:
+        ax.set_xticks(list(xs), [c[2] for c in conds])
+    save(fig, "fig_e09")
+
+
+def fig_e09b():
+    s = ROOT / "results/E09b/summary.json"
+    if not s.exists():
+        return
+    arms = json.loads(s.read_text())["arms"]
+    order = [("unfiltered", "none"), ("constitutional_prompt", "prompt\nrule"), ("llm_judge", "LLM\nauditor"),
+             ("hack_ban", "ban"), ("dcbf_gateway", "DCBF\ngateway")]
+    fig, axes = plt.subplots(1, 2, figsize=(6.4, 2.4))
+    for ax, m, ylabel, top in ((axes[0], "attempt_rate", "ledger_sync attempts\n(share of villager-days)", 1.03),
+                               (axes[1], "alive_end", "villagers alive at day 10 (of 8)", 8.2)):
+        ax.plot(range(len(order)), [arms[g][m] for g, _ in order], color=S1, marker="o", ls="none", markersize=7)
+        ax.set_xticks(range(len(order)), [lab for _, lab in order])
+        ax.set_ylabel(ylabel)
+        ax.set_ylim(-0.03 * top, top)
+    save(fig, "fig_e09b")
+
+
 if __name__ == "__main__":
     fig_e08_blocs()
     fig_e08_governance()
+    fig_e09()
+    fig_e09b()
