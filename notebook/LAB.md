@@ -151,3 +151,29 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
 - Judge (exploratory): names an honest receiver 0.63 (same) / 0.77 (distinct); names every liar ~0.2.
 - Spend: 4.98M tokens, $1.05 (API cost field), plus one resume pass killed before logging (~0.1M tokens).
 - Paper A draft (`papers/A/paper.tex`) updated with E01/E02/E02b; claims rows 11–19 added.
+
+## 2026-11-08 20:39 UTC — benhoangquan (with Claude Code) — E08 synthetic scarcity sweep (Paper C)
+- Added `src/swarm/barrier.py` (DCBF gateway; scales the whole hack action, credit + drain) with brute-force
+  soundness tests incl. full collusion (`tests/test_barrier.py`), and `src/swarm/scarcity.py` (N=200 commons,
+  Capitalist vs pooled-Communist rationing, Fermi imitation + best response). Prereg ed5d3d1 committed before the grid.
+- Ran the registered sweep: 6 ρ × 4 topologies × 3 governance × 20 seeds = 1,440 episodes, ~1 s CPU, $0
+  → `results/E08/{sweep.jsonl,summary.json}`, figures `papers/C/fig_e08_{blocs,governance}.pdf`.
+- **H1 supported.** Unfiltered Capitalist hack share at t=30: 0.57–0.96 in every ρ ≤ 0.8 cell; overall share
+  0.029–0.038 in every ρ ≥ 1.0 cell (≈ exploration floor).
+- **H2 supported.** Capitalist − Communist hack share: 0.48 [0.43,0.53] / 0.54 [0.49,0.59] / 0.41 [0.34,0.47] at
+  ρ = 0.4 / 0.6 / 0.8. The spec's "commune moral hazard" rival is not borne out *in this model*, but this is built in:
+  pooling dilutes a Communist's private gain 100×. Communists hack only by copying Capitalist neighbours
+  (≈0.29 in complete/small_world/scale_free, 0.05 in two_caveman: bloc cliques shield them).
+- **H3 supported, but weakly informative.** All 240 dcbf runs with no infeasible round stayed solvent; infeasible
+  rounds occurred in all 240 ρ ≤ 0.8 dcbf runs and none at ρ ≥ 1.0. But every governance arm (unfiltered too) was
+  solvent in every abundance run, so soundness was only exercised where nothing was at stake.
+- **H4, H5 supported.** dcbf hack share ≤ 0.04 in every cell; need met +0.16 / +0.19 / +0.07 vs unfiltered and real
+  production higher (paired CIs exclude 0) at ρ = 0.4 / 0.6 / 0.8.
+- **Red-team (important).** Under scarcity the barrier target is unreachable almost every round (30/30 infeasible
+  rounds at ρ ≤ 0.6, 24.7/30 at 0.8; mean λ 0.003–0.17), so the gateway acts as a blanket hack ban. A plain
+  "block all ledger_sync" rule would give the same E08 numbers; E08 does not show the barrier beats a ban. No arm is
+  ever solvent under scarcity: the gateway controls hacks, not consumption (expected, prereg).
+- Other: overall hack share under scarcity is 0.42–0.52, not → 1 as the spec's Prop 1 draft said (only Capitalists
+  flip). ρ = 0.8 is bimodal: 20/80 unfiltered runs never tip before t = 30 (shortage starts ~round 9).
+  naive_audit (exploratory) nearly removes hacking at ρ = 0.8 (0.04) but not at 0.4/0.6 (0.28/0.44).
+- Next: E09 (LLM village + loophole); add a `hack_ban` arm to E09b so the barrier is compared with a ban.
