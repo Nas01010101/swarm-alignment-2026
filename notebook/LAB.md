@@ -121,3 +121,23 @@ M3 not supported: deaths at cover 0.5 are 0.38x those at cover 0 (prediction ≥
 Partial walls protect more than proportionally, not less. Bias check: the population shrinks across
 nights, so zombies per bot rise (1.1 to 2.0), which pushes deaths up at high cover; the true curve
 is at least this concave. n = 1 night per cover; one sweep.
+
+## 2026-11-08 22:50 UTC, E08 main: 3 islands x 5 seeds, n = 100, 12 days, Gemma 4 26B
+Data: `results/E08/main_gemma.jsonl` (15 games, $0.64, 10.5k calls). Means over seeds 0-4.
+| island | alive /100 | starved | mobs | walls | chosen rest | Gini | compliance |
+|---|---|---|---|---|---|---|---|
+| capitalist | 5.0 (3-7) | 36.4 | 53.2 | 0 | 0.239 | 0.237 | - |
+| capitalist_tax | 8.8 (4-14) | 23.8 | 61.0 | 0.6 | 0.248 | 0.216 | - |
+| socialist | 36.6 (30-48) | 58.6 | 0 | 142 | 0.282 | - | 0.823 |
+- H1 holds: socialist 142 walls per island, capitalist 0 in all 5 seeds (ratio unbounded).
+- H2 fails narrowly: socialist chosen rest exceeds capitalist by 0.043 (prediction ≥ 0.05); higher
+  in 4 of 5 seeds.
+- H3 fails: capitalist end Gini 0.237 (prediction ≥ 0.3). Mass death truncates the distribution.
+- H4 holds: survivors differ by 31.6 of 100, socialist higher in every seed.
+- H5 holds: compliance 0.823.
+- H6 holds only nominally: the tax island built 3 walls in 5 games against 0; both are near zero,
+  and we do not read it as an institution effect. Survival on the tax island is 8.8 vs 5.0.
+Red team: the socialist island never loses anyone to mobs because the leader orders walls; the
+capitalist island never builds one, since no single agent gains from a wall. The gap is the public
+good, not effort (rest rates are close). Falsifier: E10 neutral; if removing the labels erases the
+gap, it came from the words, not the rules.
