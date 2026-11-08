@@ -61,6 +61,8 @@ class AdaptionBackend:
     Models: GET /api/v1/models (e.g. gemma-4-26b-a4b-it, qwen3.8-27b, deepseek-v4-flash)."""
 
     url = "https://api.prod.adaptionlabs.ai/api/v1/responses"
+    spent = 0.0  # USD across all instances, from the API's usage.cost
+    calls = 0
 
     def __init__(self, model: str | None = None, max_tokens: int = 300):
         self.key = os.environ["ADAPTION_API_KEY"]
@@ -69,6 +71,7 @@ class AdaptionBackend:
 
     def _post(self, body: dict) -> dict:
         import json
+        import time
         import urllib.request
 
         req = urllib.request.Request(
@@ -76,8 +79,20 @@ class AdaptionBackend:
             data=json.dumps(body).encode(),
             headers={"Authorization": f"Bearer {self.key}", "Content-Type": "application/json"},
         )
-        with urllib.request.urlopen(req, timeout=120) as r:
-            return json.load(r)
+        tries = 6  # long games make ~200 calls; parallel runs hit HTTP 429, so back off exponentially
+        for attempt in range(tries):
+            try:
+                with urllib.request.urlopen(req, timeout=120) as r:
+                    out = json.load(r)
+                break
+            except (OSError, ValueError) as e:  # HTTPError (incl. 429) is an OSError
+                if attempt == tries - 1:
+                    raise
+                wait = getattr(e, "headers", None) and e.headers.get("Retry-After")
+                time.sleep(float(wait) if wait and str(wait).isdigit() else 2 ** (attempt + 1))
+        AdaptionBackend.spent += (out.get("usage") or {}).get("cost") or 0.0
+        AdaptionBackend.calls += 1
+        return out
 
     def complete(self, system: str, messages: list[dict]) -> str:
         r = self._post(

@@ -9,6 +9,9 @@ dependencies = []
 llm = ["anthropic>=0.40", "openai>=1.50"]
 data = ["datasets>=3.0", "pandas>=2.2"]
 plot = ["matplotlib>=3.9"]
+sim = [
+    "gdm-concordia>=2.1.0",
+]
 
 [dependency-groups]
 dev = ["pytest>=8"]
