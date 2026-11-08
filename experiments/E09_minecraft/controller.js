@@ -180,7 +180,7 @@ const cmds = {
     const mspt = [];
     const until = Date.now() + work_s * 1000, regrow = setInterval(() => {
       refill(); rcon.cmd(`kill @e[type=item,x=${CX},y=${Y},z=${CZ},distance=..40]`).catch(() => {});
-      rcon.cmd("mspt").then(r => mspt.push(r.replace(/\u00a7./g, "").split("\n").slice(-1)[0].trim())).catch(() => {});
+      rcon.cmd("mspt").then(r => mspt.push(r.replace(/\u00a7./g, "").replace(/\s+/g, " ").trim().slice(0, 120))).catch(() => {});
     }, 5000);
     const idx = {};  // spread bots on the same job across stand points
     await Promise.all(who.map(n => { const j = assign[n]; idx[j] = (idx[j] || 0) + 1; return work(n, j, until, idx[j] - 1); }));

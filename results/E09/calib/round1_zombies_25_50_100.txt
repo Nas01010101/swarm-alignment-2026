@@ -1,0 +1,13 @@
+{"setup":{"ok":true,"bots":50,"y":100}}
+{"day":{"errors":{"walk_late":3,"conn:write EPIPE":25,"reconnect":28,"conn:write ECONNRESET":3,"nan:x,z":25,"nan:x,y,z":1,"mspt":["","","","","","","","","",""],"lag_p99_ms":229,"lag_max_ms":1642},"per_job":{"chop":[{"wood":28},{"wood":27},{"wood":30},{"wood":29},{"wood":32},{"wood":28},{"wood":33},{"wood":33},{"wood":35},{"wood":24},{"wood":26},{"wood":24},{"wood":27}],"mine":[{"stone":30,"diamond":1,"iron":1},{"stone":21,"iron":2,"diamond":1},{"iron":1,"stone":20,"diamond":2},{"stone":18,"iron":1,"diamond":1},{"stone":28,"iron":1,"diamond":1},{"stone":20,"iron":1,"diamond":1},{"stone":15,"diamond":2,"iron":1},{"stone":31,"iron":2,"diamond":2},{"stone":14,"iron":1,"diamond":2},{"iron":2,"diamond":1,"stone":21},{"stone":20,"iron":1,"diamond":1},{"stone":28,"iron":2,"diamond":1},{"stone":31,"diamond":1,"iron":1}],"farm":[{"food":20},{"food":18},{"food":31},{"food":26},{"food":28},{"food":13},{"food":23},{"food":21},{"food":11},{"food":16},{"food":35},{"food":30}],"build_wall":[{},{},{},{},{},{}],"rest":[{},{},{},{},{},{}]}}}
+{"night":{"zombies":25,"alive_before":50,"died":0}}
+{"night":{"zombies":50,"alive_before":50,"died":4}}
+{"night":{"zombies":100,"alive_before":46,"died":43}}
+--- ctl
+}
+Error: client timed out after 90000 milliseconds
+    at Timeout._onTimeout (/home/anas/mc/bots/node_modules/minecraft-protocol/src/client/keepalive.js:18:28)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+[exited with code 0]

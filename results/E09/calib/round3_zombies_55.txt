@@ -1,0 +1,11 @@
+{"setup":{"ok":true,"bots":50,"y":100}}
+{"day":{"errors":{"conn:write EPIPE":22,"reconnect":27,"nan:x,z":4,"walk_late":2,"conn:write ECONNRESET":5,"mspt":["Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.0/2.1/26.4, 4.8/2.1/26.4, 3.5/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.0/2.0/26.4, 4.9/2.0/26.4, 3.5/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.0/2.0/26.4, 4.8/2.0/26.4, 3.6/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.1/2.0/23.8, 5.0/2.0/26.4, 3.6/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.4/2.0/23.8, 5.1/2.0/26.4, 3.6/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.5/2.0/23.8, 5.1/2.0/26.4, 3.7/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.8/2.0/22.9, 5.3/2.0/26.4, 3.7/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 6.0/2.0/22.9, 5.4/2.0/26.4, 3.8/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.3/2.7/14.6, 5.2/2.0/23.8, 3.9/1.7/78.9","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 3.0/2.5/4.2, 4.3/2.5/14.6, 3.9/1.7/26.4"],"lag_p99_ms":222,"lag_max_ms":1337},"per_job":{"chop":[{"wood":27},{"wood":26},{"wood":28},{"wood":29},{"wood":31},{"wood":31},{"wood":21},{"wood":22},{"wood":23},{"wood":22},{"wood":23},{"wood":23},{"wood":24}],"mine":[{"stone":20,"iron":4},{"iron":3,"stone":25},{"stone":27,"iron":3},{"stone":24,"iron":1},{"stone":25,"iron":4},{"stone":30,"iron":2},{"iron":2,"stone":16},{"stone":25,"iron":2},{"stone":21,"iron":1},{"stone":26,"iron":4},{"stone":21,"iron":1},{"stone":27,"iron":3},{"stone":24,"iron":3}],"farm":[{"food":34},{"food":18},{"food":27},{"food":24},{"food":12},{"food":10},{"food":11},{"food":15},{"food":11},{"food":12},{"food":32},{"food":14}],"build_wall":[{},{},{},{},{},{}],"rest":[{},{},{},{},{},{}]}}}
+{"night":{"zombies":55,"wall":0,"alive_before":50,"died":10}}
+--- ctl
+    at addChunk (/home/anas/mc/bots/node_modules/readable-stream/lib/internal/streams/readable.js:323:12) {
+  errno: -104,
+  code: 'ECONNRESET',
+  syscall: 'write'
+}
+
+[exited with code 0]

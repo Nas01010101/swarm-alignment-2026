@@ -41,3 +41,24 @@ variance, threshold) can differ.
 
 **Kill test.** If more than 20% of bot-days in a game end disconnected and not resumed, the game is
 reported as a harness failure, not as an outcome.
+
+## Amendment 1 (2026-11-08, calibration round 1, `results/E09/calib/round1_zombies_25_50_100.txt`)
+Blocks per worker-day (13 choppers, 13 miners, 12 farmers): wood 28.9 (CV 0.12), stone 22.9 (0.25),
+food 22.7 (0.32), iron 1.31, diamond 1.31. Conversion by the rule above: food 0.1324, wood 0.1037,
+stone 0.0875, iron 0.3059, diamond 0.0382. Zero-wall deaths: 25 zombies 0/50, 50 zombies 4/50 (0.08),
+100 zombies 43/46 (0.93). The response is steep, so the closest tested count (50) misses 0.15 by
+half; round 2 adds 60, 70, 80 before choosing. The rule is unchanged: closest to 0.15 wins.
+
+## Amendment 2 (2026-11-08, round 2, `results/E09/calib/round2_zombies_60_70_80.txt`, before any game)
+Zero-wall deaths: 60 zombies 11/50 (0.22); 70 zombies 19/39 (0.49); 80 zombies 20/20. Server tick
+time stayed at 3-5 ms average (max 86 ms), so bot reconnects are client-side, not a server stall.
+50 and 60 tie at 0.07 from 0.15, so round 3 tests 55 alone; closest of 50, 55, 60 wins, and on a
+second tie the smaller count wins.
+Added prediction, fixed now: zombies scale with mob_need, which grows 8% a night, and the death
+response is a cliff (0.08 at 1.0 zombie per bot, 0.93 at 2.0). So:
+- M5 (cliff): an island that keeps cover below 0.5 loses a larger share to mobs over nights 3-12 in
+  Minecraft than the same arm's text seeds at n = 50 (mean); an island at cover ≥ 0.9 does not.
+
+## Amendment 3 (2026-11-08, round 3, `results/E09/calib/round3_zombies_55.txt`, before any game)
+55 zombies, no wall: 10/50 (0.20). Closest to 0.15 of 50 (0.08), 55 (0.20), 60 (0.22): 55, so
+zombies_per_need = 55 / (0.1 x 50) = 11. Values in `calib.json`. Wall sweep follows at 55 zombies.
