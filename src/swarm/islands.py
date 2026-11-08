@@ -19,6 +19,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
 
 from swarm.economy import _ask, _num, gini
+from swarm.market import _market
 
 JOBS = ["farm", "chop", "mine", "build_wall", "rest"]
 TRAITS = ["hard-working", "lazy", "greedy", "generous", "cautious", "ambitious", "sociable",
@@ -302,26 +303,6 @@ def _work(isl: Island, p: Citizen, job: str, rng: random.Random, day: int, got: 
     return job
 
 
-def _market(isl: Island, orders: dict, day: int) -> int:
-    """Food-for-coins call auction, one unit at a time at the bid/ask midpoint."""
-    bids = sorted([[p, _num(o.get("max_price")), _num(o.get("buy_food"), hi=10)] for p, o in orders.items()
-                   if _num(o.get("buy_food"), hi=10) >= 1], key=lambda b: -b[1])
-    asks = sorted([[p, _num(o.get("min_price")), min(_num(o.get("sell_food"), hi=10), p.inv.get("food", 0))]
-                   for p, o in orders.items()], key=lambda a: a[1])
-    vol = 0
-    for b in bids:
-        for a in asks:
-            while b[2] >= 1 and a[2] >= 1 and a[0] is not b[0] and b[1] >= a[1]:
-                price = (b[1] + a[1]) / 2
-                if b[0].coins < price or a[0].inv.get("food", 0) < 1 or not (a[0].alive and b[0].alive):
-                    break
-                b[0].coins -= price; a[0].coins += price
-                a[0].inv["food"] -= 1; _add(b[0].inv, "food", 1)
-                b[2] -= 1; a[2] -= 1; vol += 1
-                isl.emit(day, "trade", buyer=b[0].name, seller=a[0].name, price=price)
-    return vol
-
-
 def _pay(isl: Island, p: Citizen, amount: float):
     """capitalist_tax only: the treasury pays builders and donors while it has funds."""
     if isl.cfg.island == "capitalist_tax":
@@ -377,81 +358,91 @@ def _take_report(isl: Island, p: Citizen, r: dict, day: int):
         isl.emit(day, "report", who=p.name, true=dict(p.skill), said=dict(p.report))
 
 
-def run_island(cfg: IslandConfig, llm, world=None) -> Island:
-    """world: optional E09 Minecraft bridge with work(day, isl, jobs) -> {name: goods} and night(day, isl, mob_need)."""
-    isl = build_island(cfg)
-    rng = random.Random(cfg.seed + 1)
+def step_day(isl: Island, day: int, llm, pool, rng: random.Random, world=None, mob_need=None) -> bool:
+    """One day: quotas, jobs, market, night. mob_need overrides the E08 schedule (E12 seasons)."""
+    cfg, al = isl.cfg, isl.alive()
+    if not al:
+        return False
     soc, plan = pooled(cfg), cfg.island == "planned"
-    pool = ThreadPoolExecutor(cfg.workers)
-    if soc:  # day-1 election
-        names = ", ".join(p.name for p in isl.people)
-        vote = VOTE.format(names=names, role=_role(cfg), extra=", " + REPORT if plan else "")
-        if plan:
-            vote = vote.replace("Reply with", "Also report your skills to the planner. Reply with")
-        votes = list(pool.map(lambda p: _ask(llm, _system(isl, p), _status(isl, p, 0, 0.0) + "\n" + vote)
-                              if plan else _ask(llm, _system(isl, p), vote), isl.people))
-        if plan:
-            for p, v in zip(isl.people, votes):
-                _take_report(isl, p, v, 0)
-        tally = {}
-        for v in votes:
-            if v.get("vote") in {p.name for p in isl.people}:
-                _add(tally, v["vote"], 1)
-        isl.leader = max(tally, key=tally.get) if tally else isl.people[0].name
-        isl.emit(0, "election", leader=isl.leader, votes=tally.get(isl.leader, 0), distinct=len(tally))
-    for day in range(1, cfg.days + 1):
-        al = isl.alive()
-        if not al:
-            break
+    if mob_need is None:
         mob_need = 0.0 if day <= cfg.calm_nights else \
             cfg.mob_base * len(al) * (1 + cfg.mob_growth * (day - cfg.calm_nights - 1))
-        lead_say = None
-        if soc:
-            ld = next((p for p in al if p.name == isl.leader), None)
-            if ld is None:  # leader died: the first living person takes over
-                ld = al[0]
-                isl.leader = ld.name
-                isl.emit(day, "succession", leader=ld.name)
-            lead = LEAD.format(alive=len(al), role=_role(cfg))
-            if plan:
-                mean = {j: round(sum(p.report.get(j, 3) for p in al) / len(al), 2) for j in SKILL_JOBS}
-                lead = f"Reported skills, mean over the living: {mean}.\n" + lead
-            q = _ask(llm, _system(isl, ld), _status(isl, ld, day, mob_need) + "\n" + lead)
-            isl.quotas = {j: _num(q.get(j), hi=1e3) for j in JOBS} if any(_num(q.get(j)) for j in JOBS) \
-                else {"farm": 1, "chop": 1, "mine": 1, "build_wall": 1}
-            lead_say = q.get("say")
-            isl.emit(day, "quotas", leader=ld.name, **isl.quotas)
-            if plan:
-                _plan(isl, day)
-        act = ACT_PLAN if plan else ACT_SOC if soc else ACT_CAP
-        replies = list(pool.map(lambda p: _ask(llm, _system(isl, p), _status(isl, p, day, mob_need) + "\n" + act), al))
-        assigned = {p.name: _assigned(isl, p) for p in al} if soc else {}
-        orders, said = {}, []
-        wants = [r.get("job") if r.get("job") in JOBS else "rest" for r in replies]
-        dug = world.work(day, isl, {p.name: w if p.energy > 0 else "rest" for p, w in zip(al, wants)}) if world else {}
-        for p, r, want in zip(al, replies, wants):
-            done = _work(isl, p, want, rng, day, dug.get(p.name) if world else None)
-            isl.emit(day, "job", who=p.name, trait=p.trait, want=want, done=done, assigned=assigned.get(p.name))
-            if plan:
-                _take_report(isl, p, r, day)
-            if isinstance(r.get("say"), str) and r["say"].strip():
-                said.append(f"{p.name}: {r['say'].strip()[:120]}")
-            if not soc and p.alive:
-                orders[p] = r
-                _bank(isl, p)
-                for k in ("wood", "stone"):
-                    give = min(int(_num(r.get(f"donate_{k}"), hi=1e3)), p.inv.get(k, 0))
-                    if give:
-                        p.inv[k] -= give
-                        _add(isl.store, k, give)
-                        _pay(isl, p, give * DONATE_PAY)
-                        isl.emit(day, "donate", who=p.name, item=k, n=give)
-        if not soc:
-            isl.emit(day, "market", volume=_market(isl, orders, day))
-        isl.board = ([f"{isl.leader} ({_role(cfg)}): {str(lead_say)[:160]}"] if lead_say else []) + \
-            rng.sample(said, k=min(8, len(said)))
-        _night(isl, day, rng, mob_need, world)
-        isl.emit(day, "night", alive=len(isl.alive()), wall=round(isl.wall, 2), mob_need=round(mob_need, 2))
+    lead_say = None
+    if soc:
+        ld = next((p for p in al if p.name == isl.leader), None)
+        if ld is None:  # leader died: the first living person takes over
+            ld = al[0]
+            isl.leader = ld.name
+            isl.emit(day, "succession", leader=ld.name)
+        lead = LEAD.format(alive=len(al), role=_role(cfg))
+        if plan:
+            mean = {j: round(sum(p.report.get(j, 3) for p in al) / len(al), 2) for j in SKILL_JOBS}
+            lead = f"Reported skills, mean over the living: {mean}.\n" + lead
+        q = _ask(llm, _system(isl, ld), _status(isl, ld, day, mob_need) + "\n" + lead)
+        isl.quotas = {j: _num(q.get(j), hi=1e3) for j in JOBS} if any(_num(q.get(j)) for j in JOBS) \
+            else {"farm": 1, "chop": 1, "mine": 1, "build_wall": 1}
+        lead_say = q.get("say")
+        isl.emit(day, "quotas", leader=ld.name, **isl.quotas)
+        if plan:
+            _plan(isl, day)
+    act = ACT_PLAN if plan else ACT_SOC if soc else ACT_CAP
+    replies = list(pool.map(lambda p: _ask(llm, _system(isl, p), _status(isl, p, day, mob_need) + "\n" + act), al))
+    assigned = {p.name: _assigned(isl, p) for p in al} if soc else {}
+    orders, said = {}, []
+    wants = [r.get("job") if r.get("job") in JOBS else "rest" for r in replies]
+    dug = world.work(day, isl, {p.name: w if p.energy > 0 else "rest" for p, w in zip(al, wants)}) if world else {}
+    for p, r, want in zip(al, replies, wants):
+        done = _work(isl, p, want, rng, day, dug.get(p.name) if world else None)
+        isl.emit(day, "job", who=p.name, trait=p.trait, want=want, done=done, assigned=assigned.get(p.name))
+        if plan:
+            _take_report(isl, p, r, day)
+        if isinstance(r.get("say"), str) and r["say"].strip():
+            said.append(f"{p.name}: {r['say'].strip()[:120]}")
+        if not soc and p.alive:
+            orders[p] = r
+            _bank(isl, p)
+            for k in ("wood", "stone"):
+                give = min(int(_num(r.get(f"donate_{k}"), hi=1e3)), p.inv.get(k, 0))
+                if give:
+                    p.inv[k] -= give
+                    _add(isl.store, k, give)
+                    _pay(isl, p, give * DONATE_PAY)
+                    isl.emit(day, "donate", who=p.name, item=k, n=give)
+    if not soc:
+        isl.emit(day, "market", volume=_market(isl, orders, day))
+    isl.board = ([f"{isl.leader} ({_role(cfg)}): {str(lead_say)[:160]}"] if lead_say else []) + \
+        rng.sample(said, k=min(8, len(said)))
+    _night(isl, day, rng, mob_need, world)
+    isl.emit(day, "night", alive=len(isl.alive()), wall=round(isl.wall, 2), mob_need=round(mob_need, 2))
+    return True
+
+
+def elect(isl: Island, llm, pool, day: int = 0):
+    """Leader election by plurality over everyone alive (planned: votes carry skill reports)."""
+    plan, al = isl.cfg.island == "planned", isl.alive()
+    vote = VOTE.format(names=", ".join(p.name for p in al), role=_role(isl.cfg), extra=", " + REPORT if plan else "")
+    if plan:
+        vote = vote.replace("Reply with", "Also report your skills to the planner. Reply with")
+    votes = list(pool.map(lambda p: _ask(llm, _system(isl, p), _status(isl, p, day, 0.0) + "\n" + vote)
+                          if plan else _ask(llm, _system(isl, p), vote), al))
+    tally = {}
+    for p, v in zip(al, votes):
+        if plan:
+            _take_report(isl, p, v, day)
+        if v.get("vote") in {q.name for q in al}:
+            _add(tally, v["vote"], 1)
+    isl.leader = max(tally, key=tally.get) if tally else al[0].name
+    isl.emit(day, "election", leader=isl.leader, votes=tally.get(isl.leader, 0), distinct=len(tally))
+
+
+def run_island(cfg: IslandConfig, llm, world=None) -> Island:
+    """world: optional E09 Minecraft bridge with work(day, isl, jobs) -> {name: goods} and night(day, isl, mob_need)."""
+    isl, rng, pool = build_island(cfg), random.Random(cfg.seed + 1), ThreadPoolExecutor(cfg.workers)
+    if pooled(cfg):  # day-1 election
+        elect(isl, llm, pool)
+    for day in range(1, cfg.days + 1):
+        if not step_day(isl, day, llm, pool, rng, world):
+            break
     pool.shutdown()
     return isl
 
