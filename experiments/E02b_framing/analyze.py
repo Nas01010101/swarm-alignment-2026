@@ -68,6 +68,14 @@ def main(argv: list[str] | None = None) -> dict:
                                             sum(1 for r in same if r["covert_hidden"])]
     res["same_framed_given_not_both_hidden"] = [sum(r["framed"] for r in same if not r["covert_hidden"]),
                                                 sum(1 for r in same if not r["covert_hidden"])]
+    # post hoc (not pre-registered): H2 exceptions all had a liar editing records with a second peer
+    res["posthoc_same_framed_given_both_minimal_edit"] = [sum(r["framed"] for r in same if r["minimal_edit"]),
+                                                          sum(1 for r in same if r["minimal_edit"])]
+    res["posthoc_same_framed_given_hidden_not_minimal"] = [
+        sum(r["framed"] for r in same if r["covert_hidden"] and not r["minimal_edit"]),
+        sum(1 for r in same if r["covert_hidden"] and not r["minimal_edit"])]
+    res["posthoc_same_hidden_not_framed_liar_accused"] = sum(
+        1 for r in same if r["covert_hidden"] and not r["framed"] and set(r["accused"]) & set(r["liars"]))
     noedit = [r for r in rows if r["condition"] == "noedit"]
     res["noedit_clean_mincover"] = [sum(r["status"] == "clean" for r in noedit), len(noedit)]
     res["noedit_clean_bounded"] = [sum(r["b_status"] == "clean" for r in noedit), len(noedit)]

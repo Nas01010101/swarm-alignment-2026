@@ -107,10 +107,12 @@ def fig_e02b():
             ax.bar(x + off, v["mean"], width=0.17, color=col, label=lab if ar == "same" else None)
             ax.errorbar(x + off, v["mean"], yerr=[[v["mean"] - v["ci"][0]], [v["ci"][1] - v["mean"]]],
                         color=INK, capsize=2, lw=0.8)
+            ax.text(x + off, v["ci"][1] + 0.03, f"{v['mean']:.2f}", ha="center", va="bottom", fontsize=6.5,
+                    color=INK)
     ax.set_xticks([0, 1], ["distinct\nreceivers", "same\nreceiver"])
-    ax.set_ylim(0, 1.05)
+    ax.set_ylim(0, 1.12)
     ax.set_ylabel("runs accusing an honest\nreceiver (per-swarm mean)")
-    ax.legend(fontsize=7, loc="upper left")
+    ax.legend(fontsize=7, loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3, handlelength=1, columnspacing=1)
     fig.tight_layout()
     save(fig, "fig_e02b")
 

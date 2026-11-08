@@ -1,0 +1,336 @@
+{
+ "n_rows": 639,
+ "n_llm_rows": 479,
+ "llm_framed_mincover_same": {
+  "mean": 0.946,
+  "ci": [
+   0.908,
+   0.979
+  ],
+  "n_swarms": 40
+ },
+ "llm_framed_mincover_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "llm_framed_mincover_diff_same_minus_distinct": {
+  "mean": 0.946,
+  "ci": [
+   0.908,
+   0.979
+  ],
+  "n_swarms": 40
+ },
+ "llm_framed_bounded_same": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "llm_framed_bounded_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "llm_framed_bounded_diff_same_minus_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "llm_bounded_named_a_liar_same": {
+  "mean": 0.008,
+  "ci": [
+   0.0,
+   0.021
+  ],
+  "n_swarms": 40
+ },
+ "llm_bounded_named_a_liar_distinct": {
+  "mean": 0.037,
+  "ci": [
+   0.004,
+   0.087
+  ],
+  "n_swarms": 40
+ },
+ "llm_bounded_named_a_liar_diff_same_minus_distinct": {
+  "mean": -0.029,
+  "ci": [
+   -0.079,
+   0.004
+  ],
+  "n_swarms": 40
+ },
+ "llm_both_hidden_same": {
+  "mean": 0.979,
+  "ci": [
+   0.954,
+   0.996
+  ],
+  "n_swarms": 40
+ },
+ "llm_both_hidden_distinct": {
+  "mean": 0.966,
+  "ci": [
+   0.944,
+   0.987
+  ],
+  "n_swarms": 40
+ },
+ "llm_both_hidden_diff_same_minus_distinct": {
+  "mean": 0.013,
+  "ci": [
+   -0.02,
+   0.044
+  ],
+  "n_swarms": 40
+ },
+ "llm_judge_accused_receiver_same": {
+  "mean": 0.633,
+  "ci": [
+   0.508,
+   0.75
+  ],
+  "n_swarms": 40
+ },
+ "llm_judge_accused_receiver_distinct": {
+  "mean": 0.773,
+  "ci": [
+   0.657,
+   0.875
+  ],
+  "n_swarms": 40
+ },
+ "llm_judge_accused_receiver_diff_same_minus_distinct": {
+  "mean": -0.14,
+  "ci": [
+   -0.269,
+   -0.012
+  ],
+  "n_swarms": 40
+ },
+ "llm_judge_flagged_same": {
+  "mean": 0.183,
+  "ci": [
+   0.096,
+   0.283
+  ],
+  "n_swarms": 40
+ },
+ "llm_judge_flagged_distinct": {
+  "mean": 0.213,
+  "ci": [
+   0.136,
+   0.3
+  ],
+  "n_swarms": 40
+ },
+ "llm_judge_flagged_diff_same_minus_distinct": {
+  "mean": -0.03,
+  "ci": [
+   -0.158,
+   0.098
+  ],
+  "n_swarms": 40
+ },
+ "minimal_framed_mincover_same": {
+  "mean": 1.0,
+  "ci": [
+   1.0,
+   1.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_framed_mincover_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_framed_mincover_diff_same_minus_distinct": {
+  "mean": 1.0,
+  "ci": [
+   1.0,
+   1.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_framed_bounded_same": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_framed_bounded_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_framed_bounded_diff_same_minus_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_bounded_named_a_liar_same": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_bounded_named_a_liar_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_bounded_named_a_liar_diff_same_minus_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_both_hidden_same": {
+  "mean": 1.0,
+  "ci": [
+   1.0,
+   1.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_both_hidden_distinct": {
+  "mean": 1.0,
+  "ci": [
+   1.0,
+   1.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_both_hidden_diff_same_minus_distinct": {
+  "mean": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "n_swarms": 40
+ },
+ "minimal_judge_accused_receiver_same": {
+  "mean": 0.55,
+  "ci": [
+   0.4,
+   0.7
+  ],
+  "n_swarms": 40
+ },
+ "minimal_judge_accused_receiver_distinct": {
+  "mean": 0.7,
+  "ci": [
+   0.55,
+   0.825
+  ],
+  "n_swarms": 40
+ },
+ "minimal_judge_accused_receiver_diff_same_minus_distinct": {
+  "mean": -0.15,
+  "ci": [
+   -0.35,
+   0.05
+  ],
+  "n_swarms": 40
+ },
+ "minimal_judge_flagged_same": {
+  "mean": 0.125,
+  "ci": [
+   0.025,
+   0.225
+  ],
+  "n_swarms": 40
+ },
+ "minimal_judge_flagged_distinct": {
+  "mean": 0.075,
+  "ci": [
+   0.0,
+   0.175
+  ],
+  "n_swarms": 40
+ },
+ "minimal_judge_flagged_diff_same_minus_distinct": {
+  "mean": 0.05,
+  "ci": [
+   -0.075,
+   0.175
+  ],
+  "n_swarms": 40
+ },
+ "same_framed_given_both_hidden": [
+  227,
+  235
+ ],
+ "same_framed_given_not_both_hidden": [
+  0,
+  5
+ ],
+ "posthoc_same_framed_given_both_minimal_edit": [
+  227,
+  227
+ ],
+ "posthoc_same_framed_given_hidden_not_minimal": [
+  0,
+  8
+ ],
+ "posthoc_same_hidden_not_framed_liar_accused": 2,
+ "noedit_clean_mincover": [
+  80,
+  80
+ ],
+ "noedit_clean_bounded": [
+  80,
+  80
+ ],
+ "bounded_false_accusations_total": 0,
+ "liar_parse_ok": [
+  471,
+  479
+ ],
+ "same_framed_by_model_rows": {
+  "gemma-4-26b-a4b-it": [
+   76,
+   80
+  ],
+  "qwen3.8-27b": [
+   74,
+   80
+  ],
+  "deepseek-v4-flash": [
+   77,
+   80
+  ]
+ }
+}

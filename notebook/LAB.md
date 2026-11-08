@@ -135,3 +135,19 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
   distinct / same receiver / liar target: k=2 distinct receivers → localized 0.97, false accusations 0.
 - Spend: 4.49M tokens for the sweep (judge 3.2M input). Adaption reports tokens, not dollars.
 - Next: figure; E02b with a pre-registered same-receiver manipulation; claims.md rows.
+
+## 2026-11-08 17:10 UTC — benhoangquan (with Claude Code) — E02b framing + E01 bounded re-analysis
+- Added `diagnose_bounded` (accuse only agents in every vertex cover of size ≤ t); soundness test over 160
+  synthetic cases incl. collusion (`tests/test_bounded.py`). Merged main (Wissem's retry/cost code unified).
+- E01 exploratory (not pre-registered, $0): same sweep, min-cover vs bounded t=k: runs with ≥1 honest agent
+  accused 95/640 vs 0/640; exact identical in all 16 cells; recall gap ≤0.16 → `results/E01/bounded_summary.json`.
+- E02b (prereg 92c3b5b): 80 swarms (complete/erdos × seeds 100–119 × same/distinct receiver), 3 liar models ×
+  {naive, detector}, judge gemma-4-31b → `results/E02b/`. 639/640 rows (deepseek erdos s114 distinct detector
+  504'd on every retry; missing). 429 rate limits during judge phase, filled by rerun with 4 workers.
+- H1 supported: framing 0.95 [0.91,0.98] same vs 0.00 distinct (per-swarm means, bootstrap over swarms).
+- H2 FAILED as stated: framed in 227/235 rows where both hid. All 8 exceptions: a liar also edited records with
+  a second peer (7/8 detector-aware). Post hoc: 227/227 when both made the smallest edit, 0/8 otherwise.
+- H3 supported: bounded (t=2) accused no honest agent in 639 rows; it named a liar in only 1–4% of runs.
+- Judge (exploratory): names an honest receiver 0.63 (same) / 0.77 (distinct); names every liar ~0.2.
+- Spend: 4.98M tokens, $1.05 (API cost field), plus one resume pass killed before logging (~0.1M tokens).
+- Paper A draft (`papers/A/paper.tex`) updated with E01/E02/E02b; claims rows 11–19 added.
