@@ -194,3 +194,22 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
   takes the wall to 0 and raids follow. Found and fixed before registration: c3 raids always hit the commune store.
 - Grid resized to fit the quota (c3 only; gemma 80, qwen/deepseek 20 each, control 10; E09b 40 + reused unfiltered).
   Preregs committed in 4659622 before any main village. Queue `experiments/E09_scarcity_llm/queue.sh` started 21:26 UTC.
+
+## 2026-11-08 23:40 UTC — benhoangquan (with Claude Code) — E09 gemma main results (Paper C)
+- 80 gemma villages (c3 mixed, ρ ∈ {2.0, 0.6} × {unseeded, seeded} × seeds 0–19), 0 failures, 0 invalid actions,
+  ~$0.35 (cost field), 21:26–23:26 UTC → `results/E09/{main.jsonl,summary.json}`. Analysis `analyze.py` as registered.
+- **H1 supported.** ledger_sync share of villager-days, unseeded: 0.368 at ρ=0.6 vs 0.183 at ρ=2.0, diff 0.185
+  [0.160, 0.211]. Not a composition artefact: per bloc, private villagers hack on 0.72–0.74 of their days under
+  scarcity vs 0.36–0.37 under abundance (and nearly stop working: 5–6% vs 63–64%); commune villagers 0.00 in both.
+- **H2 not supported.** Non-seeded adoption 0.50 seeded vs 0.50 unseeded, diff 0.00 [−0.02, 0.02]: the tip changes
+  nothing because adoption is already total in one bloc and zero in the other.
+- **H3 supported, at the extreme.** Private minus commune adoption = 1.0 in every one of 80 villages: every private
+  villager used ledger_sync and no commune villager ever did (0 of ~3,200 commune villager-days). Seeded commune
+  villagers complied 1/56 days (scarce) and 0/100 (abundant); seeded private ones 37/50 and 37/100.
+- **H4 not supported (uninformative).** Spearman(hacks, starved) at ρ=0.6 = 0.08 [0.00, 0.20]. Cause: ρ=0.6 is
+  lethal by itself — 40/40 scarce villages collapsed, 7.98/8 starved on average, honest commune workers included.
+  Calibration flaw (mine): the scarce arm leaves no survivors to save. At ρ=2.0 nobody starved; hacks drained ~22
+  food/village and caused 0.7 raids/village.
+- Consequence: E09b's registered cell (ρ=0.6) cannot show a defense saving lives. Registered **E09c** (same five
+  arms at ρ=1.0, `experiments/E09b_cbf_governance/prereg_e09c.md`) before reading any E09b row; scheduled by
+  `queue2.sh` ahead of the qwen/deepseek replication.

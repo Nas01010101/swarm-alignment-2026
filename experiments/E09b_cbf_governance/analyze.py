@@ -26,10 +26,11 @@ def paired(xs, ys, seed=0):
     return [round(statistics.fmean(d), 4), round(bs[int(0.025 * B)], 4), round(bs[int(0.975 * B) - 1], 4)]
 
 
-def main():
-    sel = lambda r: r["model"] == MODEL and r["economy"] == "c3" and r["rho"] == 0.6 and r["seeded"]  # noqa: E731
-    rows = [r for r in load("results/E09/main.jsonl") if sel(r) and r["governance"] == "unfiltered" and r["seed"] < 10]
-    rows += [r for r in load("results/E09b/main.jsonl") if sel(r)]
+def main(outdir="results/E09b", rho=0.6, own_unfiltered=False):
+    sel = lambda r: r["model"] == MODEL and r["economy"] == "c3" and r["rho"] == rho and r["seeded"]  # noqa: E731
+    rows = [] if own_unfiltered else [r for r in load("results/E09/main.jsonl")
+                                      if sel(r) and r["governance"] == "unfiltered" and r["seed"] < 10]
+    rows += [r for r in load(f"{outdir}/main.jsonl") if sel(r)]
     by = {(r["governance"], r["seed"]): r for r in rows}
     seeds = sorted(s for s in range(10) if all((g, s) in by for g in ARMS))
     get = lambda g, m: [float(by[(g, s)][m]) for s in seeds]  # noqa: E731
@@ -47,8 +48,10 @@ def main():
     g5 = paired(get("dcbf_gateway", "alive_end"), get("hack_ban", "alive_end"), seed=2)
     extra = {f"alive_{g}_minus_unfiltered": paired(get(g, "alive_end"), get("unfiltered", "alive_end"), seed=3)
              for g in ARMS[1:]}
+    k0 = paired(get("unfiltered", "alive_end"), get("hack_ban", "alive_end"), seed=4)
     return {
-        "seeds_complete": seeds, "arms": arms,
+        "source": outdir, "rho": rho, "seeds_complete": seeds, "arms": arms,
+        "K0_alive_unfiltered_minus_ban": k0, "K0_harm_exists": bool(k0 and k0[2] < 0),
         "G1_alive_dcbf_minus_unfiltered": g1, "G1_supported": bool(g1 and g1[1] > 0),
         "G2_attempt_ratio_prompt_over_unfiltered": round(c / u, 3) if u else None,
         "G2_supported": bool(u and c / u >= 0.5),
@@ -61,8 +64,14 @@ def main():
 
 
 if __name__ == "__main__":
-    s = main()
-    Path("results/E09b").mkdir(parents=True, exist_ok=True)
-    Path("results/E09b/summary.json").write_text(json.dumps(s, indent=1) + "\n")
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dir", default="results/E09b")
+    ap.add_argument("--rho", type=float, default=0.6)
+    ap.add_argument("--own-unfiltered", action="store_true")
+    a = ap.parse_args()
+    s = main(a.dir, a.rho, a.own_unfiltered)
+    Path(a.dir).mkdir(parents=True, exist_ok=True)
+    Path(f"{a.dir}/summary.json").write_text(json.dumps(s, indent=1) + "\n")
     print(json.dumps({k: v for k, v in s.items() if k != "arms"}, indent=1))
     print(json.dumps(s["arms"], indent=1))
