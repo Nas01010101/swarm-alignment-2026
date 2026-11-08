@@ -1,0 +1,15 @@
+{"setup":{"ok":true,"bots":50,"y":100}}
+{"day":{"errors":{"conn:write EPIPE":22,"reconnect":29,"conn:write ECONNRESET":7,"walk_late":2,"nan:x,z":18,"nan:x,y,z":1,"mspt":["Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.4/2.0/26.3, 5.1/2.0/26.3, 3.4/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 4.9/1.9/24.9, 5.1/1.9/26.3, 3.4/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.0/1.9/24.9, 5.3/1.9/26.3, 3.5/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.4/1.9/24.9, 5.2/1.9/26.3, 3.5/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 6.0/1.9/24.9, 5.4/1.9/26.3, 3.6/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 6.2/1.9/24.9, 5.7/1.9/26.3, 3.7/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 6.1/1.9/24.9, 5.8/1.9/26.3, 3.7/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 6.3/1.9/24.9, 5.9/1.9/26.3, 3.7/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 5.6/2.8/21.9, 5.3/1.9/24.9, 3.8/1.6/29.6","Server tick times (avg/min/max) from last 5s, 10s, 1m: ◴ 2.8/2.4/4.3, 4.5/2.4/78.9, 3.9/1.6/78.9"],"lag_p99_ms":191,"lag_max_ms":1466},"per_job":{"chop":[{"wood":25},{"wood":28},{"wood":28},{"wood":29},{"wood":27},{"wood":29},{"wood":34},{"wood":35},{"wood":24},{"wood":24},{"wood":26},{"wood":25},{"wood":27}],"mine":[{"stone":30,"iron":2},{"stone":29,"iron":2},{"stone":19,"iron":3},{"iron":4,"stone":23},{"stone":19,"iron":4},{"stone":30,"iron":3},{"stone":17,"iron":2},{"stone":33,"iron":2},{"stone":26,"iron":3},{"iron":3,"stone":10},{"stone":16,"iron":3},{"stone":30,"iron":3},{"stone":21,"iron":2}],"farm":[{"food":13},{"food":36},{"food":34},{"food":26},{"food":42},{"food":30},{"food":30},{"food":36},{"food":25},{"food":12},{"food":6},{"food":10}],"build_wall":[{},{},{},{},{},{}],"rest":[{},{},{},{},{},{}]}}}
+{"night":{"zombies":55,"wall":0,"alive_before":50,"died":12}}
+{"night":{"zombies":55,"wall":19,"alive_before":38,"died":5}}
+{"night":{"zombies":55,"wall":38,"alive_before":33,"died":3}}
+{"night":{"zombies":55,"wall":57,"alive_before":30,"died":2}}
+{"night":{"zombies":55,"wall":76,"alive_before":28,"died":0}}
+--- ctl
+}
+Error: client timed out after 90000 milliseconds
+    at Timeout._onTimeout (/home/anas/mc/bots/node_modules/minecraft-protocol/src/client/keepalive.js:18:28)
+    at listOnTimeout (node:internal/timers:581:17)
+    at process.processTimers (node:internal/timers:519:7)
+
+[exited with code 0]

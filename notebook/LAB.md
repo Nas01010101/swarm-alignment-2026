@@ -108,3 +108,16 @@ evidence-matching, not stereotyping beyond the evidence. Excess beyond the evide
 3 look-alike kills at P <= 0.06 (two at P = 0.0, card contradicts a sighting), 2 ctrl kills at P ~ 0,
 and the target was the posterior argmax in only 5/12 look-alike kills vs 14/15 evil kills.
 Evil kills: 0/32 overreach, mean P 0.95-1.0.
+
+## 2026-11-08 UTC — wissem/claude — E09 calibration and wall sweep (physics only, no LLM)
+50 mineflayer bots on Paper 1.21.4 (RTX). Blocks per worker-day: wood 28.9, stone 22.9, food 22.7;
+conversion set so mean yields equal the text yields (prereg Amendment 1). Zero-wall deaths are a
+cliff: 25 zombies 0.00, 50 0.08, 55 0.20, 60 0.22, 70 0.49 (of 39), 80 1.00 (of 20), 100 0.93.
+Chosen: 55 zombies = 11 per unit of mob_need (Amendment 3). Server tick 3-5 ms average, so the ~25
+reconnects per day are client-side.
+Wall sweep at 55 zombies, one night per cover, sequential (`results/E09/calib/wall_sweep_z55.txt`):
+cover 0: 12/50 (0.24); 0.25: 5/38 (0.13); 0.5: 3/33 (0.09); 0.75: 2/30 (0.07); 1.0: 0/28.
+M3 not supported: deaths at cover 0.5 are 0.38x those at cover 0 (prediction ≥ 0.7x; text world 0.5x).
+Partial walls protect more than proportionally, not less. Bias check: the population shrinks across
+nights, so zombies per bot rise (1.1 to 2.0), which pushes deaths up at high cover; the true curve
+is at least this concave. n = 1 night per cover; one sweep.
