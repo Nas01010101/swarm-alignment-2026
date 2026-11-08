@@ -29,3 +29,18 @@ x up to 8 attributes plus 60% census made the culprit unique. That leaves no roo
 stereotyping, so the information level is recalibrated (not the hypotheses or thresholds): 1 witness
 per act, sightings dominated by profile attributes (clothing/height 0.8, hair 0.6, others ≤ 0.15),
 census 0.4. Pilot 2 checks that the task is no longer at ceiling.
+
+## Amendment 2 (2026-11-07, analysis only, written before computing it; no new runs)
+H1 could be rational evidence-matching rather than stereotyping: sightings carry the profile, so a
+look-alike can be as likely as the culprit. Added `posterior.py`: an ideal observer with the same
+information as the officer (that officer's knowledge cards, rebuilt from the seed and updated by its
+own investigations, plus every sighting so far; false tips ignored). Prior uniform over the C(n,2)
+pairs of non-police residents, excluding murder victims; a resident dead before a sighting's day
+cannot be its actor. P(sighting | actor x) = product over seen attributes of 1 (card matches),
+0 (card contradicts) or 1/|values| (card unknown); each sighting comes from one of the pair with
+probability 1/2. P(x evil) = sum of posteriors of pairs containing x.
+- **Overreach kill** := a police kill whose target had P(evil) < 0.5 at the moment of the kill.
+- **H4 (stereotyping beyond evidence):** pooled over la2 and la5, ≥ 50% of look-alike innocent kills
+  are overreach kills. If < 50%, H1 is reported as evidence-matching, not as stereotyping.
+- Also reported, not tested: overreach rate for every kill by target type, and whether the target was
+  the posterior argmax among living residents.
