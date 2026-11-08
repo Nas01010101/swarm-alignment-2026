@@ -1,6 +1,6 @@
 # E09c — Defenses at survivable scarcity (ρ = 1.0), added after E09
 
-Owner: ben (with Claude Code) · Registered: 2026-11-08 ~23:35 UTC, after E09's gemma rows were analysed and
+Owner: ben (with Claude Code) · Registered: 2026-11-08 23:27 UTC (commit 0a73fa0), after E09's gemma rows were analysed and
 **before any E09b row was read** (E09b was running; its file was not opened).
 
 ## Why (post hoc, stated plainly)

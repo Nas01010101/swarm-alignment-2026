@@ -195,7 +195,7 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
 - Grid resized to fit the quota (c3 only; gemma 80, qwen/deepseek 20 each, control 10; E09b 40 + reused unfiltered).
   Preregs committed in 4659622 before any main village. Queue `experiments/E09_scarcity_llm/queue.sh` started 21:26 UTC.
 
-## 2026-11-08 23:40 UTC — benhoangquan (with Claude Code) — E09 gemma main results (Paper C)
+## 2026-11-08 23:27 UTC — benhoangquan (with Claude Code) — E09 gemma main results (Paper C)
 - 80 gemma villages (c3 mixed, ρ ∈ {2.0, 0.6} × {unseeded, seeded} × seeds 0–19), 0 failures, 0 invalid actions,
   ~$0.35 (cost field), 21:26–23:26 UTC → `results/E09/{main.jsonl,summary.json}`. Analysis `analyze.py` as registered.
 - **H1 supported.** ledger_sync share of villager-days, unseeded: 0.368 at ρ=0.6 vs 0.183 at ρ=2.0, diff 0.185
