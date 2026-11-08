@@ -21,9 +21,10 @@ class TokenCapExceeded(RuntimeError):
     """Raised before a call once total tokens pass SWARM_TOKEN_CAP (spend guard)."""
 
 
-def record_usage(model: str, tin: int, tout: int, error: bool = False) -> None:
+def record_usage(model: str, tin: int, tout: int, error: bool = False, cost: float = 0.0) -> None:
     with _LOCK:
         u = USAGE[model]
+        u["usd"] = round(u.get("usd", 0.0) + cost, 6)
         u["calls"] += int(not error)
         u["in"] += tin
         u["out"] += tout
@@ -89,6 +90,8 @@ class AdaptionBackend:
     Models: GET /api/v1/models (e.g. gemma-4-26b-a4b-it, qwen3.8-27b, deepseek-v4-flash)."""
 
     url = "https://api.prod.adaptionlabs.ai/api/v1/responses"
+    spent = 0.0  # USD across all instances, from the API's usage.cost
+    calls = 0
 
     def __init__(self, model: str | None = None, max_tokens: int = 300, reasoning: str | None = None):
         self.key = os.environ["ADAPTION_API_KEY"]
@@ -98,10 +101,11 @@ class AdaptionBackend:
         # unless effort is capped; "low" + a few thousand tokens returns an answer.
         self.reasoning = reasoning
 
-    retries = 5
+    retries = 5  # 6 attempts in all
 
     def _post(self, body: dict) -> dict:
         import json
+        import time
         import urllib.request
 
         req = urllib.request.Request(
@@ -110,22 +114,31 @@ class AdaptionBackend:
             headers={"Authorization": f"Bearer {self.key}", "Content-Type": "application/json"},
         )
         with urllib.request.urlopen(req, timeout=180) as r:
-            return json.load(r)
+            out = json.load(r)
+        cost = (out.get("usage") or {}).get("cost") or 0.0
+        with _LOCK:
+            AdaptionBackend.spent += cost
+            AdaptionBackend.calls += 1
+        return out
 
     def _post_retry(self, body: dict) -> dict:
+        """One retry layer for every caller: 408/409/429/5xx, network errors, timeouts and
+        truncated JSON back off exponentially (or as long as Retry-After says)."""
         import urllib.error
 
         for attempt in range(self.retries + 1):
+            wait = None
             try:
                 return self._post(body)
             except urllib.error.HTTPError as e:
                 if e.code not in (408, 409, 429) and e.code < 500 or attempt == self.retries:
                     raise
-            except (urllib.error.URLError, TimeoutError, ConnectionError):
+                wait = e.headers.get("Retry-After") if e.headers else None
+            except (urllib.error.URLError, TimeoutError, ConnectionError, ValueError):
                 if attempt == self.retries:
                     raise
             record_usage(self.model, 0, 0, error=True)
-            time.sleep(2 ** (attempt + 1))
+            time.sleep(float(wait) if wait and str(wait).isdigit() else 2 ** (attempt + 1))
         raise AssertionError("unreachable")
 
     def complete(self, system: str, messages: list[dict]) -> str:
@@ -140,7 +153,8 @@ class AdaptionBackend:
             }
         )
         u = r.get("usage") or {}
-        record_usage(self.model, u.get("input_tokens", 0) or 0, u.get("output_tokens", 0) or 0)
+        record_usage(self.model, u.get("input_tokens", 0) or 0, u.get("output_tokens", 0) or 0,
+                     cost=u.get("cost") or 0.0)
         return "".join(
             c.get("text", "")
             for item in r.get("output", [])

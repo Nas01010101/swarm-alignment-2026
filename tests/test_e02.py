@@ -114,7 +114,7 @@ def test_adaption_retries_and_counts_usage(monkeypatch):
 
     monkeypatch.setattr(b, "_post", flaky)
     assert b.complete("s", []) == "hi"
-    assert llm.USAGE["m"] == {"calls": 1, "in": 10, "out": 3, "errors": 1}
+    assert llm.USAGE["m"] == {"calls": 1, "in": 10, "out": 3, "errors": 1, "usd": 0.0}
     monkeypatch.setenv("SWARM_TOKEN_CAP", "10")
     with pytest.raises(llm.TokenCapExceeded):
         b.complete("s", [])

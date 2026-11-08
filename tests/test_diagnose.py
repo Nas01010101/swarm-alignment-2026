@@ -60,3 +60,26 @@ def test_adaption_backend_parses_output(monkeypatch):
     monkeypatch.setattr(b, "_post", fake_post)
     assert b.complete("sys", [{"role": "user", "content": "hi"}]) == "TO: a1"
     assert sent["instructions"] == "sys" and sent["model"] == "m"
+
+
+def test_village_runs_on_mock_and_hides_truth():
+    from swarm.llm import MockBackend
+    from swarm.village import Config, build_world, metrics, run_village
+
+    cfg = Config(days=3, lookalikes=2, seed=1)
+    w0 = build_world(cfg)
+    assert sum(a.role == "evil" for a in w0.agents) == 2
+    assert sum(a.lookalike for a in w0.agents) == 2
+    m = metrics(run_village(cfg, MockBackend()))
+    assert m["police_kills"] == 0  # mock never returns valid JSON -> action none
+
+
+def test_bond_duel_runs_on_mock():
+    from swarm.bond import BondConfig, build_duel, duel_metrics, run_duel
+    from swarm.llm import MockBackend
+
+    cfg = BondConfig(days=3, seed=2)
+    d0 = build_duel(cfg)
+    assert sorted(a.role for a in d0.agents).count("bond") == 1 and len(d0.evil_bond_attrs) == 3
+    m = duel_metrics(run_duel(cfg, MockBackend(), MockBackend()))
+    assert m["outcome"] == "timeout" and m["innocents_struck"] == 0
