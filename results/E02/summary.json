@@ -62,6 +62,86 @@
     0.231,
     0.323
    ]
+  },
+  "k2_by_receiver": {
+   "llm_distinct_receivers": {
+    "n": 117,
+    "localized": 0.974,
+    "honest_agent_accused": {
+     "rate": 0.0,
+     "n": 117,
+     "ci": [
+      0.0,
+      0.032
+     ]
+    },
+    "swarms": 13
+   },
+   "llm_same_receiver": {
+    "n": 45,
+    "localized": 0.0,
+    "honest_agent_accused": {
+     "rate": 1.0,
+     "n": 45,
+     "ci": [
+      0.921,
+      1.0
+     ]
+    },
+    "swarms": 5
+   },
+   "llm_liar_target": {
+    "n": 18,
+    "localized": 0.0,
+    "honest_agent_accused": {
+     "rate": 0.0,
+     "n": 18,
+     "ci": [
+      0.0,
+      0.176
+     ]
+    },
+    "swarms": 2
+   },
+   "minimal_distinct_receivers": {
+    "n": 13,
+    "localized": 1.0,
+    "honest_agent_accused": {
+     "rate": 0.0,
+     "n": 13,
+     "ci": [
+      0.0,
+      0.228
+     ]
+    },
+    "swarms": 13
+   },
+   "minimal_same_receiver": {
+    "n": 5,
+    "localized": 0.0,
+    "honest_agent_accused": {
+     "rate": 1.0,
+     "n": 5,
+     "ci": [
+      0.566,
+      1.0
+     ]
+    },
+    "swarms": 5
+   },
+   "minimal_liar_target": {
+    "n": 2,
+    "localized": 0.0,
+    "honest_agent_accused": {
+     "rate": 0.0,
+     "n": 2,
+     "ci": [
+      0.0,
+      0.658
+     ]
+    },
+    "swarms": 2
+   }
   }
  },
  "cells": [
