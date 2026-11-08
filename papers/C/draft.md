@@ -1,0 +1,148 @@
+# Same Model, Different Rules: Who Pays for the Wall in LLM Agent Societies
+
+Draft 1, 2026-11-08 23:00 UTC. Slots marked `[E12]`, `[E09]`, `[E10]` fill from runs in progress.
+Every number traces to a file under `results/`; citations marked † are not yet cite-checked.
+
+## Abstract
+We put the same 100 LLM agents (Gemma 4 26B), with the same personal goal, on islands that differ only
+in their economic rules, and let nightly mobs kill anyone outside a wall. Walls are a public good: they
+protect everyone and pay no one. Over 5 seeds of 12 days, capitalist islands built 0 walls and kept 5.0
+of 100 people alive (range 3-7); a 20% tax that pays for wall building kept 8.8 alive but still built
+almost none (3 walls in 5 games). Socialist islands, where an elected leader sets job quotas, built 142
+walls per game, lost no one to mobs, and kept 36.6 alive (30-48), losing the rest to starvation. Agents
+rested at similar rates under every rule set (0.24 vs 0.28), so the gap is provision of the public good,
+not effort. In a one-year extension with seasons, births, elections and free migration between a
+capitalist and a socialist island, `[E12: convergence, direction of rule switches, net migration,
+incumbent re-election rate]`. We repeat the games in real Minecraft with one mineflayer bot per agent:
+`[E09/E12-MC transfer result]`. The result is an alignment claim about systems: the same model with the
+same goal lives or dies by the institution it runs under, so aligning each agent does not align the
+population.
+
+## 1. Introduction
+- Alignment work mostly evaluates one model. Deployed agents increasingly act in groups that share
+  resources, and the rules of the group set which individually reasonable choices add up to collapse.
+- Public goods are the textbook case (Samuelson 1954†; Olson 1965†): a good everyone uses and no one
+  is paid to make is under-provided by self-interested actors unless an institution provides it.
+- We ask whether LLM agents reproduce this, and whether the economic rule set decides it. The setup
+  follows a public Minecraft experiment with 200 human players on a capitalist and a communist island
+  (jjkay03, 2025), with LLM agents in place of people.
+- Contributions:
+  1. A preregistered island economy with three rule sets, one model and one goal (E08, 15 games of 100).
+  2. A one-year, two-island extension where agents vote their rules, re-elect leaders and migrate (E12).
+  3. A transfer check in real Minecraft with up to 50 bots per island (E09, E12-MC).
+  4. Released code, preregistrations, ledgers and raw logs.
+
+## 2. Related work
+- **LLM agents in commons and public-goods games.** GovSim (Piatti et al. 2024†, arXiv 2404.16698)
+  finds most LLM groups over-harvest a shared resource. Guzman Piedrahita et al. (2025†, arXiv
+  2506.23276) report that reasoning models free-ride in public-goods games. Both use small groups and
+  fixed rules; we vary the rules and scale to 100 agents.
+- **Many-agent Minecraft societies.** Project Sid (Altera.AL 2024†, arXiv 2411.00114) runs up to 1,000
+  agents and studies a tax vote; Civ50 (YC/Olam, 2026-10-29†) runs 50 agents once with no institutional
+  variable. We hold the model and goal fixed and change only the institution.
+- **Economic design with learning agents.** The AI Economist (Zheng et al. 2020†, arXiv 2004.13332)
+  learns tax policy with RL agents; we use off-the-shelf LLMs and fixed, human-readable rules.
+- **Planning and information.** Hayek (1945†) argues a central planner lacks agents' private
+  knowledge. E10 tests this directly with private skills agents can misreport `[E10]`.
+
+## 3. Setup
+**World (E08, `src/swarm/islands.py`).** Each island has 100 people, the same start food and the same
+night rule. Each day every agent chooses a job: farm (food), chop (wood), mine (stone, sometimes ore,
+small cave-in risk), build_wall (wood and stone into wall), or rest. Each night mobs attack; the wall
+covers the share min(1, wall / mob_need) of the island, and an agent outside cover may die. Mob need
+grows each night after two calm nights; walls decay. Agents who end a night without food starve.
+Every agent has the same goal text: comfort, defined as rest days plus own goods.
+
+**Rule sets.**
+| island | ownership | market | who builds walls |
+|---|---|---|---|
+| capitalist | private goods | bank buys ore; food-for-coins auction | anyone who donates |
+| capitalist_tax | private goods | the same plus 20% tax on bank sales | paid 2 coins per wall from the tax |
+| socialist | common store, equal rations | none | elected leader sets daily quotas |
+
+**Model and protocol.** Gemma 4 26B (A4B instruct) through the Adaption API, temperature default, one
+call per agent per decision. Preregistered before any main game (`experiments/E08_islands/prereg.md`);
+pilot games are excluded. 5 seeds per arm; each seed gives all islands the same people and traits.
+
+**Year extension (E12, `src/swarm/year.py`, prereg `experiments/E12_year/prereg.md`).** Islands A
+(capitalist) and B (socialist), 24 people each, 52 weekly turns. Winter (weeks 40-52) rots a quarter of
+stored food each week and makes mobs 1.5x stronger. An island with ≥ 6 food per head adds 10% newborns.
+Quarterly assemblies (weeks 13, 26, 39) re-elect the leader on common-store islands. In the open arm,
+every citizen also sees both islands, votes the rules for the next quarter, and may move. The fixed arm
+keeps the rules and blocks migration. Predictions Y1-Y6 are in the prereg.
+
+**Minecraft (E09, `experiments/E09_minecraft/`).** A Paper 1.21.4 server with one mineflayer bot per
+agent. The LLM layer is unchanged; work is done physically (bots harvest wheat, chop logs, mine stone
+for 45 s), the wall is real cobblestone on a ring, and nights summon real zombies the bots fight. Block
+counts convert to text units by a preregistered calibration. In E12-MC, births log in new bots and a
+migrant's bot logs out of one island and into the other.
+
+## 4. Results
+### 4.1 Rules decide who survives (E08)
+Data: `results/E08/main_gemma.jsonl`, 15 games, 10.5k calls, $0.64. Means over seeds 0-4.
+| island | alive /100 | starved | killed by mobs | walls | chosen rest | wealth Gini | compliance |
+|---|---|---|---|---|---|---|---|
+| capitalist | 5.0 (3-7) | 36.4 | 53.2 | 0 | 0.239 | 0.237 | - |
+| capitalist_tax | 8.8 (4-14) | 23.8 | 61.0 | 0.6 | 0.248 | 0.216 | - |
+| socialist | 36.6 (30-48) | 58.6 | 0 | 142 | 0.282 | - | 0.823 |
+
+| prereg | prediction | result |
+|---|---|---|
+| H1 public good | socialist walls per capita ≥ 1.5x capitalist | holds: 142 vs 0 in every seed |
+| H2 free riding | socialist chosen rest ≥ capitalist + 0.05 | fails: +0.043 (higher in 4 of 5 seeds) |
+| H3 inequality | capitalist Gini ≥ 0.3 | fails: 0.237 |
+| H4 survival | survivors differ by ≥ 10 | holds: +31.6, socialist higher in every seed |
+| H5 compliance | ≥ 0.6 | holds: 0.823 |
+| H6 institution | tax walls ≥ 1.5x capitalist | nominal only: 3 walls in 5 games vs 0 |
+
+- The capitalist islands die of mobs: no single agent gains from a wall, so none is built, while
+  agents mine ore the bank buys. Paying for walls through a tax did not change this.
+- The socialist islands die of hunger instead: the leader's quotas put people on walls and the
+  common store runs short. The institution moved the cause of death, and the total, but did not
+  remove it.
+- Rest rates are close, so the socialist advantage is not more effort; it is effort aimed at the
+  public good. H2 (free riding under equal rations) is not supported at the preregistered margin.
+
+### 4.2 One year with votes and migration (E12)
+`[E12: table of alive_A, alive_B, rules at end, switches, moves A→B and B→A, births, elections and
+re-elections, extinction week, per arm and seed; Y1-Y6 verdicts]`
+Pilot note (not analysed): in a 14-week, 12-person pilot, island A died out in week 6 and two people
+from B moved onto it at the first assembly.
+
+### 4.3 Label vs rules and hidden information (E10)
+`[E10 neutral: survivors with the ideology words removed vs E08 labelled arms, same seeds]`
+`[E10 planned: under-report rate, plan efficiency; H7, H8]`
+
+### 4.4 Transfer to Minecraft (E09, E12-MC)
+- Cover sweep (E09, one night per cover level, 50 bots): deaths fall faster than linearly with wall
+  cover (12/50 at cover 0, 3/33 at 0.5, 0/28 at 1.0); M3 (deaths at 0.5 ≥ 0.7x deaths at 0) not
+  supported. Partial walls protect more than proportionally.
+- `[E09 50 vs 50 games: survivors and walls vs the text twin at n = 50]`
+- `[E12-MC: one open-arm year in Minecraft vs the text seed 0]`
+
+## 5. Discussion
+- **System-level alignment.** One model with one goal produced 5% or 37% survival depending only on
+  rules written in a prompt. Evaluating that model alone would not predict either number.
+- **Pricing the public good was not enough.** The tax arm paid for walls and still got almost none:
+  the agents did not act on a small, diffuse wage when ore paid more directly.
+- **Role-play threat.** Agents may follow "capitalism" or "socialism" as a script. E10 neutral removes
+  the words while keeping the rules; `[E10 result]` decides how much of the gap is the label.
+
+## 6. Limitations
+- One model family (Gemma 4 26B) and one provider; other models may differ.
+- 5 seeds per E08 arm and 3 per E12 arm; E12-MC and each E09 Minecraft game are n = 1.
+- Rules are prompt-level; there is no enforcement beyond the simulator's accounting.
+- The text world abstracts movement and combat. In Minecraft a day's harvest is capped by how fast the
+  field regrows, and the bot standing closest takes most of it, which spreads private yields unevenly.
+- `zombies_per_need` was calibrated at 50 bots; E12-MC runs 24 per island.
+- E10 planned ran 5 seeds without the preregistered pilot. `[confirm deviations at submission]`
+
+## 7. Dual use
+The work shows how institutional rules change outcomes for groups of LLM agents. A designer could use
+it to choose rules that make a group fail; the same knowledge lets operators test rules before
+deploying agent groups that share resources. No human data; the Minecraft server is private.
+
+## Reproducibility
+Code, preregistrations, raw logs, and the hash-chained run ledger (`papers/C/.compete/`) are in the
+repository. Runs: `experiments/E08_islands/run.py`, `experiments/E12_year/run.py`,
+`experiments/E09_minecraft/run.py`.
