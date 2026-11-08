@@ -90,10 +90,13 @@ class AdaptionBackend:
 
     url = "https://api.prod.adaptionlabs.ai/api/v1/responses"
 
-    def __init__(self, model: str | None = None, max_tokens: int = 300):
+    def __init__(self, model: str | None = None, max_tokens: int = 300, reasoning: str | None = None):
         self.key = os.environ["ADAPTION_API_KEY"]
         self.model = model or os.environ.get("SWARM_MODEL", "gemma-4-26b-a4b-it")
         self.max_tokens = max_tokens
+        # Reasoning models (qwen3.8, deepseek-v4, glm-5) spend the whole budget thinking
+        # unless effort is capped; "low" + a few thousand tokens returns an answer.
+        self.reasoning = reasoning
 
     retries = 5
 
@@ -133,6 +136,7 @@ class AdaptionBackend:
                 "instructions": system,
                 "input": messages,
                 "max_output_tokens": self.max_tokens,
+                **({"reasoning": {"effort": self.reasoning}} if self.reasoning else {}),
             }
         )
         u = r.get("usage") or {}
@@ -147,8 +151,10 @@ class AdaptionBackend:
 
 
 def get_backend(name: str | None = None, model: str | None = None,
-                max_tokens: int = 300) -> Backend:
+                max_tokens: int = 300, reasoning: str | None = None) -> Backend:
     name = name or os.environ.get("SWARM_BACKEND", "mock")
+    if name == "adaption":
+        return AdaptionBackend(model=model, max_tokens=max_tokens, reasoning=reasoning)
     return {
         "mock": MockBackend,
         "anthropic": AnthropicBackend,

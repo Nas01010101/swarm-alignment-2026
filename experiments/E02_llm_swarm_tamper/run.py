@@ -68,6 +68,12 @@ def plant(topology: str, n: int, seed: int, p: float) -> list[tuple[Covert, int]
     return out
 
 
+def effort(a, model: str) -> str | None:
+    """Reasoning models spend their whole budget thinking unless effort is capped;
+    sending the field to gemma switches on its thinking mode, so only send it where needed."""
+    return a.reasoning if model in a.reasoning_models else None
+
+
 def phase_swarm(a, raw: Path) -> None:
     sdir = raw / "swarms"
     sdir.mkdir(parents=True, exist_ok=True)
@@ -102,7 +108,8 @@ def phase_attack(a, out: Path, raw: Path) -> None:
     tdir = raw / "tampered"
     tdir.mkdir(parents=True, exist_ok=True)
     have = done_keys(runs)
-    backends = {m: llm.get_backend(model=m, max_tokens=a.liar_tokens) for m in a.liar_models}
+    backends = {m: llm.get_backend(model=m, max_tokens=a.liar_tokens, reasoning=effort(a, m))
+                for m in a.liar_models}
 
     def emit(key, base, bad, clean, liars, cov_ids, extra):
         dump_logs(bad, str(tdir / f"{key}.jsonl"))
@@ -168,7 +175,8 @@ def phase_attack(a, out: Path, raw: Path) -> None:
 def phase_judge(a, out: Path, raw: Path) -> None:
     runs, jpath = out / "runs.jsonl", out / "judge.jsonl"
     have = done_keys(jpath)
-    backend = llm.get_backend(model=a.judge_model, max_tokens=a.judge_tokens)
+    backend = llm.get_backend(model=a.judge_model, max_tokens=a.judge_tokens,
+                              reasoning=effort(a, a.judge_model))
     rows = [json.loads(x) for x in runs.read_text().splitlines() if x.strip()]
 
     def one(r):
@@ -194,15 +202,20 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--topologies", default="complete,erdos")
     ap.add_argument("--swarm-model", default="gemma-4-26b-a4b-it")
     ap.add_argument("--liar-models", default="gemma-4-26b-a4b-it,qwen3.8-27b,deepseek-v4-flash")
-    ap.add_argument("--judge-model", default="deepseek-v4-flash")
-    ap.add_argument("--liar-tokens", type=int, default=1500)
+    ap.add_argument("--judge-model", default="gemma-4-31b-it")
+    ap.add_argument("--liar-tokens", type=int, default=8000)
     ap.add_argument("--judge-tokens", type=int, default=2000)
     ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument("--reasoning", default="low", help="effort for reasoning models; '' to omit")
+    ap.add_argument("--reasoning-models", default="qwen3.8-27b,qwen3.5-397b,deepseek-v4-flash,glm-53-flash,glm-5.2",
+                    help="models that get --reasoning (gemma breaks if it is sent)")
     ap.add_argument("--out", default=str(ROOT / "results/E02"))
     a = ap.parse_args(argv)
     a.ks = [int(x) for x in a.ks.split(",")]
     a.topologies = a.topologies.split(",")
     a.liar_models = a.liar_models.split(",")
+    a.reasoning = a.reasoning or None
+    a.reasoning_models = set(a.reasoning_models.split(","))
     out = Path(a.out)
     raw = out / "raw"
     raw.mkdir(parents=True, exist_ok=True)
