@@ -75,8 +75,8 @@ def _births(cfg: YearConfig, isl, tag: str, week: int, rng: random.Random) -> in
     if len(al) < 2 or _food(isl) / len(al) < cfg.birth_food:
         return 0
     k = max(1, round(cfg.birth_rate * len(al)))
-    for _ in range(k):
-        kid = Citizen(f"{tag}{len(isl.people)}", rng.choice(TRAITS), {}, energy=isl.cfg.energy_max)
+    for j in range(k):  # week-stamped names: unique even after migrants leave (also a valid Minecraft username)
+        kid = Citizen(f"{tag}{week}_{j}", rng.choice(TRAITS), {}, energy=isl.cfg.energy_max)
         src = isl.store if pooled(isl.cfg) else max(isl.alive(), key=lambda p: p.inv.get("food", 0)).inv
         take = min(3, src.get("food", 0))
         src["food"] = src.get("food", 0) - take
@@ -194,7 +194,15 @@ def _assembly(cfg: YearConfig, isls: dict, week: int, llm, pool, need: dict):
     return events
 
 
-def run_year(cfg: YearConfig, llm) -> dict:
+def _sync_worlds(worlds, isls):
+    if worlds:
+        for phase in ("drop", "add"):
+            for t, isl in isls.items():
+                worlds[t].sync(isl, phase)
+
+
+def run_year(cfg: YearConfig, llm, worlds=None) -> dict:
+    """worlds: optional {"A": MinecraftWorld, "B": MinecraftWorld} (E12-MC); bots follow births and migrants."""
     rng = random.Random(cfg.seed + 7)
     pool = ThreadPoolExecutor(cfg.workers)
     isls = {}
@@ -205,6 +213,8 @@ def run_year(cfg: YearConfig, llm) -> dict:
         if pooled(isl.cfg):
             elect(isl, llm, pool)
         isls[t] = isl
+        if worlds:
+            worlds[t].setup_named(isl)
     rngs = {t: random.Random(cfg.seed + 1 + i) for i, t in enumerate(isls)}
     weekly, quarters = [], []
     for week in range(1, cfg.weeks + 1):
@@ -215,12 +225,14 @@ def run_year(cfg: YearConfig, llm) -> dict:
         for t, isl in isls.items():
             if winter:
                 _spoil(isl, cfg.winter_spoil)
-            step_day(isl, week, llm, pool, rngs[t], mob_need=need[t])
+            step_day(isl, week, llm, pool, rngs[t], mob_need=need[t], world=worlds[t] if worlds else None)
             born = _births(cfg, isl, t.lower(), week, rngs[t]) if isl.alive() else 0
             news = f"Island news: week {week} of {cfg.weeks}, {season(cfg, week + 1) if week < cfg.weeks else 'end'}."
             if season(cfg, week + 1) == "winter":
                 news += " Winter: a quarter of stored food rots each week and mobs are 50% stronger."
             isl.board = [news] + isl.board
+            if born:
+                _sync_worlds(worlds, {t: isl})
             al = isl.alive()
             weekly.append({"week": week, "island": t, "rules": isl.cfg.island, "alive": len(al),
                            "born": born, "wall": round(isl.wall, 2), "mob_need": round(need[t], 2),
@@ -229,6 +241,7 @@ def run_year(cfg: YearConfig, llm) -> dict:
                            "leader": isl.leader if pooled(isl.cfg) else None})
         if week % cfg.quarter == 0 and week < cfg.weeks:
             quarters += _assembly(cfg, isls, week, llm, pool, need)
+            _sync_worlds(worlds, isls)
     pool.shutdown()
     return {"cfg": {k: v for k, v in vars(cfg).items() if k != "workers"}, "weekly": weekly,
             "quarters": quarters, "log": {t: i.log for t, i in isls.items()},

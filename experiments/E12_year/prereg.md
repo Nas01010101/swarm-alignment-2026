@@ -43,3 +43,15 @@ is not used here (births and migration would need bot spawning; E09 covers trans
 **Kill test.** If a run stops early because both islands are extinct before week 13, the assembly
 never happens, and that run is reported as a harness outcome for Y1-Y5 (no assembly), with the
 extinction itself reported as a result.
+
+## Amendment 1 (2026-11-08, before the pilot and any main game)
+- Births are named `<island><week>_<j>` (e.g. `a14_0`), not `<island><count>`: the count could repeat a
+  name still on the island after a migrant left. Code fix only; no parameter changes.
+- **E12-MC.** One extra run in real Minecraft on the RTX Paper server: open arm, seed 0, n = 24 per
+  island, 52 weeks, Gemma 4 26B. Island A is controller.js at (0, 0) on port 25580, island B at (300, 0)
+  on port 25581, one mineflayer bot per citizen named after them. Work and nights are physical as in
+  E09 (45 s each, E09 calibration: zombies_per_need 11.0 and the block conversions in calib.json,
+  calibrated at 50 bots). A birth logs a new bot in; a migrant's bot logs out of its island and back
+  in on the other. Starvation, spoilage, births, the market and assemblies stay in Python.
+- E12-MC is a transfer check, not a test of Y1-Y6: we report Y1-Y6 for it next to the text open arm
+  seed 0, and the differences, with n = 1.

@@ -144,7 +144,7 @@ async function defend(b, until) {  // night: hit the nearest zombie in reach wit
 }
 
 const cmds = {
-  async setup() {
+  async setup({ names } = {}) {  // names: E12 bot names (citizen names); default PREFIX0..PREFIX(N-1)
     for (const r of ["doDaylightCycle false", "doMobSpawning false", "naturalRegeneration false", "doWeatherCycle false",
       "announceAdvancements false"]) await rcon.cmd("gamerule " + r);
     await rcon.cmd(`forceload add ${CX - 32} ${CZ - 32} ${CX + 32} ${CZ + 32}`);
@@ -160,10 +160,19 @@ const cmds = {
     await rcon.cmd(`setworldspawn ${HOME[0]} ${Y + 1} ${HOME[1]}`); await rcon.cmd("gamerule spawnRadius 2");
     const pd = process.env.HOME + "/mc/server/world/playerdata";  // saved positions from past runs would override the world spawn
     for (const f of fs.readdirSync(pd)) fs.rmSync(pd + "/" + f, { force: true });
-    for (let i = 0; i < N; i++) { await spawnBot(PREFIX + i).catch(() => {}); await sleep(1000); }
-    for (const n of live()) await rcon.cmd(`tp ${n} ${HOME[0] + Math.floor(Math.random() * 7) - 3}.5 ${Y + 1} ${HOME[1] + Math.floor(Math.random() * 5) - 2}.5`);
-    await sleep(2000);
+    await cmds.add({ names: names || [...Array(N).keys()].map(i => PREFIX + i) });
     return { bots: live().length, y: Y };
+  },
+  async add({ names }) {  // E12 births and immigrants; a second island's setup moves the world spawn, so always tp home
+    for (const n of names) { await spawnBot(n).catch(() => {}); await sleep(1000); }
+    for (const n of names) if (bots[n]) await rcon.cmd(`tp ${n} ${HOME[0] + Math.floor(Math.random() * 7) - 3}.5 ${Y + 1} ${HOME[1] + Math.floor(Math.random() * 5) - 2}.5`);
+    await sleep(2000);
+    return { alive: live() };
+  },
+  async drop({ names }) {  // E12 emigrants: leave this island alive; the other controller logs the same name back in
+    for (const n of names) { const b = bots[n]; delete bots[n]; if (b) b.quit(); }
+    await sleep(1500);
+    return { alive: live() };
   },
   async day({ assign, work_s = 45 }) {
     refill();

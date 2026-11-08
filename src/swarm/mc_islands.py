@@ -57,6 +57,32 @@ class MinecraftWorld:
         self.log.append({"cmd": "setup", **r})
         return r
 
+    def setup_named(self, isl) -> dict:
+        """E12: bots carry the citizens' own names, so migrants and births keep one name in both worlds."""
+        r = self.ctl.call("setup", names=[p.name for p in isl.people])
+        self.bot = {p.name: p.name for p in isl.people}
+        self.who = dict(self.bot)
+        self.ring = self.ctl.call("ring")["ring"]
+        self.log.append({"cmd": "setup", **r})
+        return r
+
+    def sync(self, isl, phase: str):
+        """E12: phase "drop" logs out bots whose citizen left the island; phase "add" logs in new arrivals.
+        Run "drop" on every island before "add", since a migrant's name can be online only once."""
+        here = {p.name for p in isl.people}
+        if phase == "drop":
+            gone = [n for n in self.bot if n not in here]
+            if gone:
+                self.log.append({"cmd": "drop", **self.ctl.call("drop", names=gone), "names": gone})
+            for n in gone:
+                self.who.pop(self.bot.pop(n), None)
+        else:
+            new = [p.name for p in isl.alive() if p.name not in self.bot]
+            if new:
+                self.log.append({"cmd": "add", **self.ctl.call("add", names=new), "names": new})
+            self.bot.update({n: n for n in new})
+            self.who.update({n: n for n in new})
+
     def _sync_dead(self, isl):
         gone = [self.bot[p.name] for p in isl.people if not p.alive]
         if gone:

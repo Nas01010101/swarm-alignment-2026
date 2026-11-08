@@ -70,3 +70,32 @@ def test_mock_year_is_deterministic():
     a = _run("open", MockBackend(), weeks=6)
     b = _run("open", MockBackend(), weeks=6)
     assert a["weekly"] == b["weekly"]
+
+
+class FakeCtl:
+    """Stands in for controller.js: every job digs 6 food blocks, nobody dies at night."""
+
+    def __init__(self, online):
+        self.online, self.calls = online, []
+
+    def call(self, cmd, **kw):
+        self.calls.append(cmd)
+        if cmd in ("setup", "add"):
+            assert not self.online & set(kw["names"]), "a name logged in twice"
+            self.online |= set(kw["names"])
+        if cmd == "drop":
+            self.online -= set(kw["names"])
+        if cmd == "day":
+            return {"gained": {b: {"food": 6} for b in kw["assign"]}}
+        return {"ring": 40, "died": []}
+
+
+def test_minecraft_worlds_follow_migrants_and_births():
+    from swarm.mc_islands import MinecraftWorld
+    online = set()
+    worlds = {t: MinecraftWorld(FakeCtl(online), 1.0, convert={"food": 0.5}) for t in "AB"}
+    out = run_year(YearConfig(arm="open", n=6, weeks=14, workers=1, birth_food=99, mob_base=0),
+                   Scripted(rules="socialist", movers={"a1"}), worlds)
+    assert "a1" in worlds["B"].bot and "a1" not in worlds["A"].bot
+    assert "drop" in worlds["A"].ctl.calls and "add" in worlds["B"].ctl.calls
+    assert out["final"]["B"]["people"] == 7
