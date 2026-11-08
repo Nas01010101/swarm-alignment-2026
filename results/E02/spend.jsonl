@@ -1,0 +1,2 @@
+{"utc": "2026-11-08 02:03", "phase": "all", "seconds": 873, "usage": {"gemma-4-26b-a4b-it": {"calls": 660, "in": 310879, "out": 72661, "errors": 0}, "qwen3.8-27b": {"calls": 180, "in": 176028, "out": 271143, "errors": 0}, "deepseek-v4-flash": {"calls": 178, "in": 166150, "out": 258722, "errors": 29}}}
+{"utc": "2026-11-08 02:11", "phase": "all", "seconds": 442, "usage": {"deepseek-v4-flash": {"calls": 2, "in": 1787, "out": 2909, "errors": 5}, "gemma-4-31b-it": {"calls": 800, "in": 3210403, "out": 14607, "errors": 0}}}

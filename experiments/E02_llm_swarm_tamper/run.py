@@ -68,6 +68,22 @@ def plant(topology: str, n: int, seed: int, p: float) -> list[tuple[Covert, int]
     return out
 
 
+def settle(futs) -> None:
+    """Wait for all jobs. A job whose API call still fails after retries is skipped (its row is
+    not written, so a rerun retries it); the budget guard still stops everything."""
+    failed = 0
+    for f in as_completed(futs):
+        try:
+            f.result()
+        except llm.TokenCapExceeded:
+            raise
+        except Exception as e:  # noqa: BLE001
+            failed += 1
+            print("job failed, rerun to retry:", repr(e)[:200], flush=True)
+    if failed:
+        print(f"{failed} jobs failed; rerun the same command to fill them in", flush=True)
+
+
 def effort(a, model: str) -> str | None:
     """Reasoning models spend their whole budget thinking unless effort is capped;
     sending the field to gemma switches on its thinking mode, so only send it where needed."""
@@ -168,8 +184,7 @@ def phase_attack(a, out: Path, raw: Path) -> None:
         controls(t, s, k)
     with ThreadPoolExecutor(a.workers) as ex:
         futs = [ex.submit(attack, m, t, s, k, c) for m in a.liar_models for t, s, k in jobs for c in CONDITIONS]
-        for f in as_completed(futs):
-            f.result()
+        settle(futs)
 
 
 def phase_judge(a, out: Path, raw: Path) -> None:
@@ -187,8 +202,7 @@ def phase_judge(a, out: Path, raw: Path) -> None:
         append(jpath, {"key": r["key"], "judge_model": a.judge_model, **judge(backend, bad, truth)})
 
     with ThreadPoolExecutor(a.workers) as ex:
-        for f in as_completed([ex.submit(one, r) for r in rows]):
-            f.result()
+        settle([ex.submit(one, r) for r in rows])
 
 
 def main(argv: list[str] | None = None) -> None:
