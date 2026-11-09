@@ -250,3 +250,9 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
   villagers never hacked (0.00 of days) — the drain is an externality on honest agents (raids 36 vs 14 under the ban).
   Under the ban commune deaths fall to 0 but private ones stay at 11: rejected hackers keep trying and skip work
   (private: hack 0.45, work 0.44 of days). The prompt moves private villagers to work (hack 0.24, work 0.74; 2 deaths).
+
+## 2026-11-09 02:39 UTC — benhoangquan (with Claude Code) — correction + bloc script
+- Added `experiments/E09_scarcity_llm/blocs.py` → `results/E09/blocs.json`, `results/E09c/blocs.json` so by-bloc numbers
+  trace to files. **Correction** to the E09c entry above: with no defense, commune villagers used ledger_sync on 0.27%
+  of their days (not 0.00; the seeded commune villager occasionally complied). "Never hacked" was wrong; claims C18 fixed.
+  E09 numbers (private 0.72–0.74 / 0.36–0.37; commune 0.00–0.0025) match the earlier ad hoc counts.
