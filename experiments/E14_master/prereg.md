@@ -65,3 +65,12 @@ server; that island is reported as E13 data with n = 1.
   have no field and ran on Adaption.
 - Analysis: per-cell results are reported with their backend. H1 and H2 sign counts over seeds are
   reported for all seeds and again for Adaption seeds only.
+
+## Amendment 3 (2026-11-09, 06:05 UTC, before any of these rows exist)
+
+- The Adaption run of text seed 2 is stopped after its capitalist row (queue time about 1 h per cell).
+  The other five seed 2 cells run on the Modal vLLM backend.
+- Seed 0 stays on Adaption, so one complete seed exists on that backend.
+- Extension: text seeds 3-9 on the Modal backend, same settings. The confirmatory tests stay on
+  seeds 0-2 as preregistered. Seeds 0-9 are reported as a separate, exploratory line, with the
+  H1 and H2 sign counts over all complete seeds.

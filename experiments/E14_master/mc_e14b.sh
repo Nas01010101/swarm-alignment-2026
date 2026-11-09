@@ -6,7 +6,7 @@ cd "$(dirname "$0")/../.." && set -a && . ./.env && set +a
 export SWARM_BACKEND=openai OPENAI_BASE_URL="$MODAL_URL/v1" OPENAI_API_KEY="$MODAL_VLLM_KEY"
 while kill -0 "$1" 2>/dev/null; do sleep 10; done
 run() {  # island port prefix
-  uv run --extra sim python experiments/E09_minecraft/run.py --model gemma-4-26b-a4b-it --island "$1" --neutral \
+  uv run --extra sim --extra llm python experiments/E09_minecraft/run.py --model gemma-4-26b-a4b-it --island "$1" --neutral \
     --loophole --n 60 --seed 0 --host 100.88.179.78 --port "$2" --prefix "$3" --workers 12 --tag e14_mc 2>&1 | grep -v '^\s*$' | tail -3
 }
 for pair in "directed commons" "capitalist_tax planned" "capitalist"; do
