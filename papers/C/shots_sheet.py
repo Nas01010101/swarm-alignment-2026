@@ -16,7 +16,7 @@ PAD = 8
 def parse_label(stem: str) -> str:
     parts = stem.split("_")
     if len(parts) >= 4:
-        ts, island, view, tod = parts[0], parts[1], parts[2], parts[3]
+        island, view, tod = parts[1], parts[2], parts[3]
         coord = "x=0" if island == "A" else "x=300"
         return f"Island {island} ({coord}) | {view} | {tod}"
     return stem

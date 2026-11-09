@@ -223,7 +223,7 @@ class Film:
             self.bugged.add(tgt.name)
         elif verb == "bribe":
             self.bribes -= 1
-            self.tell(tgt, f"Dr. Vex slipped you an envelope of cash: a reward for loyalty.")
+            self.tell(tgt, "Dr. Vex slipped you an envelope of cash: a reward for loyalty.")
         elif verb == "kill":
             tgt.alive, self.last_kill = False, self.day
             self.emit("kill", victim=tgt.name, victim_role=tgt.role)

@@ -205,7 +205,6 @@ def _sync_worlds(worlds, isls):
 
 def run_year(cfg: YearConfig, llm, worlds=None) -> dict:
     """worlds: optional {"A": MinecraftWorld, "B": MinecraftWorld} (E12-MC); bots follow births and migrants."""
-    rng = random.Random(cfg.seed + 7)
     pool = ThreadPoolExecutor(cfg.workers)
     isls = {}
     for t, start in zip("AB", cfg.starts):

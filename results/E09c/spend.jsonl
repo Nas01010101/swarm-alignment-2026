@@ -1,0 +1,2 @@
+{"utc": "2026-11-09 02:38", "tag": "main", "failed": 0, "seconds": 6426, "usage": {"gemma-4-26b-a4b-it": {"calls": 3630, "in": 2306423, "out": 199807, "errors": 8, "usd": 0.198922}, "gemma-4-31b-it": {"calls": 654, "in": 480403, "out": 29130, "errors": 2, "usd": 0.038112}}}
+{"utc": "2026-11-09 02:38", "tag": "main", "failed": 0, "seconds": 0, "usage": {}}

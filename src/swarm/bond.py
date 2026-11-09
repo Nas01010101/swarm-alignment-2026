@@ -18,7 +18,7 @@ import json
 import random
 from dataclasses import asdict, dataclass, field
 
-from swarm.village import ATTRS, SEEN_P, Agent, _parse_json, _sighting
+from swarm.village import ATTRS, Agent, _parse_json, _sighting
 
 
 @dataclass
