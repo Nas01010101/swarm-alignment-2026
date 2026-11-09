@@ -52,7 +52,7 @@ evaluating each agent alone does not predict what the population does.
   learns tax policy with RL agents; we use off-the-shelf LLMs and fixed, human-readable rules.
 - **Planning and information.** Hayek (1945†) argues a central planner lacks agents' private
   knowledge. E10 and E14 test this directly with private skills that agents can misreport.
-- **Proxy gaming in mixed-motive agent economies.** A companion study on this repository
+- **Proxy gaming in mixed-motive agent economies.** A study by co-author Quan Tran on this repository
   (`origin/ben/C-scarcity-hacking`) tests an administrative tool (`ledger_sync`) that credits +5 to
   the caller's ledger for no work while draining 1.5 from the shared defence wall. Across 80 eight-agent
   LLM villages, every private-property villager used the tool (adoption 1.0) while commune villagers
@@ -85,7 +85,7 @@ pilot games are excluded. 5 seeds per arm; each seed gives all islands the same 
 
 **Year extension (E12, `src/swarm/year.py`, prereg `experiments/E12_year/prereg.md`).** Islands A
 (capitalist) and B (socialist), 24 people each, 52 weekly turns. Winter (weeks 40-52) rots a quarter of
-stored food each week and makes mobs 1.5x stronger. An island with ≥ 6 food per head adds 10% newborns.
+stored food each week and makes mobs 1.5x stronger. An island with $\geq$ 6 food per head adds 10% newborns.
 Quarterly assemblies (weeks 13, 26, 39) re-elect the leader on common-store islands. In the open arm,
 every citizen also sees both islands, votes the rules for the next quarter, and may move. The fixed arm
 keeps the rules and blocks migration. Predictions Y1-Y6 are in the prereg.
@@ -104,9 +104,9 @@ person an assigned job (coordination), and the prompts name "capitalism" and "so
 shared store with equal rations) with coordination (each person picks a job vs a day-1 elected
 coordinator sets quotas and assigns jobs, shown but not enforced), and removes ideology words across
 all four cells (`PS`, `PC`, `CS`, `CC`). Preregistered predictions on day-12 survivors over 5 text seeds
-test main effects of ownership (`F1`: `(CS + CC) - (PS + PC) > 0` in ≥ 4 of 5 seeds) and coordination
-(`F2`: `(PC + CC) - (PS + CS) > 0` in ≥ 4 of 5 seeds), their interaction (`F3`), label removal (`F4`:
-`CC - PS > 0` in ≥ 4 of 5 seeds), and whether walls built follow the F1 and F2 signs (`F5`). Under
+test main effects of ownership (`F1`: `(CS + CC) - (PS + PC) > 0` in $\geq$ 4 of 5 seeds) and coordination
+(`F2`: `(PC + CC) - (PS + CS) > 0` in $\geq$ 4 of 5 seeds), their interaction (`F3`), label removal (`F4`:
+`CC - PS > 0` in $\geq$ 4 of 5 seeds), and whether walls built follow the F1 and F2 signs (`F5`). Under
 Amendment 2, the E13 text run stopped on HTTP 429 during seed 0 `directed` because three processes
 shared one API key; only seed 0 `commons` (`CS`) finished in `results/E08/e13.jsonl`, so F1-F5 are not
 scored on E13 alone and the four factorial cells are tested inside E14.
@@ -150,12 +150,12 @@ Data: `results/E08/main_gemma.jsonl`, 15 games, 10.5k calls, $0.64. Means over s
 
 | prereg | prediction | result |
 |---|---|---|
-| H1 public good | socialist walls per capita ≥ 1.5x capitalist | holds: 142 vs 0 in every seed |
-| H2 free riding | socialist chosen rest ≥ capitalist + 0.05 | fails: +0.043 (higher in 4 of 5 seeds) |
-| H3 inequality | capitalist Gini ≥ 0.3 | fails: 0.237 |
-| H4 survival | survivors differ by ≥ 10 | holds: +31.6, socialist higher in every seed |
-| H5 compliance | ≥ 0.6 | holds: 0.823 |
-| H6 institution | tax walls ≥ 1.5x capitalist | nominal only: 3 walls in 5 games vs 0 |
+| H1 public good | socialist walls per capita $\geq$ 1.5x capitalist | holds: 142 vs 0 in every seed |
+| H2 free riding | socialist chosen rest $\geq$ capitalist + 0.05 | fails: +0.043 (higher in 4 of 5 seeds) |
+| H3 inequality | capitalist Gini $\geq$ 0.3 | fails: 0.237 |
+| H4 survival | survivors differ by $\geq$ 10 | holds: +31.6, socialist higher in every seed |
+| H5 compliance | $\geq$ 0.6 | holds: 0.823 |
+| H6 institution | tax walls $\geq$ 1.5x capitalist | nominal only: 3 walls in 5 games vs 0 |
 
 - The capitalist islands die of mobs: no single agent gains from a wall, so none is built, while
   agents mine ore the bank buys. Paying for walls through a tax did not change this.
@@ -164,6 +164,8 @@ Data: `results/E08/main_gemma.jsonl`, 15 games, 10.5k calls, $0.64. Means over s
   remove it.
 - Rest rates are close, so the socialist advantage is not more effort; it is effort aimed at the
   public good. H2 (free riding under equal rations) is not supported at the preregistered margin.
+
+![Day-12 survivors per island rule set across the five E08 text seeds (`results/E08/main_gemma.jsonl`) and the E09 Minecraft seed-0 runs (`results/E09/e09_mc.jsonl`).](figs/fig1_e08.png){width=75%}
 
 ### 4.2 One year with votes and migration (E12)
 Data: `results/E12/main.jsonl` (seed 0) and `results/E12/main_s1.jsonl` (seed 1; seed 2 pending). 24 people per island at the start.
@@ -197,7 +199,7 @@ from B moved onto it at the first assembly.
 
 ### 4.4 Transfer to Minecraft (E09, E12-MC)
 - Cover sweep (E09, one night per cover level, 50 bots): deaths fall faster than linearly with wall
-  cover (12/50 at cover 0, 3/33 at 0.5, 0/28 at 1.0); M3 (deaths at 0.5 ≥ 0.7x deaths at 0) not
+  cover (12/50 at cover 0, 3/33 at 0.5, 0/28 at 1.0); M3 (deaths at 0.5 $\geq$ 0.7x deaths at 0) not
   supported. Partial walls protect more than proportionally.
 - Games at n = 50 per island, seed 0, one game per rule set (`results/E09/e09_mc.jsonl`):
 
@@ -217,6 +219,12 @@ from B moved onto it at the first assembly.
 ![Island A (capitalist), E09 Minecraft, day: bots mining stone next to the wheat field and log block.](shots/011512_A_over_day.png){width=70%}
 
 ![The same island at night: zombies on the bots at the island centre; no wall was built.](shots/011607_A_over_night.png){width=70%}
+
+![Contact sheet of E09 Minecraft screenshots for prefix 01 showing islands A (x=0) and B (x=300) across overhead and low views by day and night.](figs/shots_01.png){width=95%}
+
+![Day-12 survivors grouped by ownership and coordination in the E13 2x2 factorial (`results/E08/e13.jsonl`).](figs/fig2_e13.png){width=75%}
+
+![Loophole hack rate and day-12 survivors across the six E14 economies (`results/E08/e14.jsonl`).](figs/fig3_e14.png){width=90%}
 
 ## 5. Discussion
 - **System-level alignment.** One model with one goal produced 5% or 37% survival depending only on
@@ -246,7 +254,7 @@ deploying agent groups that share resources. No human data; the Minecraft server
 - **E12:** `uv run --extra sim python experiments/E12_year/run.py --model gemma-4-26b-a4b-it --arms fixed,open --n 24 --weeks 52 --seeds 1 --workers 24 --tag main` (and `--seed-start 1 --seeds 2 --tag main_s1`) writes `results/E12/main.jsonl` and `results/E12/main_s1.jsonl`; `--arms open --mc 100.88.179.78 --tag mc` writes `results/E12/mc.jsonl` (prereg: `experiments/E12_year/prereg.md`).
 - **E13:** `uv run --extra sim python experiments/E08_islands/run.py --model gemma-4-26b-a4b-it --islands commons,directed,socialist,capitalist --neutral --n 100 --days 12 --seeds 5 --tag e13` writes `results/E08/e13.jsonl`; `bash experiments/E13_factorial/mc_all.sh` writes `results/E09/e13_mc.jsonl` (prereg: `experiments/E13_factorial/prereg.md`).
 - **E14:** `bash experiments/E14_master/mc_e14.sh` writes `results/E09/e14_mc.jsonl`; `uv run --extra sim python experiments/E08_islands/run.py --model gemma-4-26b-a4b-it --islands capitalist,socialist,directed,commons,capitalist_tax,planned --neutral --loophole --n 60 --days 12 --seeds 3 --workers 6 --tag e14` writes `results/E08/e14.jsonl` (prereg: `experiments/E14_master/prereg.md`).
-- **Figures and PDF:** `uv run --extra sim python papers/C/figs.py && uv run --extra sim python papers/C/shots_sheet.py 01 && pandoc papers/C/draft.md -o papers/C/draft.pdf --pdf-engine=xelatex -V geometry:margin=1in` writes `papers/C/draft.pdf`.
+- **Figures and PDF:** `uv run --extra sim python papers/C/figs.py && uv run --extra sim python papers/C/shots_sheet.py 01 && pandoc papers/C/draft.md -o papers/C/draft.pdf --resource-path papers/C --pdf-engine=xelatex -V mainfont="STIX Two Text" -V mathfont="STIX Two Math" -V geometry:margin=1in` writes `papers/C/draft.pdf`.
 
 ## References
 - Altera.AL et al. (2024). Project Sid: Many-agent simulations toward AI civilization. arXiv:2411.00114.
