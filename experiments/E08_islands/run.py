@@ -5,7 +5,9 @@ import json
 from pathlib import Path
 
 from swarm.islands import IslandConfig, island_metrics, run_island
-from swarm.llm import AdaptionBackend, MockBackend
+import os
+
+from swarm.llm import AdaptionBackend, island_backend
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
@@ -20,7 +22,7 @@ if __name__ == "__main__":
     ap.add_argument("--neutral", action="store_true", help="E10 ablation: rules without ideology words")
     ap.add_argument("--loophole", action="store_true", help="E14: ledger_sync tool")
     a = ap.parse_args()
-    llm = MockBackend() if a.model == "mock" else AdaptionBackend(model=a.model, max_tokens=2000)
+    llm = island_backend(a.model)
     out, raw = Path("results/E08") / f"{a.tag}.jsonl", Path("results/raw/E08") / a.tag
     out.parent.mkdir(parents=True, exist_ok=True), raw.mkdir(parents=True, exist_ok=True)
     with out.open("a") as f:
@@ -28,7 +30,7 @@ if __name__ == "__main__":
             for name in a.islands.split(","):
                 isl = run_island(IslandConfig(island=name, n=a.n, days=a.days, seed=s, workers=a.workers,
                                                 neutral=a.neutral, loophole=a.loophole), llm)
-                m = {**island_metrics(isl), "model": a.model}
+                m = {**island_metrics(isl), "model": a.model, "backend": os.environ.get("SWARM_BACKEND", "adaption")}
                 f.write(json.dumps(m) + "\n")
                 f.flush()
                 (raw / f"{name}{'_neutral' * a.neutral}{'_loophole' * a.loophole}_s{s}.json").write_text(json.dumps(isl.log, indent=1))

@@ -42,7 +42,8 @@ class OpenAICompatBackend:
     def __init__(self, model: str | None = None, max_tokens: int = 300):
         import openai
 
-        self.client = openai.OpenAI(base_url=os.environ.get("OPENAI_BASE_URL"))
+        # max_retries: a cold Modal container answers 5xx while vLLM loads; keep going instead of crashing
+        self.client = openai.OpenAI(base_url=os.environ.get("OPENAI_BASE_URL"), max_retries=8, timeout=300)
         self.model = model or os.environ["SWARM_MODEL"]
         self.max_tokens = max_tokens
 
@@ -120,3 +121,13 @@ def get_backend(name: str | None = None) -> Backend:
         "openai": OpenAICompatBackend,
         "adaption": AdaptionBackend,
     }[name]()
+
+
+def island_backend(model: str, max_tokens: int = 2000) -> Backend:
+    """Backend for the E08/E09 runners: mock, else Adaption, or the OpenAI-compatible server when
+    SWARM_BACKEND=openai (E14 self-hosted vLLM, added after the Adaption key hit HTTP 429)."""
+    if model == "mock":
+        return MockBackend()
+    if os.environ.get("SWARM_BACKEND") == "openai":
+        return OpenAICompatBackend(model=model, max_tokens=max_tokens)
+    return AdaptionBackend(model=model, max_tokens=max_tokens)

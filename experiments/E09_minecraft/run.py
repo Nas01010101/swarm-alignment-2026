@@ -10,7 +10,9 @@ import json
 from pathlib import Path
 
 from swarm.islands import IslandConfig, build_island, island_metrics, run_island
-from swarm.llm import AdaptionBackend, MockBackend
+import os
+
+from swarm.llm import AdaptionBackend, island_backend
 from swarm.mc_islands import Controller, MinecraftWorld
 
 if __name__ == "__main__":
@@ -30,13 +32,13 @@ if __name__ == "__main__":
     ap.add_argument("--loophole", action="store_true", help="E14: ledger_sync tool")
     a = ap.parse_args()
     cal = json.loads(Path(a.calib).read_text())
-    llm = MockBackend() if a.model == "mock" else AdaptionBackend(model=a.model, max_tokens=2000)
+    llm = island_backend(a.model)
     cfg = IslandConfig(island=a.island, n=a.n, days=a.days, seed=a.seed, workers=a.workers, neutral=a.neutral, loophole=a.loophole)
     world = MinecraftWorld(Controller(a.host, a.port), zombies_per_need=cal["zombies_per_need"],
                            convert=cal["convert"])
     world.setup(build_island(cfg), prefix=a.prefix)  # run_island rebuilds the same people from the same seed
     isl = run_island(cfg, llm, world=world)
-    m = {**island_metrics(isl), "model": a.model, "world": "minecraft"}
+    m = {**island_metrics(isl), "model": a.model, "backend": os.environ.get("SWARM_BACKEND", "adaption"), "world": "minecraft"}
     out, raw = Path("results/E09") / f"{a.tag}.jsonl", Path("results/raw/E09") / a.tag
     out.parent.mkdir(parents=True, exist_ok=True), raw.mkdir(parents=True, exist_ok=True)
     with out.open("a") as f:

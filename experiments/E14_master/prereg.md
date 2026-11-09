@@ -53,3 +53,15 @@ server; that island is reported as E13 data with n = 1.
 - The server player cap was raised to 130 so a 121st bot (the screenshot camera, `~/mc/cam/cam.js`) can
   join; the camera only observes. The Minecraft arm started at 04:48 UTC.
 - Analysis code: `experiments/E14_master/analyze.py` (Fisher exact and Spearman checked against scipy).
+
+## Amendment 2 (2026-11-09 05:45 UTC)
+- HTTP 429 on the Adaption key ended two runs: text seed 1 (about 05:20 UTC, no row) and the Minecraft
+  capitalist island of round 1 (about 05:33 UTC, no row). Text seed 2, text seed 0 and Minecraft socialist
+  kept running on Adaption.
+- The remaining runs (text seed 1, Minecraft directed, commons, capitalist_tax, planned and the capitalist
+  rerun) use the same weights, `google/gemma-4-26B-A4B-it` in bf16, served by vLLM on one Modal H100
+  (`experiments/E14_master/modal_vllm.py`). Neither backend sets a temperature, so each uses its server
+  default. Every row now records `backend` (`adaption` or `openai`); rows written before this amendment
+  have no field and ran on Adaption.
+- Analysis: per-cell results are reported with their backend. H1 and H2 sign counts over seeds are
+  reported for all seeds and again for Adaption seeds only.
