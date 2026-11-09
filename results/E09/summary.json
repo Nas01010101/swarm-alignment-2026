@@ -128,7 +128,14 @@
   ],
   "H4_supported": false
  },
- "control_E07_link": null,
+ "control_E07_link": {
+  "n": 10,
+  "work_rate": 1.0,
+  "wall_c1": 7.92,
+  "wall_c2": 4.4,
+  "wall_ratio": 0.56,
+  "supported": false
+ },
  "cells": {
   "gemma-4-26b-a4b-it|c3|0.6|seeded": {
    "n": 20,

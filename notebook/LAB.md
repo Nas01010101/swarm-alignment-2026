@@ -228,3 +228,11 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
 - Reading (post hoc): rejected hacks still cost the villager its day (ban: 17.2 attempts/village), while the prompt
   changes the choice itself, so villagers work. K0-style check: unfiltered − ban alive −1.0 [−1.9, −0.2], so hacking
   did cost lives even at ρ=0.6, but the ceiling (≤ 1.9 of 8 alive) remains. E09c at ρ=1.0 is next.
+
+## 2026-11-09 02:32 UTC — benhoangquan (with Claude Code) — E09 E07-link control (Paper C)
+- 10 gemma villages, ρ=2.0, loophole off, c1 and c2 × seeds 0–4, 00:31–00:50 UTC → `results/E09/control.jsonl`.
+- **Control C fails as registered.** Work rate 1.0 in all 10 (reproduces E07), but wall given c2/c1 = 4.4/7.92 = 0.56
+  (threshold ≥ 1.5; E07 11.7). The E09 village does not reproduce E07's public-goods gap, so "E09 extends E07"
+  holds for effort but not for wall giving. Candidate causes (untested): no saboteur/agent, single "action" field
+  instead of work/forage booleans, crime-tip lines removed from the prompt.
+- Note: the background waiter for E09c hit the 2 h tool limit at ~02:30 UTC and was stopped; the runs were not affected.
