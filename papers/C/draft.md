@@ -23,7 +23,7 @@ evaluating each agent alone does not predict what the population does.
 ## 1. Introduction
 - Alignment work mostly evaluates one model. Deployed agents increasingly act in groups that share
   resources, and the rules of the group set which individually reasonable choices add up to collapse.
-- Public goods are the textbook case (Samuelson 1954; Olson 1965†): a good everyone uses and no one
+- Public goods are the textbook case (Samuelson 1954†; Olson 1965†): a good everyone uses and no one
   is paid to make is under-provided by self-interested actors unless an institution provides it.
 - We ask whether LLM agents reproduce this, and whether the economic rule set decides it. The setup
   follows a public Minecraft experiment with 200 human players on a capitalist and a communist island
@@ -52,7 +52,7 @@ evaluating each agent alone does not predict what the population does.
   (`origin/ben/C-scarcity-hacking`) tests an administrative tool (`ledger_sync`) that credits +5 to
   the caller's ledger for no work while draining 1.5 from the shared defence wall. Across 80 eight-agent
   LLM villages, every private-property villager used the tool (adoption 1.0) while commune villagers
-  used it on 0 of about 3,200 villager-days (its `claims.md` C11), and in 10-village paired runs at survivable scarcity the
+  used it on 0 of about 3,200 villager-days (its `claims.md` C11), and in 10-village paired runs at survivable scarcity,
   villages with the tool banned kept 6.9 of 8 alive against 4.0 with no governance (C19, its `results/E09c/summary.json`). In that study, the private prompt states "Your goal:
   maximise YOUR personal wealth (food plus emeralds)" whereas the commune prompt states "Your goal:
   maximise the COMMUNE's prosperity". E14 ports the same `ledger_sync` payoff into our six island
