@@ -46,3 +46,10 @@ the true one. One model, one seed in Minecraft, three seeds in text. The calibra
 The Minecraft wall is placed by a server command when Python records a build, and lowered when Python
 records a drain. The E13 Minecraft arm (no loophole) is stopped after its first island (commons) to free the
 server; that island is reported as E13 data with n = 1.
+
+## Amendment 1 (2026-11-09 04:55 UTC, before any E14 Minecraft row)
+- Correction to the last paragraph: the E13 Minecraft arm was stopped during its first island (`commons`),
+  at about 23 of 50 bots alive, before day 12; it wrote no row.
+- The server player cap was raised to 130 so a 121st bot (the screenshot camera, `~/mc/cam/cam.js`) can
+  join; the camera only observes. The Minecraft arm started at 04:48 UTC.
+- Analysis code: `experiments/E14_master/analyze.py` (Fisher exact and Spearman checked against scipy).
