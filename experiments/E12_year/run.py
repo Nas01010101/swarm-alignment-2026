@@ -20,6 +20,7 @@ if __name__ == "__main__":
     ap.add_argument("--mc", default=None, help="RTX host: islands A and B on controllers at ports 25580, 25581")
     ap.add_argument("--work-s", type=int, default=45)
     ap.add_argument("--night-s", type=int, default=45)
+    ap.add_argument("--assembly-every", type=int, default=0, help="weeks between assemblies; 0 = quarterly")
     a = ap.parse_args()
     llm = MockBackend() if a.model == "mock" else AdaptionBackend(model=a.model, max_tokens=2000)
     out, raw = Path("results/E12") / f"{a.tag}.jsonl", Path("results/raw/E12") / a.tag
@@ -33,7 +34,8 @@ if __name__ == "__main__":
                     cal = json.loads(Path("experiments/E09_minecraft/calib.json").read_text())
                     worlds = {t: MinecraftWorld(Controller(a.mc, port), cal["zombies_per_need"], a.work_s, a.night_s,
                                                 cal["convert"]) for t, port in (("A", 25580), ("B", 25581))}
-                res = run_year(YearConfig(arm=arm, n=a.n, weeks=a.weeks, workers=a.workers, seed=s), llm, worlds)
+                res = run_year(YearConfig(arm=arm, n=a.n, weeks=a.weeks, workers=a.workers, seed=s,
+                                          assembly_every=a.assembly_every), llm, worlds)
                 if worlds:
                     res["mc"] = {t: w.log for t, w in worlds.items()}
                 m = {**year_metrics(res), "model": a.model}

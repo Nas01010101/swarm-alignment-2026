@@ -36,6 +36,7 @@ class YearConfig:
     n: int = 24
     weeks: int = 52
     quarter: int = 13
+    assembly_every: int = 0  # weeks between assemblies; 0 means one per quarter (Amendment 2)
     calm_weeks: int = 2
     mob_base: float = 0.1
     winter_mobs: float = 1.5
@@ -140,7 +141,8 @@ def _assembly(cfg: YearConfig, isls: dict, week: int, llm, pool, need: dict):
     if not asks:
         return []
     replies = dict(zip(asks, pool.map(lambda p: _ask(llm, _system(asks[p][0], p), asks[p][1]), asks)))
-    events = []
+    events = [{"week": week, "kind": "reply", "island": next(t for t, i in isls.items() if i is asks[p][0]),
+               "who": p.name, **{k: replies[p].get(k) for k in ("rules", "move", "leader", "say")}} for p in asks]
     movers = {t: [p for p in isl.alive() if cfg.arm == "open" and replies[p].get("move") is True]
               for t, isl in isls.items()}
     stay = {t: [p for p in isl.alive() if p in replies and p not in movers[t]] for t, isl in isls.items()}
@@ -239,7 +241,7 @@ def run_year(cfg: YearConfig, llm, worlds=None) -> dict:
                            "cover": round(_cover(isl, need[t]), 3), "food": round(_food(isl), 1),
                            "gini": None if pooled(isl.cfg) else gini([wealth(isl, p) for p in al]),
                            "leader": isl.leader if pooled(isl.cfg) else None})
-        if week % cfg.quarter == 0 and week < cfg.weeks:
+        if week % (cfg.assembly_every or cfg.quarter) == 0 and week < cfg.weeks:
             quarters += _assembly(cfg, isls, week, llm, pool, need)
             _sync_worlds(worlds, isls)
     pool.shutdown()

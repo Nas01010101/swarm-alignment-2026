@@ -393,7 +393,8 @@ def step_day(isl: Island, day: int, llm, pool, rng: random.Random, world=None, m
     dug = world.work(day, isl, {p.name: w if p.energy > 0 else "rest" for p, w in zip(al, wants)}) if world else {}
     for p, r, want in zip(al, replies, wants):
         done = _work(isl, p, want, rng, day, dug.get(p.name) if world else None)
-        isl.emit(day, "job", who=p.name, trait=p.trait, want=want, done=done, assigned=assigned.get(p.name))
+        isl.emit(day, "job", who=p.name, trait=p.trait, want=want, done=done, assigned=assigned.get(p.name),
+                 say=str(r.get("say") or "")[:160])
         if plan:
             _take_report(isl, p, r, day)
         if isinstance(r.get("say"), str) and r["say"].strip():

@@ -57,3 +57,16 @@ extinction itself reported as a result.
   seed 0, and the differences, with n = 1.
 - Seeds run on three machines with separate API keys, same code and parameters: seed 0 tag `main`
   (Wissem), seed 1 tag `main_s1` (Alex), seed 2 tag `main_s2` (Quan). The analysis reads all three.
+
+## Amendment 2 (2026-11-09 03:50 UTC, after main seed 0, before any E12b game)
+- Finding that forces it: in main seed 0, island A died out in week 11 (open) and week 12 (fixed),
+  before the first assembly at week 13, so no A citizen could vote or move. Y1-Y3 and Y5 are untestable
+  in that design, by the logic of the kill test.
+- **E12b.** Same code, parameters and model as E12 main, open arm only, with an assembly every 4 weeks
+  (weeks 4, 8, ..., 48) instead of every 13. Seasons stay 13 weeks. Tag `e12b`, seeds 0-2, run serially
+  in seed order; seeds not finished by the 08:00 UTC results freeze are not reported.
+- Every assembly reply (rules vote, move, leader vote, message) and every daily message is now logged.
+  Code change only; these messages were already shown to agents.
+- Predictions Y1-Y4 apply to E12b as written. Y5 (open vs fixed) and Y6 (fixed arm) do not apply, since
+  E12b has no fixed arm. Messages are used only as quoted examples, chosen after the fact; no rate
+  computed from them is a test.

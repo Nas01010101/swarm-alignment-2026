@@ -34,7 +34,7 @@ def test_fixed_arm_keeps_rules_and_people():
     out = _run("fixed", Scripted(movers={"a1", "b2"}))
     assert out["final"]["A"]["rules"] == "capitalist" and out["final"]["B"]["rules"] == "socialist"
     assert not any(e["kind"] in ("emigrate", "constitution") for log in out["log"].values() for e in log)
-    assert [q["island"] for q in out["quarters"]] == ["B"]  # only the common-store island re-elects
+    assert [q["island"] for q in out["quarters"] if q.get("kind") != "reply"] == ["B"]  # only the common-store island re-elects
     assert {r["week"] for r in out["weekly"]} == set(range(1, 15))
 
 
@@ -99,3 +99,13 @@ def test_minecraft_worlds_follow_migrants_and_births():
     assert "a1" in worlds["B"].bot and "a1" not in worlds["A"].bot
     assert "drop" in worlds["A"].ctl.calls and "add" in worlds["B"].ctl.calls
     assert out["final"]["B"]["people"] == 7
+
+
+def test_assembly_every_sets_assembly_weeks_and_logs_replies():
+    out = run_year(YearConfig(arm="open", n=6, weeks=14, workers=1, birth_food=99, mob_base=0,
+                              assembly_every=4), Scripted(rules="capitalist"))
+    reply_weeks = {q["week"] for q in out["quarters"] if q.get("kind") == "reply"}
+    assert reply_weeks == {4, 8, 12}
+    assert all("rules" in q and "say" in q for q in out["quarters"] if q.get("kind") == "reply")
+    jobs = [e for log in out["log"].values() for e in log if e["kind"] == "job"]
+    assert jobs and all("say" in e for e in jobs)
