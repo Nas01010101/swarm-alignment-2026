@@ -214,7 +214,7 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
   arms at ρ=1.0, `experiments/E09b_cbf_governance/prereg_e09c.md`) before reading any E09b row; scheduled by
   `queue2.sh` ahead of the qwen/deepseek replication.
 
-## 2026-11-09 00:35 UTC — benhoangquan (with Claude Code) — E09b results (Paper C)
+## 2026-11-09 00:31 UTC — benhoangquan (with Claude Code) — E09b results (Paper C)
 - 40 new gemma villages (c3, ρ=0.6, seeded, seeds 0–9 × 4 defenses; unfiltered arm reused from E09), 0 failures,
   23:26–00:30 UTC → `results/E09b/{main.jsonl,main_judge.jsonl,summary.json}`. Analysis as registered.
 - Alive at day 10 (of 8): unfiltered 0.0, prompt rule 1.9, LLM auditor 0.0, DCBF 0.1, ban 1.0.
