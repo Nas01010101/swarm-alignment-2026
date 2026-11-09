@@ -3,7 +3,7 @@
 cd "$(dirname "$0")/../.." && set -a && . ./.env && set +a
 run() {  # island port prefix
   uv run --extra sim python experiments/E09_minecraft/run.py --model gemma-4-26b-a4b-it --island "$1" --neutral \
-    --loophole --n 60 --seed 0 --host 100.88.179.78 --port "$2" --prefix "$3" --tag e14_mc 2>&1 | grep -v '^\s*$' | tail -3
+    --loophole --n 60 --seed 0 --host 100.88.179.78 --port "$2" --prefix "$3" --workers 8 --tag e14_mc 2>&1 | grep -v '^\s*$' | tail -3
 }
 for pair in "capitalist socialist" "directed commons" "capitalist_tax planned"; do
   set -- $pair

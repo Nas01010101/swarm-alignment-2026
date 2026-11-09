@@ -39,3 +39,9 @@ check against the text seed 0 of the same cell.
 
 **Limits stated now.** One model. One wall wage (none in these four cells). Five seeds per cell. The
 Minecraft wall is placed by a server command when the Python layer records a build.
+
+## Amendment 2 (2026-11-09 04:35 UTC)
+- The text arm stopped on HTTP 429 during seed 0 island `directed`, with three processes on one API key.
+  Only seed 0 `commons` finished. The text arm is not restarted: the key cannot carry it next to E14,
+  which runs the same four cells with the loophole added (E14 prereg). The seed 0 `commons` row is
+  reported as data; F1-F5 are not scored.
