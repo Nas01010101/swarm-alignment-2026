@@ -1,6 +1,6 @@
 """Figures for paper C, drawn only from committed result files.
 
-    uv run --extra plot python papers/C/figures.py        -> papers/C/fig_*.pdf (+ .png previews)
+    uv run --extra plot python papers/scarcity/figures.py        -> papers/scarcity/fig_*.pdf (+ .png previews)
 """
 
 from __future__ import annotations

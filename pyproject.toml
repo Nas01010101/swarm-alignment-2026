@@ -1,7 +1,7 @@
 [project]
 name = "swarm-alignment-2026"
 version = "0.1.0"
-description = "Apart Swarm Alignment Sprint (Nov 6-8 2026): witness-free tamper forensics for multi-agent logs"
+description = "Nobody Builds the Wall: LLM agent island economies, public goods and coordination (Apart Swarm Alignment Sprint 2026)"
 requires-python = ">=3.11"
 dependencies = []
 

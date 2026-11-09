@@ -10,3 +10,5 @@ results/*/raw/
 .DS_Store
 report/*.aux
 report/*.log
+papers/*/.compete/
+node_modules/

@@ -6,5 +6,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
-      - run: uv run --group dev pytest -q
+      - run: uv run --group dev --extra sim --extra llm pytest -q
       - run: uv run python experiments/E01_synthetic_diagnosability/run.py --seeds 2 --out /tmp/e01.jsonl
