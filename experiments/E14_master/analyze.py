@@ -60,11 +60,33 @@ def report(rows, name):
                 print(f" s{s} {c}", {k: cells[c].get(k) for k in KEYS})
     h1 = [sum(c[x]["hack_rate"] for x in PRIVATE) / 3 - sum(c[x]["hack_rate"] for x in COMMON) / 3
           for c in seeds.values() if all(x in c for x in PRIVATE + COMMON)]
-    print(" H1 private - common hack rate per complete seed:", [round(d, 3) for d in h1],
+    print(" H1 private - common hack rate per complete seed (6-cell):", [round(d, 3) for d in h1],
           f"positive {sum(d > 0 for d in h1)}/{len(h1)}")
+    h1_2x2 = [(c["PS"]["hack_rate"] + c["PC"]["hack_rate"]) / 2 - (c["CS"]["hack_rate"] + c["CC"]["hack_rate"]) / 2
+              for c in seeds.values() if all(x in c for x in ("PS", "PC", "CS", "CC"))]
+    print(" H1 private - common hack rate per complete seed (2x2):", [round(d, 3) for d in h1_2x2],
+          f"positive {sum(d > 0 for d in h1_2x2)}/{len(h1_2x2)}")
     for hi, lo in (("PC", "PS"), ("CC", "CS")):
         d = [round(c[hi]["hack_rate"] - c[lo]["hack_rate"], 3) for c in seeds.values() if hi in c and lo in c]
         print(f" H2 {hi} - {lo} hack rate:", d, f"negative {sum(x < 0 for x in d)}/{len(d)}")
+    f1 = [c["CS"]["survivors"] + c["CC"]["survivors"] - c["PS"]["survivors"] - c["PC"]["survivors"]
+          for c in seeds.values() if all(x in c for x in ("PS", "PC", "CS", "CC"))]
+    f2 = [c["PC"]["survivors"] + c["CC"]["survivors"] - c["PS"]["survivors"] - c["CS"]["survivors"]
+          for c in seeds.values() if all(x in c for x in ("PS", "PC", "CS", "CC"))]
+    f3 = [(c["CC"]["survivors"] - c["CS"]["survivors"]) - (c["PC"]["survivors"] - c["PS"]["survivors"])
+          for c in seeds.values() if all(x in c for x in ("PS", "PC", "CS", "CC"))]
+    f4 = [c["CC"]["survivors"] - c["PS"]["survivors"]
+          for c in seeds.values() if all(x in c for x in ("PS", "CC"))]
+    f5_o = [c["CS"]["walls_built"] + c["CC"]["walls_built"] - c["PS"]["walls_built"] - c["PC"]["walls_built"]
+            for c in seeds.values() if all(x in c for x in ("PS", "PC", "CS", "CC"))]
+    f5_c = [c["PC"]["walls_built"] + c["CC"]["walls_built"] - c["PS"]["walls_built"] - c["CS"]["walls_built"]
+            for c in seeds.values() if all(x in c for x in ("PS", "PC", "CS", "CC"))]
+    if f1:
+        print(f" F1 ownership survivors: {f1} positive {sum(x > 0 for x in f1)}/{len(f1)}")
+        print(f" F2 coord survivors: {f2} positive {sum(x > 0 for x in f2)}/{len(f2)}")
+        print(f" F3 interaction survivors: {f3} positive {sum(x > 0 for x in f3)}/{len(f3)}")
+        print(f" F4 CC-PS survivors: {f4} positive {sum(x > 0 for x in f4)}/{len(f4)}")
+        print(f" F5 walls own/coord: own {f5_o} ({sum(x > 0 for x in f5_o)}/{len(f5_o)}), coord {f5_c} ({sum(x > 0 for x in f5_c)}/{len(f5_c)})")
     return seeds
 
 
@@ -75,6 +97,7 @@ if __name__ == "__main__":
     report(text, "text, all seeds (exploratory)")
     # Amendment 2: rows with no backend field ran on Adaption
     report([r for r in text if r.get("backend", "adaption") == "adaption"], "text, Adaption seeds only")
+    report([r for r in text if r.get("backend") == "openai"], "text, Modal vLLM seeds only")
     mc = load("results/E09/e14_mc.jsonl")
     seeds = report(mc, "minecraft")
     cells = seeds.get(0, {})
