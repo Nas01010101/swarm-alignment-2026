@@ -14,8 +14,11 @@ import modal
 MODEL = "google/gemma-4-26B-A4B-it"
 SERVED = "gemma-4-26b-a4b-it"  # the name run.py passes with --model, same as on Adaption
 
+# A CUDA devel base ships nvcc; vLLM's sampler JIT-compiles a kernel at startup and failed on
+# debian_slim with "Could not find nvcc".
 image = (
-    modal.Image.debian_slim(python_version="3.12")
+    modal.Image.from_registry("nvidia/cuda:12.8.1-devel-ubuntu22.04", add_python="3.12")
+    .entrypoint([])
     .uv_pip_install("vllm", "huggingface_hub[hf_transfer]")
     .env({"HF_HUB_ENABLE_HF_TRANSFER": "1"})
 )

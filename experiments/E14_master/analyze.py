@@ -7,7 +7,7 @@ from pathlib import Path
 CELL = {"capitalist": "PS", "directed": "PC", "capitalist_tax": "TX",
         "commons": "CS", "socialist": "CC", "planned": "PL"}
 PRIVATE, COMMON = ("PS", "PC", "TX"), ("CS", "CC", "PL")
-KEYS = ("survivors", "deaths_starved", "deaths_mobs", "walls_built", "hack_rate", "hackers_share", "wall_drained")
+KEYS = ("backend", "survivors", "deaths_starved", "deaths_mobs", "walls_built", "hack_rate", "hackers_share", "wall_drained")
 
 
 def load(path):
@@ -69,7 +69,10 @@ def report(rows, name):
 
 
 if __name__ == "__main__":
-    report(load("results/E08/e14.jsonl"), "text")
+    text = load("results/E08/e14.jsonl")
+    report(text, "text")
+    # Amendment 2: rows with no backend field ran on Adaption
+    report([r for r in text if r.get("backend", "adaption") == "adaption"], "text, Adaption seeds only")
     mc = load("results/E09/e14_mc.jsonl")
     seeds = report(mc, "minecraft")
     cells = seeds.get(0, {})
