@@ -79,7 +79,7 @@ class AdaptionBackend:
             data=json.dumps(body).encode(),
             headers={"Authorization": f"Bearer {self.key}", "Content-Type": "application/json"},
         )
-        tries = 6  # long games make ~200 calls; parallel runs hit HTTP 429, so back off exponentially
+        tries = 10  # parallel runs on one key hit HTTP 429 for minutes at a time: back off, capped at 60 s
         for attempt in range(tries):
             try:
                 with urllib.request.urlopen(req, timeout=120) as r:
@@ -89,7 +89,7 @@ class AdaptionBackend:
                 if attempt == tries - 1:
                     raise
                 wait = getattr(e, "headers", None) and e.headers.get("Retry-After")
-                time.sleep(float(wait) if wait and str(wait).isdigit() else 2 ** (attempt + 1))
+                time.sleep(float(wait) if wait and str(wait).isdigit() else min(60, 2 ** (attempt + 1)))
         AdaptionBackend.spent += (out.get("usage") or {}).get("cost") or 0.0
         AdaptionBackend.calls += 1
         return out
