@@ -70,7 +70,9 @@ def report(rows, name):
 
 if __name__ == "__main__":
     text = load("results/E08/e14.jsonl")
-    report(text, "text")
+    # Amendment 3: seeds 0-2 are confirmatory; seeds 3-9 (Modal) are an exploratory extension
+    report([r for r in text if r["seed"] <= 2], "text, confirmatory seeds 0-2")
+    report(text, "text, all seeds (exploratory)")
     # Amendment 2: rows with no backend field ran on Adaption
     report([r for r in text if r.get("backend", "adaption") == "adaption"], "text, Adaption seeds only")
     mc = load("results/E09/e14_mc.jsonl")

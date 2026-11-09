@@ -74,3 +74,6 @@ server; that island is reported as E13 data with n = 1.
 - Extension: text seeds 3-9 on the Modal backend, same settings. The confirmatory tests stay on
   seeds 0-2 as preregistered. Seeds 0-9 are reported as a separate, exploratory line, with the
   H1 and H2 sign counts over all complete seeds.
+- Minecraft: the Adaption socialist run is stopped at 06:05 UTC (no controller output for 26 min,
+  122 keepalive timeouts). All six Minecraft islands run on the Modal backend, so the Minecraft arm
+  uses one backend.
