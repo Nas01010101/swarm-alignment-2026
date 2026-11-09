@@ -1,2 +1,5 @@
 {"utc": "2026-11-08 20:52", "tag": "pilot_reasoning", "failed": 2, "seconds": 320, "usage": {"qwen3.8-27b": {"calls": 7, "in": 3574, "out": 9903, "errors": 9, "usd": 0.01252}, "deepseek-v4-flash": {"calls": 6, "in": 2784, "out": 11374, "errors": 17, "usd": 0.001618}}}
 {"utc": "2026-11-08 23:26", "tag": "main", "failed": 0, "seconds": 7177, "usage": {"gemma-4-26b-a4b-it": {"calls": 4785, "in": 2994502, "out": 261233, "errors": 0, "usd": 0.256864}}}
+{"utc": "2026-11-09 00:50", "tag": "control", "failed": 0, "seconds": 1199, "usage": {"gemma-4-26b-a4b-it": {"calls": 800, "in": 478648, "out": 45204, "errors": 0, "usd": 0.042956}}}
+{"utc": "2026-11-09 02:38", "tag": "main", "failed": 0, "seconds": 0, "usage": {}}
+{"utc": "2026-11-09 02:38", "tag": "control", "failed": 0, "seconds": 0, "usage": {}}
