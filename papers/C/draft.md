@@ -1,4 +1,4 @@
-# Nobody Builds the Wall: Economic Rules Alone Decide Whether 100 LLM Agents Survive
+# Nobody Builds the Wall: LLM Agent Societies Under Market Rules Leave a Public Good Unbuilt
 
 Draft 1, 2026-11-08 23:00 UTC. Slots marked `[E12]`, `[E09]`, `[E10]` fill from runs in progress.
 Every number traces to a file under `results/`; citations marked † are not yet cite-checked.
@@ -11,13 +11,14 @@ of 100 people alive (range 3-7); a 20% tax that pays for wall building kept 8.8 
 almost none (3 walls in 5 games). Socialist islands, where an elected leader sets job quotas, built 142
 walls per game, lost no one to mobs, and kept 36.6 alive (30-48), losing the rest to starvation. Agents
 rested at similar rates under every rule set (0.24 vs 0.28), so the gap is provision of the public good,
-not effort. In a one-year extension with seasons, births, elections and free migration between a
-capitalist and a socialist island, no island changed its rules and no one moved in the first seed,
-even as the capitalist island died out. We repeat the games in real Minecraft with one mineflayer bot
-per agent: with 50 bots per island, both capitalist islands built no wall and lost everyone, while
-the socialist island built 70 walls and kept 35 of 50 alive. The result is an alignment claim about systems: the same model with the
-same goal lives or dies by the institution it runs under, so aligning each agent does not align the
-population.
+not effort. The socialist rules differ in two ways, shared ownership and a leader who assigns jobs,
+and these runs do not separate the two. In a one-year extension with seasons, births, elections and
+migration between a capitalist and a socialist island, the capitalist island died out in week 11-12
+in the first seed, before the first assembly at week 13, so its agents never voted or moved. We
+repeat the games in real Minecraft with one mineflayer bot per agent: with 50 bots per island, both
+capitalist islands built no wall and lost everyone, while the socialist island built 70 walls and kept
+35 of 50 alive. The same model with the same goal lived or died by the rules it ran under, so
+evaluating each agent alone does not predict what the population does.
 
 ## 1. Introduction
 - Alignment work mostly evaluates one model. Deployed agents increasingly act in groups that share
@@ -112,10 +113,16 @@ Data: `results/E12/main.jsonl`, seed 0 (seeds 1-2 pending). 24 people per island
 | fixed | 0 | 20 | capitalist, socialist | 0 | 0, 0 | 0 | 3 of 3 |
 | open | 0 | 6 | capitalist, socialist | 0 | 0, 0 | 0 | 3 of 3 |
 
-- In seed 0, no island changed its rules at any assembly and no one moved, although island A died
-  out under the same rules in both arms. The incumbent leader on B won all 3 elections in both arms.
-- Y1-Y3 fail and Y4 holds in seed 0, the pattern R0 (status quo) predicts. Y5 fails: the open arm
-  ended with fewer people alive (6 vs 20). Y6 is untestable: A is extinct by week 52.
+- Island A died out before the first assembly in both arms (week 12 fixed, week 11 open), so no A
+  citizen ever voted or chose to move. The first quarter is identical in the two arms, so the gap on
+  B (6 vs 20 alive) arose before any vote: in the open arm B fell from 23 to 6 between weeks 6 and 12,
+  to starvation, and stayed at 6 to week 52. It is run-to-run variation, not an effect of openness.
+- On B, the 6 remaining people (open) kept the socialist rules and did not move to the empty island;
+  the incumbent leader won all 3 elections in both arms (Y4 holds).
+- Y1-Y3 and Y5 are untestable in seed 0 under the preregistered kill test's logic: the capitalist
+  island had no one left to vote. Y6 is untestable: A is extinct by week 52.
+- Design consequence: with the E08 day rules, a capitalist island of 24 lasts about 11 weeks, shorter
+  than the first quarter. An assembly every 4 weeks would let A's citizens vote while they live.
   `[verdicts over seeds 0-2 when main_s1 and main_s2 arrive]`
 
 Pilot note (not analysed): in a 14-week, 12-person pilot, island A died out in week 6 and two people
