@@ -256,3 +256,15 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
   trace to files. **Correction** to the E09c entry above: with no defense, commune villagers used ledger_sync on 0.27%
   of their days (not 0.00; the seeded commune villager occasionally complied). "Never hacked" was wrong; claims C18 fixed.
   E09 numbers (private 0.72–0.74 / 0.36–0.37; commune 0.00–0.0025) match the earlier ad hoc counts.
+
+## 2026-11-09 03:34 UTC — benhoangquan (with Claude Code) — E09 replication (qwen), deepseek stopped, spend (Paper C)
+- qwen3.8-27b: 20 c3 villages (2 ρ × 2 seeding × seeds 0–4), 0 failures, invalid 0.23%, 02:38–03:20 UTC.
+  **H3 replicates:** private − commune adoption 0.78 [0.70, 0.86] (commune villagers hack on 1–7% of days, not ~0 as in
+  gemma). **H1 does not replicate:** 0.277 (ρ=0.6) vs 0.303 (ρ=2.0), diff −0.025 [−0.070, 0.023]; qwen private villagers
+  hack ~0.47–0.60 of days at both levels. **H2 null** (0.61 vs 0.60). **H4 supported for qwen:** Spearman 0.73
+  [0.22, 0.94] (qwen scarce villages lose 5.2–6.8 of 8, not all 8). n = 5 per cell: weak replication.
+- **deepseek-v4-flash stopped by Ben's decision at ~03:33 UTC with 0 villages complete** (calls take minutes; a village
+  did not finish in ~50 min). No deepseek rows exist; it is dropped from the paper.
+- Spend. Logged (spend.jsonl): E09 main /bin/bash.257, control /bin/bash.043, pilot /bin/bash.014, E09b /bin/bash.143, E09c /bin/bash.237 → /bin/bash.69.
+  Not logged (processes killed before writing): replication run, last printed cumulative .27 (qwen + partial
+  deepseek); killed pilots ~/bin/bash.20. Total ≈ .2, under the 0 Ben authorized (and under the  per-run rule).

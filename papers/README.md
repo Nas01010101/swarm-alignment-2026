@@ -6,7 +6,7 @@ Three submissions from one repo, sharing `src/swarm/`, `experiments/` and `resul
 |---|---|---|---|
 | `A/` | Witness-free tamper forensics (F1 in `docs/ideas.md`) | 4 (+3) | E01 done |
 | `B/` | _to choose_ (candidate: network shape vs. checkability / lie spread) | 2 | not started |
-| `C/` | Scarcity, reward-hacking contagion and a conservation barrier (spec: `C/AGENTS.md`) | 2 (+1, 4) | E07 done; E08–E09b to do |
+| `C/` | Ledger hacking and its defenses in mixed-motive agent economies (spec: `C/AGENTS.md`) | 2 (+1, 4) | Draft PDF; E07–E09c done (deepseek replication dropped) |
 
 ## Rules that apply to every paper
 - Each paper is its own submission through the sprint form, with its own **distinct title**, its own PDF on the

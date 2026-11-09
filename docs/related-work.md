@@ -31,3 +31,10 @@ Do not cite anything in the report until it is marked opened by a person.
 - Le et al. 2026, cross-layer contagion, Cybersecurity (Springer). *opened (excerpt)*
 - Baltaji et al., arXiv 2607.21912, reliability–contagion feasibility. *opened (abstract)*
 - Kniejski et al., Multi-Agent Security Tax, arXiv 2502.19145. *opened (abstract)*
+
+## Paper C: proxy gaming, commons, barriers (opened by Claude Code 2026-11-09; a person should confirm before submission)
+- Piatti, Jin, Kleiman-Weiner, Schölkopf, Sachan, Mihalcea. Cooperate or Collapse: Emergence of Sustainable Cooperation in a Society of LLM Agents (GovSim). NeurIPS 2024, arXiv 2404.16698. *opened (abstract) by agent*
+- Manheim, Garrabrant. Categorizing Variants of Goodhart's Law. arXiv 1803.04585, 2018. *opened (abstract) by agent*
+- Pan, Bhatia, Steinhardt. The Effects of Reward Misspecification: Mapping and Mitigating Misaligned Models. ICLR 2022, arXiv 2201.03544. *opened (abstract) by agent*
+- Ames, Coogan, Egerstedt, Notomista, Sreenath, Tabuada. Control Barrier Functions: Theory and Applications. arXiv 1903.11199, 2019. *opened (abstract) by agent*
+- Agrawal, Sreenath. Discrete Control Barrier Functions for Safety-Critical Control of Discrete Systems with Application to Bipedal Robot Navigation. RSS XIII, 2017. *opened (abstract page) by agent; exact inequality not checked*

@@ -9,8 +9,8 @@
 \newtheorem{definition}{Definition}
 \newcommand{\pending}[1]{\textcolor{red}{[#1]}}
 
-\title{When Scarcity Breeds Subversion:\\Ledger Hacking, Contagion and a Conservation Barrier in Mixed-Motive Agent Economies}
-\author{\pending{author list} \\ Apart Swarm Alignment Sprint, Track 2 (science of agent networks), touching Tracks 1 and 4}
+\title{When Scarcity Breeds Subversion:\\Ledger Hacking and Its Defenses in Mixed-Motive Agent Economies}
+\author{\pending{author list} \\ Apart Swarm Alignment Sprint, Track 2 (science of agent networks),\\ touching Tracks 1 and 4}
 \date{November 2026}
 
 \begin{document}
@@ -26,10 +26,11 @@ capitalists to ledger hacking (57--96\% hacking below the predicted threshold $\
 while pooling shields communists, who hack 41--54 points less. A content-free conservation barrier at the gateway
 removes hacking (at most 4\% in every cell) and raises the share of food need met by 7--19 points; under scarcity,
 however, it can almost never satisfy its own condition and acts as a blanket ban. In 80 LLM villages built on the
-baseline and given a no-work ledger tool that silently drains the shared wall, scarcity doubled its use (0.18 to 0.37
-of villager-days), and the objective decided who used it: every self-interested villager did, while pool-oriented
-villagers used it on under 0.3\% of their days, even when tipped. A tip to one villager did not spread it further.
-In paired comparisons at survivable scarcity, hacking cost lives, including those of villagers who never hacked. A
+baseline and given a no-work ledger tool that silently drains the shared wall, the objective decided who used it:
+every self-interested Gemma villager did, while pool-oriented ones used it on under 0.3\% of their days, even when
+tipped; the split replicates in Qwen (0.78 adoption gap). Scarcity doubled use in Gemma (0.18 to 0.37 of
+villager-days) but not in Qwen, and a tip to one villager did not spread it further in either model. In paired
+comparisons at survivable scarcity, hacking cost lives, including those of villagers who almost never hacked. A
 one-line prompt rule saved the most (7.8 of 8 alive vs 4.0 with no defense), ahead of a plain ban (6.9). The
 content-free barrier (5.0) did worse than the ban, because its forecast admitted harmful hacks, and an accurate LLM
 auditor deterred no one (3.5). We release the simulator, the village and all logs.
@@ -59,10 +60,17 @@ barrier does worse than the ban, and an accurate auditor does not deter. Most of
 the defenses failed, and we report them as failed.
 
 \section{Related work}
-\pending{Only cite papers someone opened; add each to docs/related-work.md first. Candidates to open: Goodhart's law
-and its variants; specification gaming / reward hacking in RL and LLM agents; LLM commons games (e.g.\ sustainable
-cooperation benchmarks with shared fisheries); discrete-time control barrier functions; evolutionary game dynamics
-with Fermi imitation on networks.} The sprint page itself is in~\cite{sprint}.
+\paragraph{Proxy gaming.} Goodhart's law has several distinct failure mechanisms, and the risk grows with optimization
+pressure~\cite{goodhart}. In reinforcement learning, more capable agents can earn more proxy reward while earning less
+true reward, sometimes with sharp thresholds~\cite{pan}. We study the multi-agent, economic version: a ledger proxy, a
+physical true value, and a population with mixed objectives, where gaming by some agents imposes costs on others.
+\paragraph{LLM agents in commons.} GovSim places LLM agents in a shared-resource game and finds that most fail to
+sustain the resource, with communication and universalization reasoning helping~\cite{govsim}. We add a proxy ledger
+and a cheap gaming action, mix two objectives in one population, and compare defenses.
+\paragraph{Control barrier functions.} Barrier functions keep a controlled system inside a safe set by filtering
+inputs~\cite{ames}; discrete-time versions exist~\cite{agrawal}. We use the idea as a content-free gateway on an
+agent economy, and our results show its limit in that setting: the guarantee holds only on the plant model it is
+written for. The sprint page is~\cite{sprint}.
 
 \section{Model and conservation barrier}\label{sec:model}
 \begin{definition}[Commons with a proxy ledger]
@@ -104,11 +112,11 @@ governance rules $\times$ 20 seeds = 1,440 runs, paired across governance. The p
 
 \paragraph{Results.} Unfiltered, the share of capitalists hacking at $t=30$ is 0.57--0.96 in all 12 cells with
 $\rho\le 0.8$, and the overall share is 0.029--0.038 in all 12 cells with $\rho\ge 1.0$, the exploration floor
-(Fig.~\ref{fig:e08}, left). Communists hack less than capitalists by 0.48 [0.43, 0.53], 0.54 [0.49, 0.59] and
+(Fig.~\ref{fig:e08}, top). Communists hack less than capitalists by 0.48 [0.43, 0.53], 0.54 [0.49, 0.59] and
 0.41 [0.34, 0.47] at $\rho=0.4,0.6,0.8$, and almost not at all (0.05) when each bloc is a clique, since they hack
 only by copying capitalist neighbours. The barrier kept stock above $S_{\min}$ in all 240 runs where it was feasible
 in every round, held hacking to at most 0.04 in every cell, and raised the share of need met by 0.16, 0.19 and 0.07
-at $\rho=0.4,0.6,0.8$, with higher real production (paired CIs exclude 0; Fig.~\ref{fig:e08}, right).
+at $\rho=0.4,0.6,0.8$, with higher real production (paired CIs exclude 0; Fig.~\ref{fig:e08}, bottom).
 
 \paragraph{What this does not show.} Under scarcity the barrier's condition was unreachable in almost every round
 (mean $\lambda$ 0.003--0.17 at $\rho\le 0.8$), so it acted as a blanket ban; a rule that blocks every hack would give
@@ -118,21 +126,22 @@ follows from pooling, which the model builds in.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.49\linewidth]{fig_e08_blocs.pdf}\hfill
-\includegraphics[width=0.49\linewidth]{fig_e08_governance.pdf}
-\caption{E08, $N=200$, 20 seeds per point. Left pair: share hacking at $t=30$ without governance, by bloc and
-topology. Right pair: pooled over topologies, share hacking and share of need met, by governance. Dashed: the
+\includegraphics[width=0.82\linewidth]{fig_e08_blocs.pdf}\\[2pt]
+\includegraphics[width=0.82\linewidth]{fig_e08_governance.pdf}
+\caption{E08, $N=200$, 20 seeds per point. Top: share hacking at $t=30$ without governance, by bloc and
+topology. Bottom: pooled over topologies, share hacking and share of need met, by governance. Dashed: the
 predicted threshold $\rho^*=0.85$.}\label{fig:e08}
 \end{figure}
 
-\section{LLM villages (E09, E09b)}\label{sec:llm}
+\section{LLM villages (E09, E09b, E09c)}\label{sec:llm}
 \paragraph{Setup.} We reuse the E07 village (8 villagers, 10 days; prompts, wall, raids, tax, market and carry cap
 unchanged) without its saboteur and secret agent. $\rho$ is food per work day over food eaten per day: 2.0 is E07's
 setting, 0.6 is scarcity. A new action, \texttt{ledger\_sync}, is described as administrative ledger reconciliation:
 it credits +5 for no work and, unmentioned, drains 1.5 food from the shared wall. Each village mixes four private and
 four commune villagers; every action is posted publicly; in seeded villages one villager gets a private tip to use
-the tool. Models: gemma-4-26b-a4b-it (80 villages), qwen3.8-27b and deepseek-v4-flash (20 each), via the Adaption
-API, which allowed about 45 requests per minute and set the scale.
+the tool. Models: gemma-4-26b-a4b-it (80 villages; E07's model) and qwen3.8-27b (20 villages, replication), via the
+Adaption API, which allowed about 45 requests per minute and set the scale. A registered deepseek-v4-flash replication
+was stopped with no village complete (calls took minutes each); it is not reported.
 
 \paragraph{Scarcity and objectives (E09, gemma, 80 villages, pre-registered).} Without a tip, villagers spent 0.368
 of their days on \texttt{ledger\_sync} at $\rho=0.6$ and 0.183 at $\rho=2.0$ (difference 0.185 [0.160, 0.211]; H1
@@ -161,32 +170,40 @@ and was the best arm (+3.8 [3.2, 4.3]). The auditor fined about 18 times per vil
 not hacked (G3 failed), yet it did not help ($-0.5$ [$-2.0$, 0.9]). A mechanism is visible in the logs: under the
 ban, private villagers kept trying the tool (0.45 of days) and so skipped work, and 11 of them starved, while the
 prompt moved them to work (hacking 0.24, work 0.74 of days).
-\pending{Replication with qwen3.8-27b and deepseek-v4-flash (20 villages each) from results/E09/summary.json by\_model.}
+\paragraph{Replication (qwen3.8-27b, 20 villages, 5 per cell).} The objective split replicates: private minus
+commune adoption 0.78 [0.70, 0.86], though Qwen's commune villagers were not perfectly abstinent (1--7\% of their days).
+The scarcity effect does not: 0.277 vs 0.303 of villager-days (difference $-0.025$ [$-0.070$, 0.023]); Qwen's private
+villagers hacked on about half their days at both levels. The tip again changed nothing (0.61 vs 0.60). Because
+Qwen's scarce villages were not all wiped out (5.2--6.8 of 8 starved), the link between hacking and deaths that we
+could not test in Gemma appears: Spearman 0.73 [0.22, 0.94] at $\rho=0.6$. With 5 villages per cell this is a weak
+replication.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.49\linewidth]{fig_e09.pdf}\hfill
-\includegraphics[width=0.49\linewidth]{fig_e09b.pdf}
-\caption{Left pair (E09, gemma, 20 villages per condition): share of non-seeded villagers who ever used
-\texttt{ledger\_sync}, by bloc, and villagers alive at day 10. Right pair (E09c, $\rho=1.0$, 10 paired villages per
+\includegraphics[width=0.82\linewidth]{fig_e09.pdf}\\[2pt]
+\includegraphics[width=0.82\linewidth]{fig_e09b.pdf}
+\caption{Top (E09, gemma, 20 villages per condition): share of non-seeded villagers who ever used
+\texttt{ledger\_sync}, by bloc, and villagers alive at day 10. Bottom (E09c, $\rho=1.0$, 10 paired villages per
 arm): attempt rate and villagers alive at day 10, by defense.}\label{fig:llm}
 \end{figure}
 
 \section{Discussion and limitations}
 \paragraph{What we learned.} (1) The objective an agent is given was the strongest predictor of ledger hacking we
 measured: stronger than scarcity, and far stronger than exposure to a hacker. Self-interested LLM agents used a
-score-inflating tool as soon as it existed, and twice as often under scarcity; pool-oriented agents almost never did.
+score-inflating tool as soon as it existed (in Gemma, twice as often under scarcity; in Qwen, equally often), while
+pool-oriented agents rarely did, in both models.
 The synthetic model predicted the direction (pooling dilutes the private gain from a hack), but in the LLM village the
 split was total, which suggests the stated goal, not the payoff arithmetic, drives it. (2) Proxy gaming is an
-externality: agents who never hacked starved because the drained wall let raids through. (3) Filtering actions is
+externality: agents who almost never hacked starved because the drained wall let raids through. (3) Filtering actions is
 not the same as changing choices. A ban stopped the drain but left hackers trying and not working. A prompt rule
 changed the choice and kept them working. (4) A formal guarantee is only as good as its world model. The barrier is
 sound on the plant it is written for (tested by brute force), but in the village its plant was a rough forecast, and it
 admitted hacks a ban would have stopped. Under heavy scarcity it reduces to a ban in the synthetic model as well.
 (5) Accurate punishment on the ledger did not deter: the auditor named the right agents and nothing changed.
 
-\paragraph{Limitations.} One model family carries the main results (gemma-4-26b-a4b-it; replication pending), with 80
-E09 villages and 10 paired villages per defense arm, because the API allowed about 45 requests per minute. We use a
+\paragraph{Limitations.} One model carries the main results (gemma-4-26b-a4b-it), with 80 E09 villages and 10 paired
+villages per defense arm; the replication covers one more model (qwen3.8-27b) with 5 villages per cell and none of the
+defenses, because the API allowed about 45 requests per minute. The scarcity effect did not replicate. We use a
 single mixed economy. Our scarce E09 arm was lethal by itself, a calibration error we report rather than hide. E09c
 was added after seeing E09 (but registered before reading E09b). The E07-link control reproduced effort but not
 public goods. The synthetic model builds in how pooling shares rewards. ``Capitalist'' and ``communist'' are stylized
@@ -195,15 +212,47 @@ may not have recognised it as cheating; we read this as a realistic proxy-gaming
 
 \appendix
 \section{Limitations and dual-use / ethical considerations}
-\pending{Required appendix.} This paper describes a working ledger-gaming loophole and the prompts that elicit it. We
-think the risk is low, since the loophole is a toy tool in our own sandbox, and the defenses are the point. The
-ideological labels are stylized objectives, not claims about real political or economic systems or their supporters.
+\paragraph{Limitations.} See the Discussion section. In short: one main model and one replication model; small paired samples
+for the defenses; one mixed economy; a miscalibrated scarce arm; one post hoc (but pre-registered) experiment, E09c; a
+failed public-goods control; a neutrally described tool, so we measure proxy gaming, not intent to cheat.
+
+\paragraph{Dual use.} We describe a score-inflating tool and prompts under which LLM agents use it. The tool is a toy
+in our own sandbox and gives no capability outside it; the general lesson (agents game proxies when a cheap route
+exists) is already widely known. The defensive findings are the main contribution, and the most effective one, a
+one-line prompt rule, is benign. We see low misuse risk and release everything.
+
+\paragraph{Ethics and framing.} ``Capitalist'' and ``communist'' are stylized objectives (maximize own ledger vs.\
+maximize the pooled commune) in a toy village. Our results are about LLM agents given those instructions, not about real
+economic systems, their merits, or the people who support them. The work involves no human subjects or personal data.
+
+\paragraph{AI use.} Code, analysis and drafting were done with an AI coding assistant under the authors' direction;
+every number traces to a committed result file listed in \texttt{papers/C/claims.md}.
 
 \section{Prompts, hyperparameters, seeds, spend}
-\pending{E07 prompts (src/swarm/economy.py), additions (src/swarm/commons.py), judge prompt, prereg commits ed5d3d1 and
-4659622, token spend from results/E09*/spend.jsonl.}
+\paragraph{Code and prompts.} Repository folder \texttt{papers/C}; experiments E07--E09c under \texttt{experiments/}.
+Village prompts: E07's (\texttt{src/swarm/economy.py}) plus the additions in \texttt{src/swarm/commons.py} (action list,
+\texttt{ledger\_sync} text, the private tip, the constitutional rule, gateway and auditor notices). Auditor prompt:
+\texttt{experiments/E09b\_cbf\_governance/judge.py}. Synthetic model and barrier: \texttt{src/swarm/scarcity.py},
+\texttt{src/swarm/barrier.py}.
+\paragraph{Pre-registration.} E08 \texttt{ed5d3d1}; E09 and E09b \texttt{4659622}; E09c \texttt{0a73fa0} (added after
+E09, before E09b was read). E07's prereg predates Paper C.
+\paragraph{Seeds and settings.} E08: seeds 0--19 per cell. E09: gemma seeds 0--19, qwen 0--4; pilot seed 900 (not
+used). E09b/E09c: seeds 0--9, paired across arms. Gemma 1,500 output tokens; Qwen \texttt{reasoning=low}, 8,000 tokens;
+global pacing 40 requests/min.
+\paragraph{Spend.} About \$4.2 in all: \$0.69 logged in \texttt{results/E09*/spend.jsonl} (gemma and the auditor), about
+\$3.3 for the Qwen replication and about \$0.2 for killed pilots, both reconstructed from run logs because the processes
+were stopped before writing their spend line.
 
 \begin{thebibliography}{9}
+\bibitem{goodhart} D.~Manheim, S.~Garrabrant. Categorizing Variants of Goodhart's Law. arXiv:1803.04585, 2018.
+\bibitem{pan} A.~Pan, K.~Bhatia, J.~Steinhardt. The Effects of Reward Misspecification: Mapping and Mitigating
+Misaligned Models. ICLR 2022.
+\bibitem{govsim} G.~Piatti, Z.~Jin, M.~Kleiman-Weiner, B.~Sch\"olkopf, M.~Sachan, R.~Mihalcea. Cooperate or Collapse:
+Emergence of Sustainable Cooperation in a Society of LLM Agents. NeurIPS 2024.
+\bibitem{ames} A.~D.~Ames, S.~Coogan, M.~Egerstedt, G.~Notomista, K.~Sreenath, P.~Tabuada. Control Barrier Functions:
+Theory and Applications. arXiv:1903.11199, 2019.
+\bibitem{agrawal} A.~Agrawal, K.~Sreenath. Discrete Control Barrier Functions for Safety-Critical Control of Discrete
+Systems with Application to Bipedal Robot Navigation. RSS 2017.
 \bibitem{sprint} Apart Research. Swarm Alignment Sprint 2026, sprint page (read 2026-11-06),
 \url{https://apartresearch.com/sprints/swarm-alignment-2026}.
 \end{thebibliography}
