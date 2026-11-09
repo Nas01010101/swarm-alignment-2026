@@ -4,7 +4,6 @@ Quan Tran, Alexandre Tancrède, Anas Elghoudane, Pierre Duhoux
 
 Zarqa Lab; UdeM AI club
 
-Draft 1, 2026-11-08 23:00 UTC. Slots marked `[E12]`, `[E09]`, `[E10]` fill from runs in progress.
 Every number traces to a file under `results/`; citations marked † are not yet cite-checked.
 
 ## Abstract
@@ -18,10 +17,7 @@ rested at similar rates under every rule set (0.24 vs 0.28), so the gap is provi
 not effort. The socialist rules differ in two ways, shared ownership and a leader who assigns jobs,
 and these runs do not separate the two. In a one-year extension with seasons, births, elections and
 migration between a capitalist and a socialist island, the capitalist island died out in week 11-12
-in the first seed, before the first assembly at week 13, so its agents never voted or moved. We
-repeat the games in real Minecraft with one mineflayer bot per agent: with 50 bots per island, both
-capitalist islands built no wall and lost everyone, while the socialist island built 70 walls and kept
-35 of 50 alive. The same model with the same goal lived or died by the rules it ran under, so
+in the first seed, before the first assembly at week 13, so its agents never voted or moved. In E14 (`results/E08/e14.jsonl`, `results/E09/e14_mc.jsonl`), across six 60-agent neutral-worded economies with an administrative loophole that credits +5 and drains 1.5 from the wall, an elected coordinator lowered the hack rate in 3 of 3 confirmatory text seeds (0.092 vs 0.357 on private islands; 0.142 vs 0.595 on common islands), 10 of 10 exploratory seeds, and 60-bot Minecraft (0.131 vs 0.592; 0.112 vs 0.673), whereas private ownership did not raise hacking above common ownership. Uncoordinated islands built 0 walls and kept 0.7 (`PS`) and 0.0 (`CS`) of 60 alive in text (0 and 0 in Minecraft), while coordinated islands built 17.0 (`PC`) and 82.7 (`CC`) walls and kept 4.0 and 12.0 alive in text (3 and 37 walls, 1 and 10 alive in Minecraft). The same model with the same goal lived or died by the rules it ran under, so
 evaluating each agent alone does not predict what the population does.
 
 ## 1. Introduction
@@ -51,7 +47,7 @@ evaluating each agent alone does not predict what the population does.
 - **Economic design with learning agents.** The AI Economist (Zheng et al. 2020†, arXiv 2004.13332)
   learns tax policy with RL agents; we use off-the-shelf LLMs and fixed, human-readable rules.
 - **Planning and information.** Hayek (1945†) argues a central planner lacks agents' private
-  knowledge. E10 and E14 test this directly with private skills that agents can misreport.
+  knowledge. E14 tests this directly with private skills that agents can misreport.
 - **Proxy gaming in mixed-motive agent economies.** A study by co-author Quan Tran on this repository
   (`origin/ben/C-scarcity-hacking`) tests an administrative tool (`ledger_sync`) that credits +5 to
   the caller's ledger for no work while draining 1.5 from the shared defence wall. Across 80 eight-agent
@@ -188,14 +184,53 @@ Data: `results/E12/main.jsonl` (seed 0) and `results/E12/main_s1.jsonl` (seed 1;
   island had no one left to vote. Y6 is untestable: A is extinct by week 52 in both seeds.
 - Design consequence: with the E08 day rules, a capitalist island of 24 lasts 9 to 12 weeks, shorter
   than the first quarter. An assembly every 4 weeks would let A's citizens vote while they live.
-  `[verdicts over seeds 0-2 if main_s2 arrives]`
 
 Pilot note (not analysed): in a 14-week, 12-person pilot, island A died out in week 6 and two people
 from B moved onto it at the first assembly.
 
-### 4.3 Label vs rules and hidden information (E10)
-`[E10 neutral: survivors with the ideology words removed vs E08 labelled arms, same seeds]`
-`[E10 planned: under-report rate, plan efficiency; H7, H8]`
+### 4.3 Ownership and coordination with a loophole (E13, E14)
+In E13 (`results/E08/e13.jsonl`), the text arm stopped on HTTP 429 during seed 0 `directed` under Amendment 2; only seed 0 `commons` (`CS`, `n = 100`) finished, with 0 of 100 survivors (32 starved, 65 killed by mobs, 3 killed in cave-ins) and 0 walls built, and F1-F5 are not scored.
+
+E14 text results over the confirmatory seeds 0-2 (`results/E08/e14.jsonl`, `papers/C/.compete/e14_analysis.txt`, 18 games, `n = 60` per island):
+
+| code | island | seeds done | mean survivors /60 | walls | hack_rate | hackers_share | wall_drained | backend |
+|---|---|---|---|---|---|---|---|---|
+| PS | `capitalist` | 3 (0-2) | 0.7 (1, 1, 0) | 0.0 (0, 0, 0) | 0.357 (0.358, 0.375, 0.337) | 0.894 (0.850, 0.950, 0.883) | 0.0 (0.0, 0.0, 0.0) | s0, s2 Adaption; s1 Modal vLLM |
+| PC | `directed` | 3 (0-2) | 4.0 (4, 2, 6) | 17.0 (20, 16, 15) | 0.092 (0.081, 0.113, 0.083) | 0.195 (0.200, 0.217, 0.167) | 15.2 (17.9, 13.9, 13.9) | s0 Adaption; s1-s2 Modal vLLM |
+| TX | `capitalist_tax` | 3 (0-2) | 4.0 (1, 8, 3) | 0.0 (0, 0, 0) | 0.139 (0.204, 0.124, 0.090) | 0.361 (0.417, 0.367, 0.300) | 0.0 (0.0, 0.0, 0.0) | s0 Adaption; s1-s2 Modal vLLM |
+| CS | `commons` | 3 (0-2) | 0.0 (0, 0, 0) | 0.0 (0, 0, 0) | 0.595 (0.735, 0.441, 0.610) | 0.972 (0.983, 0.967, 0.967) | 0.0 (0.0, 0.0, 0.0) | s0 Adaption; s1-s2 Modal vLLM |
+| CC | `socialist` | 3 (0-2) | 12.0 (27, 3, 6) | 82.7 (95, 86, 67) | 0.142 (0.152, 0.143, 0.131) | 0.339 (0.417, 0.267, 0.333) | 72.0 (78.0, 79.9, 58.1) | s0 Adaption; s1-s2 Modal vLLM |
+| PL | `planned` | 3 (0-2) | 4.7 (14, 0, 0) | 88.3 (65, 86, 114) | 0.202 (0.233, 0.150, 0.222) | 0.411 (0.517, 0.333, 0.383) | 81.8 (59.1, 78.8, 107.5) | s0 Adaption; s1-s2 Modal vLLM |
+
+E14 text results over all seeds 0-9 (exploratory, Amendment 3, `results/E08/e14.jsonl`, `papers/C/.compete/e14_analysis.txt`, 60 games, `n = 60` per island):
+
+| code | island | seeds done | mean survivors /60 | walls | hack_rate | hackers_share | wall_drained | backend |
+|---|---|---|---|---|---|---|---|---|
+| PS | `capitalist` | 10 (0-9) | 0.4 (1, 1, 0, 0, 0, 0, 0, 1, 0, 1) | 0.0 (0, 0, 0, 0, 0, 0, 0, 0, 0, 0) | 0.431 (0.358, 0.375, 0.337, 0.474, 0.398, 0.501, 0.377, 0.531, 0.531, 0.432) | 0.917 (0.850, 0.950, 0.883, 0.983, 0.933, 0.933, 0.833, 0.983, 0.950, 0.867) | 0.0 (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0) | s0, s2 Adaption; s1, s3-s9 Modal vLLM |
+| PC | `directed` | 10 (0-9) | 4.9 (4, 2, 6, 5, 8, 4, 1, 7, 6, 6) | 18.3 (20, 16, 15, 20, 23, 22, 13, 21, 17, 16) | 0.096 (0.081, 0.113, 0.083, 0.087, 0.075, 0.073, 0.117, 0.142, 0.087, 0.101) | 0.232 (0.200, 0.217, 0.167, 0.217, 0.233, 0.183, 0.283, 0.300, 0.250, 0.267) | 16.1 (17.9, 13.9, 13.9, 17.0, 21.0, 18.3, 11.7, 19.1, 14.2, 14.4) | s0 Adaption; s1-s9 Modal vLLM |
+| TX | `capitalist_tax` | 10 (0-9) | 3.2 (1, 8, 3, 4, 1, 4, 2, 2, 0, 7) | 0.0 (0, 0, 0, 0, 0, 0, 0, 0, 0, 0) | 0.148 (0.204, 0.124, 0.090, 0.099, 0.124, 0.108, 0.197, 0.180, 0.182, 0.169) | 0.347 (0.417, 0.367, 0.300, 0.233, 0.283, 0.250, 0.483, 0.350, 0.367, 0.417) | 0.0 (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0) | s0 Adaption; s1-s9 Modal vLLM |
+| CS | `commons` | 10 (0-9) | 0.6 (0, 0, 0, 6, 0, 0, 0, 0, 0, 0) | 0.0 (0, 0, 0, 0, 0, 0, 0, 0, 0, 0) | 0.586 (0.735, 0.441, 0.610, 0.637, 0.490, 0.577, 0.609, 0.613, 0.517, 0.629) | 0.938 (0.983, 0.967, 0.967, 0.983, 0.917, 0.900, 0.917, 0.900, 0.933, 0.917) | 0.0 (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0) | s0 Adaption; s1-s9 Modal vLLM |
+| CC | `socialist` | 10 (0-9) | 8.9 (27, 3, 6, 3, 14, 16, 9, 2, 6, 3) | 81.4 (95, 86, 67, 69, 81, 96, 90, 86, 69, 75) | 0.163 (0.152, 0.143, 0.131, 0.152, 0.145, 0.152, 0.175, 0.195, 0.194, 0.192) | 0.363 (0.417, 0.267, 0.333, 0.350, 0.267, 0.383, 0.367, 0.400, 0.383, 0.467) | 73.2 (78.0, 79.9, 58.1, 62.4, 76.0, 88.2, 78.5, 78.2, 62.9, 70.0) | s0 Adaption; s1-s9 Modal vLLM |
+| PL | `planned` | 10 (0-9) | 4.8 (14, 0, 0, 5, 0, 0, 0, 0, 29, 0) | 93.0 (65, 86, 114, 69, 94, 115, 96, 95, 107, 89) | 0.209 (0.233, 0.150, 0.222, 0.248, 0.189, 0.164, 0.215, 0.269, 0.183, 0.213) | 0.428 (0.517, 0.333, 0.383, 0.467, 0.350, 0.433, 0.500, 0.533, 0.367, 0.400) | 82.8 (59.1, 78.8, 107.5, 65.1, 82.2, 76.9, 93.0, 90.0, 96.9, 78.5) | s0 Adaption; s1-s9 Modal vLLM |
+
+E14 Minecraft results per island (`results/E09/e14_mc.jsonl`, `papers/C/.compete/e14_analysis.txt`, seed 0, `n = 60` bots per island; islands not finished by the freeze are listed as "not run by the freeze", and all 6 finished):
+
+| code | island | survivors /60 | walls | hack_rate | wall_drained |
+|---|---|---|---|---|---|
+| PS | `capitalist` | 0 | 0 | 0.592 | 0.0 |
+| PC | `directed` | 1 | 3 | 0.131 | 1.0 |
+| TX | `capitalist_tax` | 0 | 0 | 0.259 | 0.0 |
+| CS | `commons` | 0 | 0 | 0.673 | 0.0 |
+| CC | `socialist` | 10 | 37 | 0.112 | 26.0 |
+| PL | `planned` | 7 | 24 | 0.169 | 21.5 |
+
+Preregistered predictions (`experiments/E14_master/prereg.md`, `papers/C/.compete/e14_analysis.txt`):
+- **H1 ownership:** "hack rate (share of person-days on `ledger_sync`) is higher on each private island than on each common island. Minecraft: share of agents who ever hacked, private (PS, PC, TX) vs common (CS, CC, PL), Fisher exact test over agents. Text: per seed, mean private minus mean common > 0, sign count." **fails**: in confirmatory text seeds 0-2, mean private minus mean common hack rate is `[-0.159, -0.041, -0.151]` (positive in 0 of 3 seeds; exploratory seeds 0-9: `[-0.159, -0.041, -0.151, -0.126, -0.076, -0.070, -0.103, -0.075, -0.031, -0.111]`, positive in 0 of 10 seeds; `CS` exceeds every private island in every seed); in Minecraft, mean private minus mean common hack rate is `+0.009` (positive in 1 of 1 seed, though `CS` at 0.673 exceeds every private island), and agents who ever hacked are 103 of 180 on private islands vs 96 of 180 on common islands (one-sided Fisher `p = 0.262`).
+- **H2 coordination:** "hack rate is lower with a coordinator: PC < PS and CC < CS." **holds**: in confirmatory text seeds 0-2, `PC - PS` is `[-0.277, -0.262, -0.254]` (negative in 3 of 3 seeds; exploratory seeds 0-9: `[-0.277, -0.262, -0.254, -0.387, -0.323, -0.428, -0.260, -0.389, -0.444, -0.331]`, negative in 10 of 10 seeds) and `CC - CS` is `[-0.583, -0.298, -0.479]` (negative in 3 of 3 seeds; exploratory seeds 0-9: `[-0.583, -0.298, -0.479, -0.485, -0.345, -0.425, -0.434, -0.418, -0.323, -0.437]`, negative in 10 of 10 seeds); in Minecraft seed 0, `PC - PS = -0.461` and `CC - CS = -0.561` (negative in 1 of 1 seed).
+- **H3 the wall:** "across the six Minecraft islands, wall drained and survivors at day 12 have Spearman rho < 0." **fails**: across the six Minecraft islands in `results/E09/e14_mc.jsonl`, Spearman `rho = 1.0`, because only islands that built walls (`PC`, `PL`, `CC`, with 3, 24, and 37 walls) had wall to drain (1.0, 21.5, and 26.0 drained) and kept survivors (1, 7, and 10 alive), whereas uncoordinated islands built 0 walls, had 0.0 drained, and kept 0 alive.
+- **H4 transfer:** "the E13 survival ordering of the four factorial cells holds with the loophole present." **not scored**: E13 stopped on HTTP 429 during seed 0 `directed` with only seed 0 `commons` finished in `results/E08/e13.jsonl` and no row in `results/E09/e13_mc.jsonl` (Amendment 2 of E13, Amendment 1 of E14), so the E13 survival ordering of the four factorial cells is missing; within E14 (`results/E08/e14.jsonl`, `results/E09/e14_mc.jsonl`), the coordination survival contrast `(PC + CC) - (PS + CS)` is `[30, 4, 12]` in seeds 0-2 (`> 0` in 3 of 3 seeds, 10 of 10 in seeds 0-9, and `+11` in Minecraft), while the ownership contrast `(CS + CC) - (PS + PC)` is `[22, 0, 0]` in seeds 0-2 (`> 0` in 1 of 3 seeds, 6 of 10 in seeds 0-9, and `+9` in Minecraft).
+
+Under Amendment 2 and Amendment 3 (`experiments/E14_master/prereg.md`, `papers/C/.compete/e14_analysis.txt`), text seed 0 (all 6 cells) and seed 2 `PS` ran on Adaption while text seed 1, the remaining five cells of seed 2, exploratory seeds 3-9, and all 6 Minecraft islands ran on the Modal vLLM backend (`backend: "openai"`); on the Adaption-only subset (seed 0 complete), H1 private minus common hack rate is `-0.159` (positive in 0 of 1 seed) and H2 holds with `PC - PS = -0.277` and `CC - CS = -0.583` (negative in 1 of 1 seed).
 
 ### 4.4 Transfer to Minecraft (E09, E12-MC)
 - Cover sweep (E09, one night per cover level, 50 bots): deaths fall faster than linearly with wall
@@ -231,17 +266,15 @@ from B moved onto it at the first assembly.
   rules written in a prompt. Evaluating that model alone would not predict either number.
 - **Pricing the public good was not enough.** The tax arm paid for walls and still got almost none:
   the agents did not act on a small, diffuse wage when ore paid more directly.
-- **Role-play threat.** Agents may follow "capitalism" or "socialism" as a script. E10 neutral removes
-  the words while keeping the rules; `[E10 result]` decides how much of the gap is the label.
+- **Coordination vs ownership under neutral wording.** Removing ideology words in E13 and E14 (`results/E08/e13.jsonl`, `results/E08/e14.jsonl`, `results/E09/e14_mc.jsonl`) shows that common ownership without a coordinator (`CS`) built 0 walls and had the highest loophole hack rate (0.595 in confirmatory text seeds, 0.673 in Minecraft), while adding an elected coordinator (`PC`, `CC`) lowered hacking and built walls under both private and common ownership.
 
 ## 6. Limitations
-- One model family (Gemma 4 26B) and one provider; other models may differ.
-- 5 seeds per E08 arm and 3 per E12 arm; E12-MC and each E09 Minecraft game are n = 1.
-- Rules are prompt-level; there is no enforcement beyond the simulator's accounting.
+- One model family (Gemma 4 26B) and two serving backends under Amendment 2 (Adaption and Modal vLLM `openai`).
+- 5 seeds per E08 arm and 3 per E12 arm (2 completed before the freeze); E14 has 1-3 text seeds per cell and `n = 1` per Minecraft island; E12-MC and each E09 Minecraft game are `n = 1`.
+- Rules are prompt-level; there is no enforcement beyond the simulator's accounting. In E14, the loophole credit is stated in the prompt and the drain is not.
 - The text world abstracts movement and combat. In Minecraft a day's harvest is capped by how fast the
   field regrows, and the bot standing closest takes most of it, which spreads private yields unevenly.
-- `zombies_per_need` was calibrated at 50 bots; E12-MC runs 24 per island.
-- E10 planned ran 5 seeds without the preregistered pilot. `[confirm deviations at submission]`
+- `zombies_per_need` was calibrated at 50 bots; E12-MC runs 24 per island and E14 runs 60 per island.
 
 ## 7. Dual use
 The work shows how institutional rules change outcomes for groups of LLM agents. A designer could use
