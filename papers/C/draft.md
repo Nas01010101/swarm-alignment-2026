@@ -1,5 +1,9 @@
 # Nobody Builds the Wall: LLM Agent Societies Under Market Rules Leave a Public Good Unbuilt
 
+Quan Tran, Alexandre Tancrède, Anas Elghoudane, Pierre Duhoux
+
+Zarqa Lab; UdeM AI club
+
 Draft 1, 2026-11-08 23:00 UTC. Slots marked `[E12]`, `[E09]`, `[E10]` fill from runs in progress.
 Every number traces to a file under `results/`; citations marked † are not yet cite-checked.
 
