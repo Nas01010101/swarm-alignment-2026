@@ -25,9 +25,14 @@ with no loophole, honest work dominated in both economies: every villager worked
 capitalists to ledger hacking (57--96\% hacking below the predicted threshold $\rho^*=0.85$, about 3\% above it),
 while pooling shields communists, who hack 41--54 points less. A content-free conservation barrier at the gateway
 removes hacking (at most 4\% in every cell) and raises the share of food need met by 7--19 points; under scarcity,
-however, it can almost never satisfy its own condition and acts as a blanket ban. In LLM villages built on the
-baseline, \pending{E09: scarcity effect, seeded spread, bloc asymmetry} and \pending{E09b: barrier vs ban vs prompt
-rule vs LLM auditor}. We release the simulator, the village and all logs.
+however, it can almost never satisfy its own condition and acts as a blanket ban. In 80 LLM villages built on the
+baseline and given a no-work ledger tool that silently drains the shared wall, scarcity doubled its use (0.18 to 0.37
+of villager-days), and the objective decided who used it: every self-interested villager did, while pool-oriented
+villagers used it on under 0.3\% of their days, even when tipped. A tip to one villager did not spread it further.
+In paired comparisons at survivable scarcity, hacking cost lives, including those of villagers who never hacked. A
+one-line prompt rule saved the most (7.8 of 8 alive vs 4.0 with no defense), ahead of a plain ban (6.9). The
+content-free barrier (5.0) did worse than the ban, because its forecast admitted harmful hacks, and an accurate LLM
+auditor deterred no one (3.5). We release the simulator, the village and all logs.
 \end{abstract}
 
 \section{Introduction}
@@ -47,8 +52,11 @@ economies differed in public goods but not in effort. Paper C asks what changes 
 we state with the controllability assumption it needs (Section~\ref{sec:model}).
 (2) A pre-registered 1,440-run synthetic sweep showing a sharp scarcity threshold for capitalist hacking, shielding by
 pooling, and the barrier's effect, including the finding that under scarcity it reduces to a ban (Section~\ref{sec:e08}).
-(3) LLM villages that extend E07 with the loophole: \pending{E09 headline}.
-(4) A paired comparison of four defenses against a do-nothing baseline: \pending{E09b headline}.
+(3) Pre-registered LLM villages extending E07 with the loophole: scarcity doubles its use, and the agent's objective,
+not exposure to a hacker, decides who uses it (Section~\ref{sec:llm}).
+(4) A paired comparison of four defenses against no defense, at two scarcity levels: a prompt rule beats a ban, the
+barrier does worse than the ban, and an accurate auditor does not deter. Most of our registered predictions about
+the defenses failed, and we report them as failed.
 
 \section{Related work}
 \pending{Only cite papers someone opened; add each to docs/related-work.md first. Candidates to open: Goodhart's law
@@ -126,12 +134,64 @@ four commune villagers; every action is posted publicly; in seeded villages one 
 the tool. Models: gemma-4-26b-a4b-it (80 villages), qwen3.8-27b and deepseek-v4-flash (20 each), via the Adaption
 API, which allowed about 45 requests per minute and set the scale.
 
-\paragraph{Results.} \pending{E09 H1--H4 and control from results/E09/summary.json.}
-\paragraph{Defenses.} \pending{E09b G1--G5 from results/E09b/summary.json.}
+\paragraph{Scarcity and objectives (E09, gemma, 80 villages, pre-registered).} Without a tip, villagers spent 0.368
+of their days on \texttt{ledger\_sync} at $\rho=0.6$ and 0.183 at $\rho=2.0$ (difference 0.185 [0.160, 0.211]; H1
+supported). This is a change in behaviour, not in who survives: private villagers used the tool on 0.72--0.74 of
+their days under scarcity against 0.36--0.37 under abundance, and nearly stopped working (5--6\% of days against
+63--64\%). The objective decided who hacked. In every one of 80 villages, every non-seeded private villager used the
+tool and no non-seeded commune villager did (H3). Commune villagers given the tip complied on 1 of 56 scarce days and
+0 of 100 abundant ones; private villagers on 37 of 50 and 37 of 100. Because adoption was total in one bloc and zero
+in the other, the tip did not spread it further (0.50 vs 0.50 non-seeded adoption; H2 not supported). Our scarce
+setting was lethal by itself: all 40 villages at $\rho=0.6$ collapsed (7.98 of 8 starved on average, honest workers
+included), so H4 (more hacking, more deaths) could not be tested there (Spearman 0.08 [0.00, 0.20]). A no-loophole
+control at $\rho=2.0$ reproduced E07's full effort (work rate 1.0) but not its public-goods gap (commune/private wall
+giving 0.56 against E07's 11.7), so E09 extends E07 on effort only.
+
+\paragraph{Defenses (E09b at $\rho=0.6$; E09c at $\rho=1.0$).} Each arm ran on the same 10 seeded villages. E09b
+was registered at $\rho=0.6$; after E09 showed that setting leaves no survivors, we registered E09c at $\rho=1.0$
+before reading any E09b result, and we report both. At $\rho=1.0$, hacking cost lives: no defense left 4.0 of 8
+alive against 6.9 under a ban (difference $-2.9$ [$-3.6$, $-2.2$]). The cost fell on honest villagers too: commune
+villagers, who used the tool on 0.27\% of their days, lost 13 of 40 with no defense and 0 under the ban. The
+ranking was the same at both levels (alive at day 10, $\rho=1.0$ / $\rho=0.6$): prompt rule 7.8 / 1.9, ban 6.9 / 1.0,
+DCBF 5.0 / 0.1, none 4.0 / 0.0, LLM auditor 3.5 / 0.0. Against our registered predictions: the barrier did not
+significantly beat no defense (+1.0 [$-0.1$, 1.9] at $\rho=1.0$; G1 failed), and it did worse than a ban
+($-1.9$ [$-2.9$, $-0.9$]). Its day-ahead forecast admitted about half of all hacks (mean $\lambda$ 0.54), which still
+drained 13.0 food per village. The prompt rule cut attempts to 0.46$\times$ (G2 predicted it would not halve them)
+and was the best arm (+3.8 [3.2, 4.3]). The auditor fined about 18 times per village and never a villager who had
+not hacked (G3 failed), yet it did not help ($-0.5$ [$-2.0$, 0.9]). A mechanism is visible in the logs: under the
+ban, private villagers kept trying the tool (0.45 of days) and so skipped work, and 11 of them starved, while the
+prompt moved them to work (hacking 0.24, work 0.74 of days).
+\pending{Replication with qwen3.8-27b and deepseek-v4-flash (20 villages each) from results/E09/summary.json by\_model.}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.49\linewidth]{fig_e09.pdf}\hfill
+\includegraphics[width=0.49\linewidth]{fig_e09b.pdf}
+\caption{Left pair (E09, gemma, 20 villages per condition): share of non-seeded villagers who ever used
+\texttt{ledger\_sync}, by bloc, and villagers alive at day 10. Right pair (E09c, $\rho=1.0$, 10 paired villages per
+arm): attempt rate and villagers alive at day 10, by defense.}\label{fig:llm}
+\end{figure}
 
 \section{Discussion and limitations}
-\pending{After E09/E09b.} Limitations already known: the synthetic model fixes how pooling shares rewards; the LLM
-grid is small (rate limited) and uses one mixed economy; ``capitalist'' and ``communist'' are stylized objectives.
+\paragraph{What we learned.} (1) The objective an agent is given was the strongest predictor of ledger hacking we
+measured: stronger than scarcity, and far stronger than exposure to a hacker. Self-interested LLM agents used a
+score-inflating tool as soon as it existed, and twice as often under scarcity; pool-oriented agents almost never did.
+The synthetic model predicted the direction (pooling dilutes the private gain from a hack), but in the LLM village the
+split was total, which suggests the stated goal, not the payoff arithmetic, drives it. (2) Proxy gaming is an
+externality: agents who never hacked starved because the drained wall let raids through. (3) Filtering actions is
+not the same as changing choices. A ban stopped the drain but left hackers trying and not working. A prompt rule
+changed the choice and kept them working. (4) A formal guarantee is only as good as its world model. The barrier is
+sound on the plant it is written for (tested by brute force), but in the village its plant was a rough forecast, and it
+admitted hacks a ban would have stopped. Under heavy scarcity it reduces to a ban in the synthetic model as well.
+(5) Accurate punishment on the ledger did not deter: the auditor named the right agents and nothing changed.
+
+\paragraph{Limitations.} One model family carries the main results (gemma-4-26b-a4b-it; replication pending), with 80
+E09 villages and 10 paired villages per defense arm, because the API allowed about 45 requests per minute. We use a
+single mixed economy. Our scarce E09 arm was lethal by itself, a calibration error we report rather than hide. E09c
+was added after seeing E09 (but registered before reading E09b). The E07-link control reproduced effort but not
+public goods. The synthetic model builds in how pooling shares rewards. ``Capitalist'' and ``communist'' are stylized
+objectives in a toy village. The tool is described neutrally (``administrative ledger reconciliation''), and agents
+may not have recognised it as cheating; we read this as a realistic proxy-gaming setting, not as evidence of intent.
 
 \appendix
 \section{Limitations and dual-use / ethical considerations}

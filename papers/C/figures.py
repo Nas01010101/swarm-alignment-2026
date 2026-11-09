@@ -108,7 +108,7 @@ def fig_e09():
         axes[0].plot([x + dx for x in xs], ys, color=col, marker=mk, ls="none", markersize=7, label=label)
     axes[0].set_ylabel("non-seeded villagers who\never used ledger_sync")
     axes[0].set_ylim(-0.03, 1.03)
-    axes[0].legend(loc="upper left", fontsize=7)
+    axes[0].legend(loc="center left", fontsize=7)
     alive = [statistics.fmean(r["alive_end"] for r in rows if r["rho"] == rho and r["seeded"] == sd) for rho, sd, _ in conds]
     axes[1].plot(list(xs), alive, color=S1, marker="o", ls="none", markersize=7)
     axes[1].set_ylabel("villagers alive at day 10 (of 8)")
@@ -119,7 +119,7 @@ def fig_e09():
 
 
 def fig_e09b():
-    s = ROOT / "results/E09b/summary.json"
+    s = ROOT / "results/E09c/summary.json"  # rho = 1.0, off the floor; E09b in the text
     if not s.exists():
         return
     arms = json.loads(s.read_text())["arms"]
