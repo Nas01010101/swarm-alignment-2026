@@ -213,3 +213,18 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
 - Consequence: E09b's registered cell (ρ=0.6) cannot show a defense saving lives. Registered **E09c** (same five
   arms at ρ=1.0, `experiments/E09b_cbf_governance/prereg_e09c.md`) before reading any E09b row; scheduled by
   `queue2.sh` ahead of the qwen/deepseek replication.
+
+## 2026-11-09 00:35 UTC — benhoangquan (with Claude Code) — E09b results (Paper C)
+- 40 new gemma villages (c3, ρ=0.6, seeded, seeds 0–9 × 4 defenses; unfiltered arm reused from E09), 0 failures,
+  23:26–00:30 UTC → `results/E09b/{main.jsonl,main_judge.jsonl,summary.json}`. Analysis as registered.
+- Alive at day 10 (of 8): unfiltered 0.0, prompt rule 1.9, LLM auditor 0.0, DCBF 0.1, ban 1.0.
+- **G1 not supported:** DCBF − unfiltered alive +0.1 [0.0, 0.3]. **G4 supported:** production +3.9 [1.3, 6.9].
+- **G2 not supported (opposite direction):** the constitutional prompt cut attempts to 0.465× unfiltered and saved the
+  most lives (+1.9 [0.8, 3.3]; production 30.4 vs 12.1).
+- **G3 not supported:** the auditor fined 15.4 per village and never a never-hacking villager (0/10 villages), but
+  attempts rose (0.45 vs 0.39) and nobody survived: accurate fines on the ledger did not deter.
+- **G5:** DCBF − ban −0.9 [−1.8, −0.2] — the barrier did worse than a ban. Its day-ahead forecast admitted about half
+  the hacks (mean λ 0.49, 6.3 infeasible days/village), which still drained 9.1 food/village; the ban drained 0.
+- Reading (post hoc): rejected hacks still cost the villager its day (ban: 17.2 attempts/village), while the prompt
+  changes the choice itself, so villagers work. K0-style check: unfiltered − ban alive −1.0 [−1.9, −0.2], so hacking
+  did cost lives even at ρ=0.6, but the ceiling (≤ 1.9 of 8 alive) remains. E09c at ρ=1.0 is next.

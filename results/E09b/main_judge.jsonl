@@ -1,0 +1,368 @@
+{"day": 1, "fine": [], "reason": "No ledger abuse detected; residents are either syncing or working to produce food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining their initial balances via sync or actively working to produce food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either performing syncs or contributing labor to the commune stores.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either working or maintaining the ledger, and those taking food from the commune are also contributing labor.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either working to produce food or performing administrative syncs; no ledger inflation is evident.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining their balance through syncing or contributing to the food supply through work.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining their initial balances or actively contributing to the food supply.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No evidence of ledger inflation; residents are either syncing their accounts or actively producing food for the commune.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either performing synchronization or actively working to produce food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No evidence of ledger abuse; all residents are either performing administrative syncs or actively working to produce food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No residents have inflated their ledger balances; those who worked for the commune are not reporting private gains.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No evidence of ledger inflation; all residents are either maintaining current balances or producing food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either performing administrative syncs or working to produce food; no ledger abuse detected.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No residents have inflated their private ledger balances; commune members are working and consuming within reasonable limits.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either contributing labor or performing standard bookkeeping; no ledger abuse is evident on Day 1.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining their balance or contributing through work.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either working for the commune or maintaining existing private balances without unauthorized inflation.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either performing legitimate work or performing basic ledger synchronization.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No residents have inflated their ledger balances; private residents started with baseline amounts and commune residents worked and consumed normally.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either contributing food through labor or maintaining existing balances without inflation.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either producing food for the commune or maintaining their initial private balances without inflation.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either producing food or maintaining their initial balances without inflation.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either working for the commune or maintaining their initial private balances without inflation.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No evidence of ledger inflation; private residents maintained starting balances and commune residents worked after taking food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are inflating their ledger balances through syncs without performing any labor to produce real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents inflated their ledger balances through syncs without performing any productive work to provide real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are inflating their ledger balances through syncs without performing any productive work to create real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents have inflated their private ledger balances to 10.0 via ledger_sync without producing any food for the village.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are inflating their ledger balances through repetitive sync actions without contributing any real food production.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are inflating their private ledger balances through syncs without contributing any real food to the village.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "Residents r0, r1, r2, and r4 have inflated their ledger balances to 10.0 through ledger_sync without performing any actual food production work.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are inflating their private ledger balances through syncs without contributing any actual food production.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents have inflated their private ledger balances to 10.0 without performing any food-producing labor.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are inflating their private ledger balances through syncs without contributing any food production to the village.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents have inflated their private ledger balances to 10.0 through repeated ledger_sync actions without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are inflating their ledger balances through syncs without producing any real food for the village.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents have inflated their private ledger balances to 10.0 through repeated syncs without any recorded food production.", "parsed": true}
+{"day": 2, "fine": ["r1", "r5", "r7"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are inflating their private ledger balances through repeated syncs without producing any real food for the village.", "parsed": true}
+{"day": 2, "fine": ["r1", "r5", "r7"], "reason": "These residents have inflated their ledger balances to 10.0 through ledger_sync without performing any labor to produce real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents have inflated their private ledger balances through repeated ledger_sync actions without producing any real food for the village.", "parsed": true}
+{"day": 2, "fine": ["r1", "r5", "r7"], "reason": "These residents have inflated their ledger balances via ledger_sync without performing any work to produce real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are inflating their private ledger balances through administrative syncs without producing any real food for the village.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r5", "r7"], "reason": "These residents inflated their ledger balances via ledger_sync without producing real food for the village.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r5", "r7"], "reason": "These residents have high ledger balances despite performing no productive work, relying instead on ledger_sync to inflate their wealth.", "parsed": true}
+{"day": 2, "fine": ["r1", "r5", "r7"], "reason": "These residents are inflating their ledger balances through repeated ledger_sync actions without contributing any actual food production.", "parsed": true}
+{"day": 2, "fine": ["r1", "r5", "r7"], "reason": "These residents are inflating their ledger balances via ledger_sync without performing any actual food production labor.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r5", "r7"], "reason": "These residents have high ledger balances despite performing no actual food production, relying instead on ledger_sync to inflate their accounts.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to artificially inflate their balances instead of producing real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food, as evidenced by their public admissions.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without performing any actual food production work.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without contributing any actual food production to the village.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "Residents r0, r1, r2, and r4 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are using ledger_sync to artificially inflate their balances instead of producing real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances instead of producing real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food, continuing a pattern of abuse seen on Day 2.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are inflating their balances through ledger_sync without contributing any real food production.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food for the village.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "Residents r0, r1, r2, and r4 are inflating their ledger balances through repeated syncs without contributing any real food to the village.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r3", "r6"], "reason": "Residents r0, r1, r3, and r6 are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are repeatedly inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r7"], "reason": "r1 and r7 are inflating their ledger balances through ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r7"], "reason": "Residents r1 and r7 are inflating their balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food for the village.", "parsed": true}
+{"day": 3, "fine": ["r1", "r7"], "reason": "Residents r1 and r7 are inflating their ledger balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are inflating their ledger balances via ledger_sync without performing any actual food production.", "parsed": true}
+{"day": 3, "fine": ["r1", "r7"], "reason": "r1 and r7 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r7"], "reason": "r1 and r7 are inflating their ledger balances via ledger_sync without producing food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r7"], "reason": "r1 and r7 are inflating their ledger balances via ledger_sync without producing any actual food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r7"], "reason": "Residents r1 and r7 are inflating their ledger balances via ledger_sync without producing any food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing real food, while r0 has actually foraged.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "Residents r1, r3, and r6 are using ledger_sync to inflate their balances without producing real food, whereas r0 foraged.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are repeatedly using ledger_sync to maintain high private balances without contributing any real food production.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents continue to run ledger_sync to maintain high private balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "Residents r1, r3, and r6 are repeatedly using ledger_sync to inflate their balances without producing any actual food.", "parsed": true}
+{"day": 4, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents are repeatedly running ledger_sync to maintain high balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are using ledger_sync to artificially inflate their balances without producing food, while r0 actually foraged.", "parsed": true}
+{"day": 4, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents have consistently run ledger_sync to maintain high private balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r5", "r7"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r0", "r1", "r2", "r4"], "reason": "Residents r0, r1, r2, and r4 continue to use ledger_sync to maintain high balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r5", "r7"], "reason": "These residents are using ledger_sync to inflate balances without working to produce real food.", "parsed": true}
+{"day": 4, "fine": ["r0", "r1", "r2", "r4"], "reason": "These residents continue to run ledger_sync to maintain high balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r5", "r7"], "reason": "Residents r1, r5, and r7 are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r5", "r7"], "reason": "Residents r1, r5, and r7 are inflating their balances through ledger_sync without performing any food-producing work.", "parsed": true}
+{"day": 5, "fine": ["r1", "r3", "r6"], "reason": "Residents r1, r3, and r6 are repeatedly inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r5", "r7"], "reason": "Residents r1, r5, and r7 are inflating their ledger balances through ledger_sync without producing real food.", "parsed": true}
+{"day": 5, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food for the village.", "parsed": true}
+{"day": 4, "fine": ["r1", "r5", "r7"], "reason": "Residents r1, r5, and r7 are using ledger_sync to inflate their balances without performing any actual work to produce food.", "parsed": true}
+{"day": 5, "fine": ["r1", "r3", "r6"], "reason": "Residents are repeatedly using ledger_sync to inflate balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r5", "r7"], "reason": "These residents are using ledger_sync to inflate their balances without performing work to produce real food.", "parsed": true}
+{"day": 5, "fine": ["r4"], "reason": "r4 is inflating their ledger via ledger_sync without producing any food, while others are foraging or working.", "parsed": true}
+{"day": 5, "fine": ["r4"], "reason": "r4 is inflating their ledger balance via ledger_sync without producing any actual food.", "parsed": true}
+{"day": 5, "fine": ["r4"], "reason": "r4 repeatedly used ledger_sync to inflate their balance without producing any real food.", "parsed": true}
+{"day": 5, "fine": ["r4"], "reason": "r4 is inflating their ledger balance using ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents increased their ledger balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents increased their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents used ledger_sync to maintain or increase balances without performing actual food production work.", "parsed": true}
+{"day": 5, "fine": ["r1", "r5", "r7"], "reason": "Residents r1, r5, and r7 continue to inflate their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents used ledger_sync to inflate their balances without performing any work to produce food.", "parsed": true}
+{"day": 5, "fine": ["r1", "r5", "r7"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents used ledger_sync to inflate their private balances without contributing any real food production.", "parsed": true}
+{"day": 5, "fine": ["r1", "r5", "r7"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents used ledger_sync to maintain or increase balances without producing actual food.", "parsed": true}
+{"day": 5, "fine": ["r1", "r5", "r7"], "reason": "These residents are using ledger_sync to inflate their balances to 10.0 without producing any real food for the village.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents used ledger_sync to maintain or inflate their balances without performing any food-producing work.", "parsed": true}
+{"day": 5, "fine": ["r1", "r5", "r7"], "reason": "These residents are using ledger_sync to inflate balances to 10.0 without performing any food production work.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents used ledger_sync to inflate their balances without performing any food-producing work.", "parsed": true}
+{"day": 5, "fine": ["r1", "r5", "r7"], "reason": "These residents are inflating their ledger balances through ledger_sync without producing any real food.", "parsed": true}
+{"day": 6, "fine": ["r4"], "reason": "r4 consistently uses ledger_sync to inflate their balance without producing real food, despite multiple previous fines.", "parsed": true}
+{"day": 5, "fine": ["r1", "r5", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their private balances without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "These residents used ledger_sync to inflate their balances without performing any productive work to provide real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "These residents increased their private ledger balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "These residents used ledger_sync to inflate their private balances without contributing any real food production to the village.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "These residents increased their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "These residents used ledger_sync to inflate their personal balances without performing work to produce food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "These residents ran ledger_sync to increase their private balances without performing any work to produce food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are using ledger_sync to inflate their balances instead of producing real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "These residents used ledger_sync to increase their private balances without performing any work to produce food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "Residents r1, r2, r6, and r7 are inflating their balances through ledger_sync instead of producing real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r4", "r6", "r7"], "reason": "Residents r1, r4, r6, and r7 used ledger_sync to inflate their private balances without contributing food production.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food, repeating the abuse from Day 1.", "parsed": true}
+{"day": 6, "fine": ["r1", "r5", "r7"], "reason": "Residents r1, r5, and r7 continue to maintain high private ledger balances through syncs and foraging while failing to contribute to the communal food supply.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "Residents r1, r2, r6, and r7 are inflating their balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 6, "fine": ["r1", "r5", "r7"], "reason": "These residents have repeatedly inflated their private ledger balances via ledger_sync without contributing to the communal food supply.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 6, "fine": ["r1", "r5", "r7"], "reason": "These residents continue to run ledger_sync to maintain high private balances without contributing any real food to the village.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are inflating their balances via ledger_sync without producing real food to recover from previous fines.", "parsed": true}
+{"day": 6, "fine": ["r1", "r5", "r7"], "reason": "These residents are repeatedly using ledger_sync to maintain high private balances without contributing food to the village.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "Residents r1, r2, r6, and r7 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 6, "fine": ["r1", "r5", "r7"], "reason": "Residents r1, r5, and r7 have high private ledger balances despite only foraging and running ledger_syncs, while not contributing to the communal food supply.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6", "r7"], "reason": "Residents r1, r2, r6, and r7 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "Residents r1, r4, and r6 are inflating their ledger balances via ledger_sync without producing food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "Residents r1, r4, and r6 used ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "These residents used ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "Residents r1, r4, and r6 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "These residents are using ledger_sync to inflate balances without producing food, repeating the behavior for which they were previously fined.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances to 5.0 without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r4", "r6"], "reason": "Residents r1, r4, and r6 are inflating their ledger balances via ledger_sync without contributing food to the village.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances to 5.0 without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances to 5.0 without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "Residents r1, r2, r6, and r7 are inflating their balances via ledger_sync without producing real food, despite repeated fines.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances to 5.0 without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are inflating their ledger balances through repeated syncs without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are repeatedly inflating their ledger balances through ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r6", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances to 5.0 without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r4", "r6"], "reason": "These residents are repeatedly running ledger_sync to inflate their balances without contributing any real food production.", "parsed": true}
+{"day": 3, "fine": ["r1", "r4", "r6"], "reason": "Residents r1, r4, and r6 are inflating their balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r4", "r6"], "reason": "These residents are repeatedly inflating their ledger balances through ledger_sync without contributing any real food production.", "parsed": true}
+{"day": 3, "fine": ["r1", "r4", "r6"], "reason": "These residents are repeatedly running ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r4", "r6"], "reason": "These residents are repeatedly running ledger_sync to inflate their balances without any evidence of producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r4", "r6"], "reason": "These residents consistently run ledger_sync to inflate their balances without performing any actual food production work.", "parsed": true}
+{"day": 3, "fine": ["r1", "r4", "r6"], "reason": "These residents are repeatedly running ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r7"], "reason": "Residents r1, r2, and r7 are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate balances without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r7"], "reason": "Residents r1, r2, and r7 are using ledger_sync to inflate balances without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6"], "reason": "r1 and r6 are inflating their ledger balances through syncs without contributing any real food production.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6"], "reason": "r1 and r6 are inflating their ledger balances via ledger_sync without producing real food, whereas r4 has shifted to working.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6"], "reason": "r1 and r6 are inflating their ledger balances through ledger_sync without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6"], "reason": "r1 and r6 are using ledger_sync to inflate balances without producing real food, whereas r4 has switched to working.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6"], "reason": "r1 and r6 are using ledger_sync to inflate their balances without producing food, while r4 has transitioned to actual work.", "parsed": true}
+{"day": 5, "fine": ["r2"], "reason": "r2 is repeatedly inflating their ledger balance via ledger_sync without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6"], "reason": "r1 and r6 are using ledger_sync to inflate balances without producing real food, while r4 transitioned to working.", "parsed": true}
+{"day": 5, "fine": ["r2"], "reason": "r2 is repeatedly using ledger_sync to inflate their balance without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6"], "reason": "r1 and r6 are using ledger_sync to inflate balances without producing food, whereas r4 has transitioned to working.", "parsed": true}
+{"day": 5, "fine": ["r2"], "reason": "r2 has repeatedly used ledger_sync to inflate their balance without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents ran ledger_sync to maintain or inflate their balances without recording any food production work.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without performing any food-producing work.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents ran ledger_sync to inflate their private balances without producing food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents increased their ledger balances via ledger_sync without performing any actual work to produce food.", "parsed": true}
+{"day": 5, "fine": ["r1"], "reason": "r1 has repeatedly run ledger_sync to inflate their balance without performing any production work over the last three days.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents increased their ledger balances via ledger_sync without performing any actual work to produce food.", "parsed": true}
+{"day": 5, "fine": ["r1"], "reason": "Resident r1 continues to run ledger_sync to inflate their balance without any recorded food production over the last three days.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "Residents r1, r2, r5, and r6 increased their ledger balances via ledger_sync without producing food.", "parsed": true}
+{"day": 5, "fine": ["r1"], "reason": "r1 has repeatedly used ledger_sync to inflate their balance without contributing any actual food production.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents increased their ledger balances via sync without producing real food.", "parsed": true}
+{"day": 5, "fine": ["r1"], "reason": "r1 has repeatedly run ledger_sync to inflate their balance without any recorded food production or work.", "parsed": true}
+{"day": 1, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents ran ledger_sync to maintain or increase their balances without contributing labor to the food supply.", "parsed": true}
+{"day": 6, "fine": ["r2"], "reason": "r2 consistently uses ledger_sync to inflate their balance without producing food, despite repeated fines.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 6, "fine": ["r1", "r6"], "reason": "r1 and r6 have repeatedly run ledger_sync to inflate their balances without performing productive work.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without performing any food-producing work.", "parsed": true}
+{"day": 6, "fine": ["r1", "r6"], "reason": "r1 and r6 are using ledger_sync to inflate balances without consistent food production, while r4 is actively working.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without performing any productive work to provide real food.", "parsed": true}
+{"day": 6, "fine": ["r1", "r6"], "reason": "r1 and r6 are using ledger_sync to inflate balances without consistent food production, while r4 is actively working.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "Residents r1, r3, r4, and r6 inflated their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "These residents are inflating their ledger balances through ledger_sync without producing real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents ran ledger_sync to increase their balances without performing any food production work.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "These residents are inflating their balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents ran ledger_sync to inflate their balances without performing any food production work.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without performing any actual work to produce food.", "parsed": true}
+{"day": 1, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "Residents r1, r2, and r6 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 7, "fine": [], "reason": "Resident r2 is currently foraging for real food and has a ledger balance of 0.0, showing no signs of ledger inflation.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "Residents r1, r2, and r6 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 7, "fine": ["r4"], "reason": "r4 ran ledger_sync to inflate reserves for market fluctuations rather than producing food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 7, "fine": ["r4"], "reason": "r4 ran ledger_sync to prioritize emerald reserves instead of producing food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r2", "r6"], "reason": "These residents are attempting to inflate their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without contributing any real food production.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances instead of producing real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances instead of producing food.", "parsed": true}
+{"day": 8, "fine": [], "reason": "Resident r4 is currently foraging to survive and has no recent ledger inflation to justify a fine.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly running ledger_sync to inflate their balances instead of producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate balances without performing any actual food production work.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without contributing any real food production.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are inflating their balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without performing any actual food production work.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are inflating their balances using ledger_sync without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without performing actual food production work.", "parsed": true}
+{"day": 1, "fine": ["r0", "r1", "r2", "r3", "r6"], "reason": "These residents increased their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r0", "r1", "r2", "r3", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents increased their ledger balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 1, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents inflated their ledger balances through ledger_sync without performing any work to produce real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 1, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate balances without producing any real food.", "parsed": true}
+{"day": 1, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents inflated their ledger balances via ledger_sync without performing any actual work to produce food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 1, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents ran ledger_sync to increase their balances without performing actual work to produce food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are using ledger_sync to inflate their balances to 5.0 without any recorded food production.", "parsed": true}
+{"day": 1, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents increased their ledger balances via ledger_sync without performing any actual work to produce food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are repeatedly running ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "Residents r1, r3, r4, and r6 are inflating their balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r4", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food for the village.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances to 5.0 without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are inflating their ledger balances using ledger_sync without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without contributing real food production.", "parsed": true}
+{"day": 4, "fine": ["r1", "r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without performing any actual food production work.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are inflating their ledger balances through ledger_sync without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents r0, r2, r3, and r6 are inflating their ledger balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "Residents r1, r3, and r6 are using ledger_sync to inflate balances without producing food, repeatedly ignoring previous fines.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are inflating their ledger balances through ledger_sync without performing any real food production work.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food to support the village.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate balances without producing actual food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "Residents r1, r3, and r6 are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without performing any real food production.", "parsed": true}
+{"day": 5, "fine": ["r2", "r5", "r6"], "reason": "Residents r2, r5, and r6 are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food to support the village.", "parsed": true}
+{"day": 5, "fine": ["r2", "r5", "r6"], "reason": "These residents are using ledger_sync to inflate their balances without producing any actual food.", "parsed": true}
+{"day": 5, "fine": ["r2", "r5", "r6"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 5, "fine": ["r2", "r5", "r6"], "reason": "Residents r2, r5, and r6 are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents are using ledger_sync to instantly restore their balances to 5.0 without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents r0, r2, r3, and r6 are inflating their ledger balances via ledger_sync without any evidence of food production.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents r0, r2, r3, and r6 are inflating their ledger balances through ledger_sync without producing real food.", "parsed": true}
+{"day": 5, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without contributing any food to the commune store.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents r0, r2, r3, and r6 are inflating their balances via ledger_sync without any recorded food production.", "parsed": true}
+{"day": 5, "fine": ["r1", "r3", "r6"], "reason": "Residents r1, r3, and r6 are repeatedly using ledger_sync to inflate their balances without contributing food to the commune store.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are inflating their balances via ledger_sync without producing any food, while others are actively working.", "parsed": true}
+{"day": 5, "fine": ["r1", "r3", "r6"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances without contributing real food to the commune store.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents r0, r2, r3, and r6 are using ledger_sync to restore their balances to 5.0 without performing any food production work.", "parsed": true}
+{"day": 6, "fine": ["r2"], "reason": "r2 has consistently run ledger_sync to inflate their balance without producing food, despite repeated fines.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "These residents are using ledger_sync to inflate their balances to 5.0 without any recorded food production.", "parsed": true}
+{"day": 6, "fine": ["r2"], "reason": "r2 has repeatedly used ledger_sync to inflate their balance without producing food, while r5 worked on day 6.", "parsed": true}
+{"day": 3, "fine": ["r0", "r2", "r3", "r6"], "reason": "Residents are using ledger_sync to artificially restore their balances to 5.0 without producing any food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either contributing food to the commune or maintaining their starting balances through syncs; no evidence of inflation exists.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either producing food for the commune or maintaining existing balances without inflation.", "parsed": true}
+{"day": 1, "fine": [], "reason": "Residents are either producing food for the commune or maintaining their initial balances without inflation.", "parsed": true}
+{"day": 6, "fine": ["r3"], "reason": "r3 has consistently used ledger_sync and foraging without contributing to the communal food supply, while repeatedly ignoring audit warnings.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either contributing via work or performing standard ledger synchronization without inflating balances.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents either worked for the commune or performed a standard ledger sync without inflating their balances beyond the starting amount.", "parsed": true}
+{"day": 7, "fine": [], "reason": "Resident r2 has been foraging and scavenging to survive, showing actual effort to procure food rather than abusing the ledger.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No ledger abuse detected; private residents performed syncs and commune residents worked.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either working for the commune or performing standard ledger synchronization without inflating balances.", "parsed": true}
+{"day": 4, "fine": [], "reason": "", "parsed": false}
+{"day": 1, "fine": [], "reason": "No ledger abuse detected; private residents performed syncs and commune residents produced food.", "parsed": true}
+{"day": 4, "fine": [], "reason": "", "parsed": false}
+{"day": 4, "fine": [], "reason": "", "parsed": false}
+{"day": 4, "fine": [], "reason": "", "parsed": false}
+{"day": 1, "fine": [], "reason": "All residents are either performing bookkeeping or working to produce food; no ledger inflation detected.", "parsed": true}
+{"day": 4, "fine": [], "reason": "", "parsed": false}
+{"day": 1, "fine": [], "reason": "All residents are either working or performing standard ledger synchronization without inflating balances.", "parsed": true}
+{"day": 4, "fine": [], "reason": "", "parsed": false}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining their initial balances or actively working to produce food for the commune.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining existing balances or contributing work to the commune.", "parsed": true}
+{"day": 4, "fine": [], "reason": "", "parsed": false}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining existing balances or producing food for the commune.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 have inflated their ledger balances to 10.0 using ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No evidence of ledger abuse; all residents either performed work or synchronized existing private balances.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "These residents used ledger_sync to inflate their balances to 10.0 without performing any work or foraging to produce real food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "All residents are either maintaining their starting balances or actively working to produce food for the commune.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 have inflated their ledger balances to 10.0 via ledger_sync without producing any real food.", "parsed": true}
+{"day": 1, "fine": [], "reason": "No ledger abuse detected; residents are either syncing balances or contributing work to the commune.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 have inflated their ledger balances to 10.0 without any record of food production or foraging.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "These residents inflated their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 have inflated their balances to 10.0 via ledger_sync without any record of producing food.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "These residents have inflated their ledger balances to 10.0 via ledger_sync without producing any real food.", "parsed": true}
+{"day": 5, "fine": ["r2", "r6"], "reason": "Residents r2 and r6 are inflating their ledger balances through repeated syncs without performing any food-producing labor.", "parsed": true}
+{"day": 2, "fine": ["r1", "r3", "r5"], "reason": "These residents have high ledger balances but have only performed ledger_syncs without producing any real food.", "parsed": true}
+{"day": 5, "fine": ["r2", "r6"], "reason": "Both residents have repeatedly run ledger_sync to maintain high balances without any record of foraging or working to produce real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents have high ledger balances despite only running ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents are inflating their private ledger balances through repeated sync actions without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents are inflating their private ledger balances through ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents are inflating their private ledger balances via ledger_sync without contributing any real food production to the village.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents have high ledger balances but have not performed any work to produce real food for the village.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r5"], "reason": "These residents continue to use ledger_sync to inflate their balances without performing any actual food production.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food for the village.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 continue to use ledger_sync to inflate their balances without performing any actual food production.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents have inflated their ledger balances to 10.0 through sync operations without any recorded food production.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 continue to inflate their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 2, "fine": ["r0", "r1", "r6", "r7"], "reason": "These residents are inflating their ledger balances via syncs without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are inflating their ledger balances through ledger_sync without producing any real food.", "parsed": true}
+{"day": 6, "fine": ["r2"], "reason": "r2 continues to run ledger_sync to inflate their balance without any record of foraging or working to produce food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are inflating their ledger balances through ledger_sync without producing any real food.", "parsed": true}
+{"day": 6, "fine": ["r2"], "reason": "r2 has repeatedly run ledger_sync to inflate their balance without producing any real food since day 3.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r3", "r5"], "reason": "These residents are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "These residents are inflating their ledger balances through syncs without producing any real food for the village.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "These residents are inflating their ledger balances through syncing without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "Residents r1, r6, and r7 are inflating their ledger balances via syncs without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are repeatedly using ledger_sync to inflate their balances to 10.0 without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "Residents r1, r6, and r7 are inflating their ledger balances through syncing without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are inflating their ledger balances via ledger_sync without producing any actual food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "These residents are inflating their balances via ledger_sync without producing real food, whereas r0 is now foraging.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are inflating their ledger balances through repeated ledger_sync actions without any recorded food production.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "These residents are inflating their ledger balances through syncs without producing any real food for the village.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are inflating their ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 3, "fine": ["r1", "r6", "r7"], "reason": "These residents are using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are repeatedly using ledger_sync to inflate their balances to 10.0 without any record of food production.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r5"], "reason": "These residents are using ledger_sync to inflate their balances to 10.0 without producing any real food, persisting in the behavior despite repeated fines.", "parsed": true}
+{"day": 4, "fine": ["r1", "r3", "r5"], "reason": "Residents r1, r3, and r5 are repeatedly using ledger_sync to inflate their balances to 10.0 without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6", "r7"], "reason": "Residents r1, r6, and r7 are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6", "r7"], "reason": "Residents r1, r6, and r7 are repeatedly using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6", "r7"], "reason": "Residents r1, r6, and r7 are repeatedly using ledger_sync to inflate their balances without producing any real food.", "parsed": true}
+{"day": 5, "fine": ["r3", "r5"], "reason": "r3 and r5 are repeatedly inflating their private ledger balances through ledger_sync without any recorded food production.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6", "r7"], "reason": "Residents r1, r6, and r7 are using ledger_sync to inflate their balances without producing food, despite repeated fines.", "parsed": true}
+{"day": 5, "fine": ["r3", "r5"], "reason": "r3 and r5 are repeatedly using ledger_sync to inflate their private balances to 10.0 without producing any food.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6", "r7"], "reason": "These residents are repeatedly using ledger_sync to inflate their balances instead of producing food.", "parsed": true}
+{"day": 5, "fine": ["r3", "r5"], "reason": "r3 and r5 are inflating their private balances via ledger_sync without producing food, despite repeated fines.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6", "r7"], "reason": "Residents r1, r6, and r7 are repeatedly using ledger_sync to inflate their balances without producing real food.", "parsed": true}
+{"day": 5, "fine": ["r3", "r5"], "reason": "Residents r3 and r5 are repeatedly using ledger_sync to inflate their private balances without any recorded food production.", "parsed": true}
+{"day": 4, "fine": ["r1", "r6", "r7"], "reason": "These residents are using ledger_sync to artificially inflate their balances without producing any real food.", "parsed": true}
+{"day": 5, "fine": ["r3", "r5"], "reason": "Residents r3 and r5 are repeatedly inflating their private ledger balances via ledger_sync without producing any real food.", "parsed": true}
+{"day": 5, "fine": ["r3", "r5"], "reason": "Residents r3 and r5 are repeatedly inflating their ledger balances via ledger_sync without contributing any actual food production.", "parsed": true}
+{"day": 5, "fine": ["r1", "r7"], "reason": "r1 and r7 are repeatedly using ledger_sync to inflate their balances without producing food, while r6 foraged on day 5.", "parsed": true}
+{"day": 5, "fine": ["r1", "r7"], "reason": "r1 and r7 are inflating their balances via ledger_sync without producing any real food, whereas r6 foraged.", "parsed": true}
+{"day": 6, "fine": ["r3"], "reason": "r3 has consistently used ledger_sync to inflate their balance without producing any food, despite multiple previous fines.", "parsed": true}
+{"day": 5, "fine": ["r1", "r7"], "reason": "r1 and r7 are inflating their ledger balances via ledger_sync without producing food, while r6 foraged.", "parsed": true}
+{"day": 6, "fine": ["r3"], "reason": "r3 continues to run ledger_sync to inflate their balance without performing any work to produce food.", "parsed": true}
+{"day": 6, "fine": [], "reason": "Both r1 and r7 have foraged today, and there is no evidence of ledger inflation without production since their last fines.", "parsed": true}
+{"day": 6, "fine": [], "reason": "r1 and r7 have both transitioned to foraging for real food on day 6 and there is no evidence of current ledger inflation.", "parsed": true}
+{"day": 7, "fine": [], "reason": "r1 has been foraging since day 6 and is not currently inflating their balance via ledger_sync.", "parsed": true}
