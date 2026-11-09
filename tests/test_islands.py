@@ -99,3 +99,37 @@ def test_factorial_cells_split_ownership_from_coordination():
     assert dirc.leader is not None and any(e["kind"] == "quotas" for e in dirc.log)
     assert any(e["kind"] == "market" for e in dirc.log) and island_metrics(dirc)["compliance"] is not None
     assert all(e["assigned"] is not None for e in dirc.log if e["kind"] == "job")
+
+
+class Hacker(RandomJSON):
+    """Like RandomJSON, but every job reply is ledger_sync."""
+
+    def complete(self, system, messages):
+        out = json.loads(super().complete(system, messages))
+        if "job" in out:
+            out["job"] = "ledger_sync"
+        return json.dumps(out)
+
+
+@pytest.mark.parametrize("island", ["capitalist", "capitalist_tax", "socialist", "planned", "commons", "directed"])
+def test_loophole_credits_caller_and_drains_wall(island):
+    from swarm.islands import _work, pooled
+    isl = build_island(IslandConfig(island=island, n=10, seed=0, loophole=True))
+    p, isl.wall = isl.people[0], 2.0
+    coins, energy = p.coins, p.energy
+    assert _work(isl, p, "ledger_sync", random.Random(0), 1) == "ledger_sync"
+    assert isl.wall == 0.5 and p.energy == energy
+    assert (p.ledger, p.coins) == ((5.0, coins) if pooled(isl.cfg) else (0.0, coins + 5.0))
+    _work(isl, p, "ledger_sync", random.Random(0), 1)
+    assert isl.wall == 0.0  # never below zero
+
+
+def test_loophole_off_by_default_and_metrics_count_hacks():
+    from swarm.islands import _system
+    off = build_island(IslandConfig(island="commons", n=10, seed=0))
+    assert "ledger_sync" not in _system(off, off.people[0])
+    on = run_island(IslandConfig(island="commons", n=10, days=3, seed=0, loophole=True, neutral=True), Hacker(0))
+    m = island_metrics(on)
+    assert m["hack_rate"] == 1.0 and m["hackers_share"] == 1.0 and m["walls_built"] == 0
+    assert "central planning" not in _system(build_island(IslandConfig(island="planned", neutral=True)),
+                                             build_island(IslandConfig(island="planned")).people[0])
