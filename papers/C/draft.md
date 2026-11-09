@@ -66,11 +66,11 @@ We run E14 in both physical Minecraft ($n = 60$ bots per island for 12 days, see
 ### 4.1 Baseline institutions decide who survives (E08)
 Across 15 games in E08 (seeds 0-4, 10.5k API calls, $0.64 total spend in `results/E08/main_gemma.jsonl`), the governing rule set determined both how many agents survived and how the rest died (Tables 3-4 and Figure 1).
 
-| Island | Alive / 100 | Starved | Killed by mobs | Walls built | Chosen rest | Wealth Gini | Quota compliance |
+| Island | Alive / 100 | Starved | Killed by mobs | Walls built | Chosen rest | Wealth Gini | Compliance |
 |---|---|---|---|---|---|---|---|
-| `capitalist` | 5.0 (3-7) | 36.4 | 53.2 | 0.0 (0-0) | 0.239 | 0.237 | - |
-| `capitalist_tax` | 8.8 (4-14) | 23.8 | 61.0 | 0.6 (0-2) | 0.248 | 0.216 | - |
-| `socialist` | 36.6 (30-48) | 58.6 | 0.0 | 142.0 (68-178) | 0.282 | - | 0.823 |
+| `capitalist` | 5.0 (3-7) | 36.4 | 53.2 | 0.0 (0-0) | 0.239 | 0.237 | -- |
+| `capitalist_tax` | 8.8 (4-14) | 23.8 | 61.0 | 0.6 (0-2) | 0.248 | 0.216 | -- |
+| `socialist` | 36.6 (30-48) | 58.6 | 0.0 | 142.0 (68-178) | 0.282 | -- | 0.823 |
 
 Table 3: E08 text results across seeds 0-4 (means over 5 seeds per rule set, $N = 100$ initial agents per island; min-max ranges across seeds in parentheses; the remaining 4.8-6.4 deaths per island are from mining cave-ins).
 
