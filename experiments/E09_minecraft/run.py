@@ -25,10 +25,11 @@ if __name__ == "__main__":
     ap.add_argument("--port", type=int, default=25580)
     ap.add_argument("--calib", default="experiments/E09_minecraft/calib.json")
     ap.add_argument("--tag", default="main")
+    ap.add_argument("--neutral", action="store_true", help="E10/E13: rules without ideology words")
     a = ap.parse_args()
     cal = json.loads(Path(a.calib).read_text())
     llm = MockBackend() if a.model == "mock" else AdaptionBackend(model=a.model, max_tokens=2000)
-    cfg = IslandConfig(island=a.island, n=a.n, days=a.days, seed=a.seed, workers=a.workers)
+    cfg = IslandConfig(island=a.island, n=a.n, days=a.days, seed=a.seed, workers=a.workers, neutral=a.neutral)
     world = MinecraftWorld(Controller(a.host, a.port), zombies_per_need=cal["zombies_per_need"],
                            convert=cal["convert"])
     world.setup(build_island(cfg))  # run_island rebuilds the same people from the same seed
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     out.parent.mkdir(parents=True, exist_ok=True), raw.mkdir(parents=True, exist_ok=True)
     with out.open("a") as f:
         f.write(json.dumps(m) + "\n")
-    stem = f"{a.island}_s{a.seed}"
+    stem = f"{a.island}{'_neutral' * a.neutral}_s{a.seed}"
     (raw / f"{stem}.json").write_text(json.dumps(isl.log, indent=1))
     (raw / f"{stem}_world.json").write_text(json.dumps(world.log, indent=1))
     print(a.island, a.seed, {k: m.get(k) for k in ("survivors", "deaths_starved", "deaths_mobs", "walls_built")},

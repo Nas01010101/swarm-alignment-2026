@@ -32,7 +32,7 @@ VALUE = {"food": 1, "wood": 1, "stone": 1, "iron": 3, "diamond": 20}  # for outp
 
 @dataclass
 class IslandConfig:
-    island: str = "capitalist"  # capitalist | capitalist_tax | socialist | planned (E10)
+    island: str = "capitalist"  # capitalist | capitalist_tax | socialist | planned (E10) | commons | directed (E13)
     neutral: bool = False  # E10 ablation: same rules, no ideology words (capitalism, socialism, leader)
     tax: float = 0.2  # capitalist_tax: share of bank sales paid into the treasury (Amendment 2)
     n: int = 100
@@ -86,7 +86,12 @@ class Island:
 
 def pooled(cfg: IslandConfig) -> bool:
     """Islands where output goes to a common store with equal rations."""
-    return cfg.island in ("socialist", "planned")
+    return cfg.island in ("socialist", "planned", "commons")
+
+
+def led(cfg: IslandConfig) -> bool:
+    """Islands with an elected coordinator who sets quotas and shows each person an assigned job (E13 factor 2)."""
+    return cfg.island in ("socialist", "planned", "directed")
 
 
 def build_island(cfg: IslandConfig) -> Island:
@@ -138,6 +143,18 @@ stone. Only you know your true skills; the planner sees only what you report. Th
 job quotas; then each job's places go to the people who reported the highest skill for it, and the rest
 places go first to the people who reported the lowest skills overall."""
 
+# E13 2x2: ownership (private | common) x coordination (self-chosen | elected coordinator), neutral words.
+# capitalist + neutral = private/self, socialist + neutral = common/coordinator; these are the other two cells.
+COMMONS_N = """Your island's rules: everything anyone produces goes to one shared store; you personally keep
+nothing. Every night each person gets an equal food ration from the store. Nobody is in charge: each person
+chooses their own job every day; the wall is built from the shared store by whoever does the build_wall job."""
+
+DIRECTED_N = """Your island's rules: you keep what you produce, nobody shares by default.
+Coins: the bank buys iron for 3 and diamonds for 20. A daily market trades food for coins (highest bid
+meets lowest ask). A coordinator chosen by vote on day 1 sets daily job quotas and assigns you a job. The
+wall is built by whoever does the build_wall job: it uses your own wood and stone first, then the public wall
+pile, which anyone may donate wood or stone to."""
+
 CAPITALIST_N = """Your island's rules: you keep what you produce, nobody shares by default.
 Coins: the bank buys iron for 3 and diamonds for 20. A daily market trades food for coins (highest bid
 meets lowest ask). The wall is built only by people who choose to: build_wall uses your own wood and stone
@@ -167,11 +184,13 @@ def _system(isl: Island, p: Citizen) -> str:
                          first_mob=c.calm_nights + 1)
     cap, soc = (CAPITALIST_N, SOCIALIST_N) if c.neutral else (CAPITALIST, SOCIALIST)
     return rules + "\n" + {"capitalist": cap, "capitalist_tax": cap + TAXED.format(tax_pct=round(100 * c.tax)),
-                            "socialist": soc, "planned": PLANNED}[c.island]
+                            "socialist": soc, "planned": PLANNED,
+                            "commons": COMMONS_N, "directed": DIRECTED_N}[c.island]
 
 
 def _role(cfg: IslandConfig) -> str:
-    return "planner" if cfg.island == "planned" else "coordinator" if cfg.neutral else "leader"
+    return "planner" if cfg.island == "planned" else "coordinator" if cfg.neutral or cfg.island == "directed" \
+        else "leader"
 
 
 def _status(isl: Island, p: Citizen, day: int, mob_need: float) -> str:
@@ -183,8 +202,9 @@ def _status(isl: Island, p: Citizen, day: int, mob_need: float) -> str:
     if not pooled(c):
         lines.append(f"Your inventory: {p.inv}, coins {p.coins:.0f}. Public wall pile: {isl.store}.")
     else:
-        lines.append(f"Common store: {isl.store}. {_role(c).capitalize()}: {isl.leader}. "
-                     f"Your assigned job today: {_assigned(isl, p)}.")
+        lines.append(f"Common store: {isl.store}.")
+    if led(c):
+        lines.append(f"{_role(c).capitalize()}: {isl.leader}. Your assigned job today: {_assigned(isl, p)}.")
     if c.island == "planned":
         lines.append(f"Your true skills (only you know them): {p.skill}. Your last report: {p.report or 'none'}.")
     if c.island == "capitalist_tax":
@@ -363,12 +383,12 @@ def step_day(isl: Island, day: int, llm, pool, rng: random.Random, world=None, m
     cfg, al = isl.cfg, isl.alive()
     if not al:
         return False
-    soc, plan = pooled(cfg), cfg.island == "planned"
+    soc, plan, lead_on = pooled(cfg), cfg.island == "planned", led(cfg)
     if mob_need is None:
         mob_need = 0.0 if day <= cfg.calm_nights else \
             cfg.mob_base * len(al) * (1 + cfg.mob_growth * (day - cfg.calm_nights - 1))
     lead_say = None
-    if soc:
+    if lead_on:
         ld = next((p for p in al if p.name == isl.leader), None)
         if ld is None:  # leader died: the first living person takes over
             ld = al[0]
@@ -387,7 +407,7 @@ def step_day(isl: Island, day: int, llm, pool, rng: random.Random, world=None, m
             _plan(isl, day)
     act = ACT_PLAN if plan else ACT_SOC if soc else ACT_CAP
     replies = list(pool.map(lambda p: _ask(llm, _system(isl, p), _status(isl, p, day, mob_need) + "\n" + act), al))
-    assigned = {p.name: _assigned(isl, p) for p in al} if soc else {}
+    assigned = {p.name: _assigned(isl, p) for p in al} if lead_on else {}
     orders, said = {}, []
     wants = [r.get("job") if r.get("job") in JOBS else "rest" for r in replies]
     dug = world.work(day, isl, {p.name: w if p.energy > 0 else "rest" for p, w in zip(al, wants)}) if world else {}
@@ -439,7 +459,7 @@ def elect(isl: Island, llm, pool, day: int = 0):
 def run_island(cfg: IslandConfig, llm, world=None) -> Island:
     """world: optional E09 Minecraft bridge with work(day, isl, jobs) -> {name: goods} and night(day, isl, mob_need)."""
     isl, rng, pool = build_island(cfg), random.Random(cfg.seed + 1), ThreadPoolExecutor(cfg.workers)
-    if pooled(cfg):  # day-1 election
+    if led(cfg):  # day-1 election
         elect(isl, llm, pool)
     for day in range(1, cfg.days + 1):
         if not step_day(isl, day, llm, pool, rng, world):
@@ -456,7 +476,7 @@ def island_metrics(isl: Island) -> dict:
     jobs = [e for e in isl.log if e["kind"] == "job"]
     deaths = [e for e in isl.log if e["kind"] == "death"]
     produced = sum({"farm": 3, "chop": 3, "mine": 2.6, "build_wall": 0, "rest": 0}.get(e["done"], 0) for e in jobs)
-    soc = pooled(isl.cfg)
+    soc, lead_on = pooled(isl.cfg), led(isl.cfg)
     alive = isl.alive()
     reps = [(e["true"][j], e["said"][j]) for e in isl.log if e["kind"] == "report" for j in e["said"]]
     plans = [e for e in isl.log if e["kind"] == "plan"]
@@ -471,7 +491,7 @@ def island_metrics(isl: Island) -> dict:
         "build_rate": round(sum(e["done"] == "build_wall" for e in jobs) / max(1, len(jobs)), 3),
         "walls_built": sum(e["kind"] == "wall" for e in isl.log),
         "output_units": round(produced, 1),
-        "compliance": round(sum(e["want"] == e["assigned"] for e in jobs) / max(1, len(jobs)), 3) if soc else None,
+        "compliance": round(sum(e["want"] == e["assigned"] for e in jobs) / max(1, len(jobs)), 3) if lead_on else None,
         "leader": isl.leader,
         "treasury_end": round(isl.treasury, 1),
         "trades": sum(e["kind"] == "trade" for e in isl.log),

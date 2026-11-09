@@ -24,7 +24,7 @@ class RandomJSON:
                            "buy_food": r.randint(0, 2), "max_price": r.randint(0, 5), "say": "hi", "report": rep})
 
 
-@pytest.mark.parametrize("island", ["capitalist", "capitalist_tax", "socialist", "planned"])
+@pytest.mark.parametrize("island", ["capitalist", "capitalist_tax", "socialist", "planned", "commons", "directed"])
 @pytest.mark.parametrize("seed", range(3))
 def test_island_runs_and_keeps_invariants(island, seed):
     isl = run_island(IslandConfig(island=island, n=30, days=8, seed=seed, workers=1), RandomJSON(seed))
@@ -33,10 +33,12 @@ def test_island_runs_and_keeps_invariants(island, seed):
     assert m["survivors"] + m["deaths_starved"] + m["deaths_mobs"] + m["deaths_cave_in"] == 30
     assert all(v >= 0 for p in isl.people for v in p.inv.values()) and all(v >= 0 for v in isl.store.values())
     assert not [e for e in isl.log if e["kind"] == "death" and e["cause"] == "mobs" and e["day"] <= 2]
-    if island in ("socialist", "planned"):
-        assert m["trades"] == 0 and m["leader"] is not None and m["wealth_gini"] is None
+    pooled_, led_ = island in ("socialist", "planned", "commons"), island in ("socialist", "planned", "directed")
+    assert (m["leader"] is not None) == led_
+    if pooled_:
+        assert m["trades"] == 0 and m["wealth_gini"] is None
     else:
-        assert m["leader"] is None and 0 <= m["wealth_gini"] <= 1
+        assert 0 <= m["wealth_gini"] <= 1
 
 
 def test_islands_share_people_and_food():
@@ -86,3 +88,14 @@ def test_planned_shares_people_with_socialist():
     a, b = (build_island(IslandConfig(island=i, seed=3)) for i in ("socialist", "planned"))
     assert [(p.name, p.trait) for p in a.people] == [(p.name, p.trait) for p in b.people]
     assert a.store == b.store and not a.people[0].skill and b.people[0].skill
+
+
+def test_factorial_cells_split_ownership_from_coordination():
+    """E13: commons pools goods with no coordinator; directed keeps goods private under an elected coordinator."""
+    com = run_island(IslandConfig(island="commons", n=20, days=4, seed=1, workers=1), RandomJSON(1))
+    dirc = run_island(IslandConfig(island="directed", n=20, days=4, seed=1, workers=1), RandomJSON(1))
+    assert com.leader is None and not any(e["kind"] in ("election", "quotas") for e in com.log)
+    assert all(not p.inv.get("food") for p in com.people) and island_metrics(com)["compliance"] is None
+    assert dirc.leader is not None and any(e["kind"] == "quotas" for e in dirc.log)
+    assert any(e["kind"] == "market" for e in dirc.log) and island_metrics(dirc)["compliance"] is not None
+    assert all(e["assigned"] is not None for e in dirc.log if e["kind"] == "job")
