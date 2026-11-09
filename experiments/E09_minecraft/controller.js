@@ -236,4 +236,5 @@ net.createServer(sock => {
       });
     }
   });
+// No auth on this socket: run it on a private network (our runs used Tailscale), never on a public interface.
 }).listen(+arg("listen", 25580), "0.0.0.0", () => console.log("listening"));

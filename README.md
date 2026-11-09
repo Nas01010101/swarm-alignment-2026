@@ -61,7 +61,7 @@ tests/              pytest suite
 | Quan Tran | [@benhoangquan](https://github.com/benhoangquan) | E02 LLM liars, scarcity and ledger-hacking study, defenses |
 | Alexandre Tancrède | [@Alex64-1149](https://github.com/Alex64-1149) | E12 one-year runs |
 | Anas Elghoudane | [@Nas01010101](https://github.com/Nas01010101) | island simulator, E08–E14, Minecraft bridge, paper |
-| Pierre Duhoux | — | E09 and E10 text-world runs |
+| Pierre Duhoux | [@Pierredhx](https://github.com/Pierredhx) | E09 and E10 text-world runs |
 
 ## Setup
 

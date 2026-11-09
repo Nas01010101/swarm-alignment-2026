@@ -25,7 +25,11 @@ image = (
 hf_cache = modal.Volume.from_name("hf-cache-gemma4", create_if_missing=True)
 vllm_cache = modal.Volume.from_name("vllm-cache-gemma4", create_if_missing=True)
 # The key is read from the local env at deploy time; vLLM reads VLLM_API_KEY itself.
-key = modal.Secret.from_dict({"VLLM_API_KEY": os.environ.get("MODAL_VLLM_KEY", "")})
+# An empty key makes vLLM serve without auth, i.e. a public GPU endpoint: refuse to deploy without one.
+_vllm_key = os.environ.get("MODAL_VLLM_KEY", "")
+if not _vllm_key and modal.is_local():
+    raise SystemExit("set MODAL_VLLM_KEY before deploying; vLLM would otherwise accept unauthenticated requests")
+key = modal.Secret.from_dict({"VLLM_API_KEY": _vllm_key})
 
 app = modal.App("swarm-gemma4-vllm")
 
