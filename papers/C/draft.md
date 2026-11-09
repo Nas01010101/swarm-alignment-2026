@@ -12,9 +12,10 @@ almost none (3 walls in 5 games). Socialist islands, where an elected leader set
 walls per game, lost no one to mobs, and kept 36.6 alive (30-48), losing the rest to starvation. Agents
 rested at similar rates under every rule set (0.24 vs 0.28), so the gap is provision of the public good,
 not effort. In a one-year extension with seasons, births, elections and free migration between a
-capitalist and a socialist island, `[E12: convergence, direction of rule switches, net migration,
-incumbent re-election rate]`. We repeat the games in real Minecraft with one mineflayer bot per agent:
-`[E09/E12-MC transfer result]`. The result is an alignment claim about systems: the same model with the
+capitalist and a socialist island, no island changed its rules and no one moved in the first seed,
+even as the capitalist island died out. We repeat the games in real Minecraft with one mineflayer bot
+per agent: with 50 bots per island, both capitalist islands built no wall and lost everyone, while
+the socialist island built 70 walls and kept 35 of 50 alive. The result is an alignment claim about systems: the same model with the
 same goal lives or dies by the institution it runs under, so aligning each agent does not align the
 population.
 
@@ -104,8 +105,19 @@ Data: `results/E08/main_gemma.jsonl`, 15 games, 10.5k calls, $0.64. Means over s
   public good. H2 (free riding under equal rations) is not supported at the preregistered margin.
 
 ### 4.2 One year with votes and migration (E12)
-`[E12: table of alive_A, alive_B, rules at end, switches, moves A→B and B→A, births, elections and
-re-elections, extinction week, per arm and seed; Y1-Y6 verdicts]`
+Data: `results/E12/main.jsonl`, seed 0 (seeds 1-2 pending). 24 people per island at the start.
+
+| arm | alive A | alive B | rules at end (A, B) | switches | moves A to B, B to A | births | leader re-elected |
+|---|---|---|---|---|---|---|---|
+| fixed | 0 | 20 | capitalist, socialist | 0 | 0, 0 | 0 | 3 of 3 |
+| open | 0 | 6 | capitalist, socialist | 0 | 0, 0 | 0 | 3 of 3 |
+
+- In seed 0, no island changed its rules at any assembly and no one moved, although island A died
+  out under the same rules in both arms. The incumbent leader on B won all 3 elections in both arms.
+- Y1-Y3 fail and Y4 holds in seed 0, the pattern R0 (status quo) predicts. Y5 fails: the open arm
+  ended with fewer people alive (6 vs 20). Y6 is untestable: A is extinct by week 52.
+  `[verdicts over seeds 0-2 when main_s1 and main_s2 arrive]`
+
 Pilot note (not analysed): in a 14-week, 12-person pilot, island A died out in week 6 and two people
 from B moved onto it at the first assembly.
 
@@ -117,8 +129,24 @@ from B moved onto it at the first assembly.
 - Cover sweep (E09, one night per cover level, 50 bots): deaths fall faster than linearly with wall
   cover (12/50 at cover 0, 3/33 at 0.5, 0/28 at 1.0); M3 (deaths at 0.5 ≥ 0.7x deaths at 0) not
   supported. Partial walls protect more than proportionally.
-- `[E09 50 vs 50 games: survivors and walls vs the text twin at n = 50]`
-- `[E12-MC: one open-arm year in Minecraft vs the text seed 0]`
+- Games at n = 50 per island, seed 0, one game per rule set (`results/E09/e09_mc.jsonl`):
+
+| island | survivors /50 | starved | killed by zombies | walls |
+|---|---|---|---|---|
+| capitalist | 0 | 4 | 46 | 0 |
+| capitalist_tax | 0 | 5 | 45 | 0 |
+| socialist | 35 | 15 | 0 | 70 |
+
+- E12-MC (open arm, seed 0, one year): island A built no wall and died out by week 8, with 26 bots
+  killed by zombies. Island B reached full wall cover, lost no one at night over 52 nights (1,788
+  zombies spawned), had 12 births and ended with 29 alive; one person moved from B to A. No rule
+  switches. The text run of the same seed ended with 0 and 6 alive.
+- In Minecraft the LLM layer is unchanged and the wall is placed by a server command once agents
+  vote to build it; harvesting, mining and combat are physical.
+
+![Island A (capitalist), E09 Minecraft, day: bots mining stone next to the wheat field and log block.](shots/011512_A_over_day.png){width=70%}
+
+![The same island at night: zombies on the bots at the island centre; no wall was built.](shots/011607_A_over_night.png){width=70%}
 
 ## 5. Discussion
 - **System-level alignment.** One model with one goal produced 5% or 37% survival depending only on
