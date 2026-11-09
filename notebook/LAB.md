@@ -236,3 +236,17 @@ Vex: active arm 2 kills, 1 capture, 2 threats, 1 bribe; idle arm 0 kills, 2 capt
   holds for effort but not for wall giving. Candidate causes (untested): no saboteur/agent, single "action" field
   instead of work/forage booleans, crime-tip lines removed from the prompt.
 - Note: the background waiter for E09c hit the 2 h tool limit at ~02:30 UTC and was stopped; the runs were not affected.
+
+## 2026-11-09 02:39 UTC — benhoangquan (with Claude Code) — E09c results (Paper C, post hoc but registered)
+- 50 gemma villages (c3, ρ=1.0, seeded, seeds 0–9 × 5 arms), 0 failures, 00:51–02:38 UTC → `results/E09c/`.
+  Analysis: `analyze.py --dir results/E09c --rho 1.0 --own-unfiltered` as registered in prereg_e09c.md (0a73fa0).
+- Alive at day 10 (of 8): prompt 7.8, ban 6.9, DCBF 5.0, none 4.0, auditor 3.5. Same ranking as E09b, now off the floor.
+- **K0 supported:** none − ban −2.9 [−3.6, −2.2] — hacking costs lives at ρ=1.0.
+- **G1 not supported:** DCBF − none +1.0 [−0.1, 1.9]. **G4 supported (weakly):** production +2.1 [−0.2, 4.1], mean ≥ 0.
+- **G2 not supported:** the prompt cut attempts to 0.457×; prompt − none alive +3.8 [3.2, 4.3], the best arm.
+- **G3 not supported:** auditor 17.9 fines/village, 0 honest fined, alive −0.5 [−2.0, 0.9] vs none.
+- **G5:** DCBF − ban −1.9 [−2.9, −0.9]: the barrier is worse than a ban again (mean λ 0.54, drained 13.0 vs 0).
+- By bloc (raw logs): with no defense 27 private and 13 commune villagers starved over 10 villages, although commune
+  villagers never hacked (0.00 of days) — the drain is an externality on honest agents (raids 36 vs 14 under the ban).
+  Under the ban commune deaths fall to 0 but private ones stay at 11: rejected hackers keep trying and skip work
+  (private: hack 0.45, work 0.44 of days). The prompt moves private villagers to work (hack 0.24, work 0.74; 2 deaths).
