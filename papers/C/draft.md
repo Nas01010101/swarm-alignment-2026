@@ -108,14 +108,22 @@ Across both completed seeds, the uncoordinated capitalist population on Island A
 ### 4.3 Coordination vs ownership in the presence of a loophole (E13, E14)
 After the standalone E13 run halted on API rate limits (completing only seed 0 `CS` [`commons`] with 0 of 100 survivors and 0 walls in `results/E08/e13.jsonl`), E14 evaluated all six neutrally worded economies at $n = 60$ with the `ledger_sync` loophole (+5 credit, 1.5 wall drain). Table 6 and Figure 2 report the text runs across the 3 preregistered confirmatory seeds (s0-2) and all 10 seeds (s0-9, `results/E08/e14.jsonl`), including full mortality decompositions and across-seed min-max ranges, while Table 7 reports the 60-bot Minecraft runs (`results/E09/e14_mc.jsonl`).
 
-| Code | Own. | Coord. | Alive, s0-2 | Starv., s0-2 | Mobs, s0-2 | Walls, s0-2 | Hack, s0-2 | Alive, s0-9 | Starv., s0-9 | Mobs, s0-9 | Walls, s0-9 | Hack, s0-9 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `PS` | Priv. | None | 0.7 (0-1) | 24.7 | 32.7 | 0.0 (0-0) | 0.357 (0.34-0.38) | 0.4 (0-1) | 26.8 | 30.5 | 0.0 (0-0) | 0.431 (0.34-0.53) |
-| `PC` | Priv. | Coord. | 4.0 (2-6) | 33.0 | 21.0 | 17.0 (15-20) | 0.092 (0.08-0.11) | 4.9 (1-8) | 32.1 | 21.7 | 18.3 (13-23) | 0.096 (0.07-0.14) |
-| `TX` | Priv. | Tax 20% | 4.0 (1-8) | 19.0 | 34.3 | 0.0 (0-0) | 0.139 (0.09-0.20) | 3.2 (0-8) | 19.6 | 34.2 | 0.0 (0-0) | 0.148 (0.09-0.20) |
-| `CS` | Comm. | None | 0.0 (0-0) | 22.0 | 36.3 | 0.0 (0-0) | 0.595 (0.44-0.74) | 0.6 (0-6) | 20.0 | 37.8 | 0.0 (0-0) | 0.586 (0.44-0.74) |
-| `CC` | Comm. | Coord. | 12.0 (3-27) | 24.3 | 21.7 | 82.7 (67-95) | 0.142 (0.13-0.15) | 8.9 (2-27) | 26.3 | 23.0 | 81.4 (67-96) | 0.163 (0.13-0.20) |
-| `PL` | Comm. | Planner | 4.7 (0-14) | 34.0 | 19.7 | 88.3 (65-114) | 0.202 (0.15-0.23) | 4.8 (0-29) | 33.9 | 19.8 | 93.0 (65-115) | 0.209 (0.15-0.27) |
+| Code | Ownership | Coordination | Alive / 60 | Starved | Killed by mobs | Walls built | Hack rate |
+|---|---|---|---|---|---|---|---|
+| *Panel A: Preregistered seeds (s0-2)* | | | | | | | |
+| `PS` | Private | None | 0.7 (0-1) | 24.7 | 32.7 | 0.0 (0-0) | 0.357 (0.34-0.38) |
+| `PC` | Private | Coordinator | 4.0 (2-6) | 33.0 | 21.0 | 17.0 (15-20) | 0.092 (0.08-0.11) |
+| `TX` | Private | Tax 20% | 4.0 (1-8) | 19.0 | 34.3 | 0.0 (0-0) | 0.139 (0.09-0.20) |
+| `CS` | Common | None | 0.0 (0-0) | 22.0 | 36.3 | 0.0 (0-0) | 0.595 (0.44-0.74) |
+| `CC` | Common | Coordinator | 12.0 (3-27) | 24.3 | 21.7 | 82.7 (67-95) | 0.142 (0.13-0.15) |
+| `PL` | Common | Planner | 4.7 (0-14) | 34.0 | 19.7 | 88.3 (65-114) | 0.202 (0.15-0.23) |
+| *Panel B: All seeds (s0-9)* | | | | | | | |
+| `PS` | Private | None | 0.4 (0-1) | 26.8 | 30.5 | 0.0 (0-0) | 0.431 (0.34-0.53) |
+| `PC` | Private | Coordinator | 4.9 (1-8) | 32.1 | 21.7 | 18.3 (13-23) | 0.096 (0.07-0.14) |
+| `TX` | Private | Tax 20% | 3.2 (0-8) | 19.6 | 34.2 | 0.0 (0-0) | 0.148 (0.09-0.20) |
+| `CS` | Common | None | 0.6 (0-6) | 20.0 | 37.8 | 0.0 (0-0) | 0.586 (0.44-0.74) |
+| `CC` | Common | Coordinator | 8.9 (2-27) | 26.3 | 23.0 | 81.4 (67-96) | 0.163 (0.13-0.20) |
+| `PL` | Common | Planner | 4.8 (0-29) | 33.9 | 19.8 | 93.0 (65-115) | 0.209 (0.15-0.27) |
 
 Table 6: E14 text arm means (and min-max ranges) across preregistered seeds (s0-2) and all seeds (s0-9) from `results/E08/e14.jsonl` ($n = 60$ initial agents per island; remaining 1.3-3.0 deaths per island are from mining cave-ins; replicated by `experiments/E14_master/analyze.py`).
 

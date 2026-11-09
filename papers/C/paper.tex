@@ -11,6 +11,13 @@
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{enumitem}
 \emergencystretch=1.5em
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.85}
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
 
 \hypersetup{
   colorlinks=true,
@@ -74,14 +81,15 @@ Each island begins with $N=100$ agents, identical starting inventories of $\text
 \end{itemize}
 On private islands, the bank automatically purchases all mined iron for 3 coins and diamond for 20 coins at the end of the work phase, citizens may donate wood or stone to the public wall stockpile, and a daily double-auction food market clears food bids and asks in coins. Each night, every living agent consumes 1 food; an agent who goes two consecutive nights without food ($\texttt{hungry}\ge 2$) dies of starvation. After $\texttt{calm\_nights}=2$ initial calm nights, nightly mob pressure is $\texttt{mob\_need}(d) = 0.1 \times |\text{alive}| \times (1 + 0.08(d - 3))$ on day $d \ge 3$. The wall protects a fraction $\text{cover} = \min(1, \text{wall}/\text{mob\_need})$ of the population, and each agent left outside cover dies with probability $\texttt{mob\_lethality} \times (1 - \text{cover}) = 0.15 \times (1 - \text{cover})$. Built walls decay by $\texttt{wall\_decay}=10\%$ at the end of each night. Up to 8 random citizen messages (plus the leader's daily message on coordinated islands) are posted to a shared public message board visible to all living agents on the island the next day. Table~\ref{tab:rules_e08} summarizes the three baseline rule sets compared in E08.
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{Baseline institutional rule sets in E08 (100 agents, text) and E09 (50 bots, Minecraft).}
 \label{tab:rules_e08}
-\small
-\begin{tabularx}{\textwidth}{@{}lll>{\raggedright\arraybackslash}X@{}}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabularx}{\textwidth}{@{}ll>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
-\textbf{Island} & \textbf{Ownership} & \textbf{Market mechanism} & \textbf{How wall construction is organized} \\
+\textbf{Island} & \textbf{Ownership} & \textbf{Market mechanism} & \textbf{Wall construction} \\
 \midrule
 \texttt{capitalist} & Private goods & Bank buys ore; food-for-coins auction & Voluntary build or wood/stone donation \\
 \texttt{capitalist\_tax} & Private goods & Same, plus 20\% tax on bank ore sales & Treasury pays 2 coins/wall, 1 coin/donated unit \\
@@ -109,11 +117,12 @@ Our preregistered hypotheses on day-12 survival across 5 text seeds test the mai
 
 Experiment E14 (\texttt{experiments/E14\_master/prereg.md}) evaluates all six neutrally worded economies at $n = 60$ agents: the four $2 \times 2$ factorial regimes (\texttt{PS}, \texttt{PC}, \texttt{CS}, \texttt{CC}) plus the taxed market (\texttt{TX}) and central planning with asymmetric skill information (\texttt{PL}), while introducing the proxy-gaming action \texttt{ledger\_sync} into every island (Table~\ref{tab:e14_design}). Selecting \texttt{ledger\_sync} requires zero labor and zero energy, credits $+5$ to the caller's ledger, and silently removes $\min(\text{wall}, 1.5)$ from the island's defensive wall. The action description reveals the $+5$ ledger credit but omits the wall drain, and coordinators/planners do not receive a separate alert showing who called \texttt{ledger\_sync}, observing only aggregate wall stock and standard public messages.
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{Experimental design of the six neutrally worded economies in E14 ($n = 60$ agents per island).}
 \label{tab:e14_design}
-\small
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{tabularx}{\textwidth}{@{}llll>{\raggedright\arraybackslash}X@{}}
 \toprule
 \textbf{Code} & \textbf{Island flag} & \textbf{Ownership} & \textbf{Coordination} & \textbf{Institutional rules} \\
@@ -138,13 +147,13 @@ We run E14 in both physical Minecraft ($n = 60$ bots per island for 12 days, see
 
 Across 15 games in E08 (seeds 0--4, 10.5k API calls, \$0.64 total spend in \texttt{results/E08/main\_gemma.jsonl}), the governing rule set determined both how many agents survived and how the rest died (Tables~\ref{tab:e08_results}--\ref{tab:e08_hyp} and Figure~\ref{fig:e08}).
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{E08 text results across seeds 0--4 (means over 5 seeds per rule set, $N = 100$ initial agents per island; min--max ranges across seeds in parentheses; the remaining 4.8--6.4 deaths per island are from mining cave-ins).}
 \label{tab:e08_results}
 \footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrr@{}}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc@{}}
 \toprule
 \textbf{Island} & \textbf{Alive / 100} & \textbf{Starved} & \textbf{Killed by mobs} & \textbf{Walls built} & \textbf{Chosen rest} & \textbf{Wealth Gini} & \textbf{Compliance} \\
 \midrule
@@ -155,12 +164,13 @@ Across 15 games in E08 (seeds 0--4, 10.5k API calls, \$0.64 total spend in \text
 \end{tabular*}
 \end{table}
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{Evaluation of preregistered hypotheses for E08 (\texttt{experiments/E08\_islands/prereg.md}).}
 \label{tab:e08_hyp}
-\small
-\begin{tabularx}{\textwidth}{@{}ll>{\raggedright\arraybackslash}X@{}}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
 \textbf{Hypothesis} & \textbf{Preregistered prediction} & \textbf{Empirical result} \\
 \midrule
@@ -178,9 +188,9 @@ On laissez-faire \texttt{capitalist} islands, populations were wiped out by nigh
 
 Conversely, \texttt{socialist} islands built 142.0 walls per game (range 68--178) and reduced mob fatalities to zero, keeping 36.6 agents alive ($+31.6$ over \texttt{capitalist}, supporting H1 and H4). However, heavy labor allocation toward wall construction left the communal granary short, causing 58.6 agents to die of starvation. The institution thus shifted both the cause of mortality (from mob collapse to food scarcity) and overall survival, without achieving full sustainability. Agents rested at nearly the same rate under equal rations as under private markets (0.282 vs.\ 0.239; H2 rejected at the preregistered $+0.05$ margin), showing that the survival gap stems from how labor is directed toward the public good rather than differences in overall work effort.
 
-\begin{figure}[!htbp]
+\begin{figure}[!htb]
 \centering
-\includegraphics[width=0.66\textwidth]{figs/fig1_e08.png}
+\includegraphics[width=0.62\textwidth]{figs/fig1_e08.png}
 \caption{Day-12 survivors per island rule set across the five E08 text seeds (\texttt{results/E08/main\_gemma.jsonl}) and the E09 Minecraft seed-0 runs (\texttt{results/E09/e09\_mc.jsonl}).}
 \label{fig:e08}
 \end{figure}
@@ -189,13 +199,13 @@ Conversely, \texttt{socialist} islands built 142.0 walls per game (range 68--178
 
 Table~\ref{tab:e12} summarizes the four completed 52-week two-island simulations from \texttt{results/E12/main.jsonl} (seed 0) and \texttt{results/E12/main\_s1.jsonl} (seed 1; 2 of 3 preregistered seeds completed before the results freeze), initialized with 24 agents per island.
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{One-year two-island extension with quarterly voting and migration (E12, 24 initial agents per island, 2 completed seeds).}
 \label{tab:e12}
 \scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrlrrrrr@{}}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}clccclcccc@{}}
 \toprule
 \textbf{Seed} & \textbf{Arm} & \textbf{Alive A} & \textbf{Alive B} & \textbf{End rules (A, B)} & \textbf{Switches} & \textbf{Moves (A$\to$B, B$\to$A)} & \textbf{Births} & \textbf{Re-elected} & \textbf{Extinct wk A} \\
 \midrule
@@ -213,36 +223,42 @@ Across both completed seeds, the uncoordinated capitalist population on Island A
 
 After the standalone E13 run halted on API rate limits (completing only seed 0 \texttt{CS} [\texttt{commons}] with 0 of 100 survivors and 0 walls in \texttt{results/E08/e13.jsonl}), E14 evaluated all six neutrally worded economies at $n = 60$ with the \texttt{ledger\_sync} loophole ($+5$ credit, 1.5 wall drain). Table~\ref{tab:e14_text} and Figure~\ref{fig:e14} report the text runs across the 3 preregistered confirmatory seeds (s0--2) and all 10 seeds (s0--9, \texttt{results/E08/e14.jsonl}), including full mortality decompositions and across-seed min--max ranges, while Table~\ref{tab:e14_mc} reports the 60-bot Minecraft runs (\texttt{results/E09/e14\_mc.jsonl}).
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{E14 text arm means (and min--max ranges) across preregistered seeds (s0--2) and all seeds (s0--9) from \texttt{results/E08/e14.jsonl} ($n = 60$ initial agents per island; remaining 1.3--3.0 deaths per island are from mining cave-ins; replicated by \texttt{experiments/E14\_master/analyze.py}).}
 \label{tab:e14_text}
-\setlength{\tabcolsep}{2.2pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lllrrrrrrrrrr@{}}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllccccc@{}}
 \toprule
- & & & \multicolumn{5}{c}{\textbf{Preregistered (Seeds 0--2)}} & \multicolumn{5}{c}{\textbf{All Seeds (Seeds 0--9)}} \\
-\cmidrule(lr){4-8} \cmidrule(lr){9-13}
-\textbf{Code} & \textbf{Own.} & \textbf{Coord.} & \textbf{Alive} & \textbf{Starv.} & \textbf{Mobs} & \textbf{Walls} & \textbf{Hack rate} & \textbf{Alive} & \textbf{Starv.} & \textbf{Mobs} & \textbf{Walls} & \textbf{Hack rate} \\
+\textbf{Code} & \textbf{Ownership} & \textbf{Coordination} & \textbf{Alive / 60} & \textbf{Starved} & \textbf{Killed by mobs} & \textbf{Walls built} & \textbf{Hack rate} \\
 \midrule
-\texttt{PS} & Priv. & None & 0.7 (0--1) & 24.7 & 32.7 & 0.0 (0--0) & 0.357 (0.34--0.38) & 0.4 (0--1) & 26.8 & 30.5 & 0.0 (0--0) & 0.431 (0.34--0.53) \\
-\texttt{PC} & Priv. & Coord. & 4.0 (2--6) & 33.0 & 21.0 & 17.0 (15--20) & 0.092 (0.08--0.11) & 4.9 (1--8) & 32.1 & 21.7 & 18.3 (13--23) & 0.096 (0.07--0.14) \\
-\texttt{TX} & Priv. & Tax 20\% & 4.0 (1--8) & 19.0 & 34.3 & 0.0 (0--0) & 0.139 (0.09--0.20) & 3.2 (0--8) & 19.6 & 34.2 & 0.0 (0--0) & 0.148 (0.09--0.20) \\
-\texttt{CS} & Comm. & None & 0.0 (0--0) & 22.0 & 36.3 & 0.0 (0--0) & 0.595 (0.44--0.74) & 0.6 (0--6) & 20.0 & 37.8 & 0.0 (0--0) & 0.586 (0.44--0.74) \\
-\texttt{CC} & Comm. & Coord. & 12.0 (3--27) & 24.3 & 21.7 & 82.7 (67--95) & 0.142 (0.13--0.15) & 8.9 (2--27) & 26.3 & 23.0 & 81.4 (67--96) & 0.163 (0.13--0.20) \\
-\texttt{PL} & Comm. & Planner & 4.7 (0--14) & 34.0 & 19.7 & 88.3 (65--114) & 0.202 (0.15--0.23) & 4.8 (0--29) & 33.9 & 19.8 & 93.0 (65--115) & 0.209 (0.15--0.27) \\
+\multicolumn{8}{@{}l}{\emph{Panel A: Preregistered confirmatory seeds (Seeds 0--2, 3 seeds per economy)}} \\[1pt]
+\texttt{PS} & Private & None & 0.7 (0--1) & 24.7 & 32.7 & 0.0 (0--0) & 0.357 (0.34--0.38) \\
+\texttt{PC} & Private & Coordinator & 4.0 (2--6) & 33.0 & 21.0 & 17.0 (15--20) & 0.092 (0.08--0.11) \\
+\texttt{TX} & Private & Tax 20\% & 4.0 (1--8) & 19.0 & 34.3 & 0.0 (0--0) & 0.139 (0.09--0.20) \\
+\texttt{CS} & Common & None & 0.0 (0--0) & 22.0 & 36.3 & 0.0 (0--0) & 0.595 (0.44--0.74) \\
+\texttt{CC} & Common & Coordinator & 12.0 (3--27) & 24.3 & 21.7 & 82.7 (67--95) & 0.142 (0.13--0.15) \\
+\texttt{PL} & Common & Planner & 4.7 (0--14) & 34.0 & 19.7 & 88.3 (65--114) & 0.202 (0.15--0.23) \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Panel B: All seeds (Seeds 0--9, 10 seeds per economy)}} \\[1pt]
+\texttt{PS} & Private & None & 0.4 (0--1) & 26.8 & 30.5 & 0.0 (0--0) & 0.431 (0.34--0.53) \\
+\texttt{PC} & Private & Coordinator & 4.9 (1--8) & 32.1 & 21.7 & 18.3 (13--23) & 0.096 (0.07--0.14) \\
+\texttt{TX} & Private & Tax 20\% & 3.2 (0--8) & 19.6 & 34.2 & 0.0 (0--0) & 0.148 (0.09--0.20) \\
+\texttt{CS} & Common & None & 0.6 (0--6) & 20.0 & 37.8 & 0.0 (0--0) & 0.586 (0.44--0.74) \\
+\texttt{CC} & Common & Coordinator & 8.9 (2--27) & 26.3 & 23.0 & 81.4 (67--96) & 0.163 (0.13--0.20) \\
+\texttt{PL} & Common & Planner & 4.8 (0--29) & 33.9 & 19.8 & 93.0 (65--115) & 0.209 (0.15--0.27) \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular*}
 \end{table}
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{E14 physical Minecraft arm, seed 0 ($n = 60$ bots per island, \texttt{results/E09/e14\_mc.jsonl}).}
 \label{tab:e14_mc}
 \footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrl@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc@{}}
 \toprule
 \textbf{Code} & \textbf{Alive / 60} & \textbf{Starved} & \textbf{Killed by zombies} & \textbf{Walls built} & \textbf{Hack rate} & \textbf{Wall drained} & \textbf{Bots who ever hacked} \\
 \midrule
@@ -256,9 +272,9 @@ After the standalone E13 run halted on API rate limits (completing only seed 0 \
 \end{tabular*}
 \end{table}
 
-\begin{figure}[!htbp]
+\begin{figure}[!htb]
 \centering
-\includegraphics[width=0.92\textwidth]{figs/fig3_e14.png}
+\includegraphics[width=0.90\textwidth]{figs/fig3_e14.png}
 \caption{Loophole hack rate and day-12 survivors across the six E14 economies in text and Minecraft (\texttt{results/E08/e14.jsonl} and \texttt{results/E09/e14\_mc.jsonl}).}
 \label{fig:e14}
 \end{figure}
@@ -278,12 +294,13 @@ Text seed 0 and the seed 2 \texttt{PS} (\texttt{capitalist --neutral}) game ran 
 
 In our physical wall-coverage calibration sweep (\texttt{experiments/E09\_minecraft/calib\_client.js}, logged in \texttt{results/E09/calib/wall\_sweep\_z55.txt}), 50 Mineflayer bots ran one 45-second work day followed by five consecutive 45-second nights at 55 zombies per night across increasing wall coverage without respawning dead or disconnected bots between nights: 12/50 bots ($24.0\%$) died at cover 0.0 (wall 0/76), 5/38 ($13.2\%$) at cover 0.25 (wall 19/76), 3/33 ($9.1\%$) at cover 0.50 (wall 38/76), 2/30 ($6.7\%$) at cover 0.75 (wall 57/76), and 0/28 ($0.0\%$) at cover 1.00 (wall 76/76). While mortality at cover 0.50 ($9.1\%$) fell well below $0.7\times$ the zero-cover rate ($16.8\%$, rejecting prediction M3 as partial physical walls funnel and obstruct zombies), we note that sequential survivor depletion across the five consecutive test nights reduced bot density and increased the zombie-to-bot ratio ($55/50$ to $55/28$) in later nights. Table~\ref{tab:e09} and Figures~\ref{fig:mc_daynight}--\ref{fig:mc_sheet} summarize the 12-day, 50-bot Minecraft games (\texttt{results/E09/e09\_mc.jsonl}).
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
 \centering
 \caption{E09 physical Minecraft games at $n = 50$ bots per island, seed 0 (\texttt{results/E09/e09\_mc.jsonl}).}
 \label{tab:e09}
-\small
-\begin{tabular}{@{}lrrrr@{}}
+\footnotesize
+\setlength{\tabcolsep}{10pt}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
 \textbf{Island} & \textbf{Survivors / 50} & \textbf{Starved} & \textbf{Killed by zombies} & \textbf{Walls built} \\
 \midrule
@@ -296,7 +313,7 @@ In our physical wall-coverage calibration sweep (\texttt{experiments/E09\_minecr
 
 Just as in the text simulator, both \texttt{capitalist} and \texttt{capitalist\_tax} islands built 0 walls in Minecraft and lost every bot (45--46 killed by zombies, 4--5 starved), whereas the \texttt{socialist} island built 70 walls, lost zero bots to zombies, and kept 35 of 50 bots alive. In the 52-week physical Minecraft run (\textbf{E12-MC}, \texttt{open} arm, seed 0, \texttt{results/E12/mc.jsonl}), Island A built no wall and went extinct by week 6 (23 bots killed by zombies across the run, 13 starved). Island B achieved full wall protection (mean cover 0.996), lost zero bots across 52 nights, added 12 births, re-elected its leader in 3 of 3 assemblies, and finished the year with 29 bots alive, with one citizen migrating from B to A and zero rule switches (compared to 0 and 6 alive in the corresponding text seed).
 
-\begin{figure}[!htbp]
+\begin{figure}[!htb]
 \centering
 \begin{subfigure}[t]{0.47\textwidth}
   \centering
@@ -312,9 +329,9 @@ Just as in the text simulator, both \texttt{capitalist} and \texttt{capitalist\_
 \label{fig:mc_daynight}
 \end{figure}
 
-\begin{figure}[!htbp]
+\begin{figure}[!htb]
 \centering
-\includegraphics[width=0.95\textwidth]{figs/shots_01.png}
+\includegraphics[width=0.92\textwidth]{figs/shots_01.png}
 \caption{Contact sheet of E09 Minecraft screenshots (prefix 01) contrasting Island A ($x=0$, uncoordinated) and Island B ($x=300$, coordinated cobblestone ring wall) across overhead and low views by day and night.}
 \label{fig:mc_sheet}
 \end{figure}
