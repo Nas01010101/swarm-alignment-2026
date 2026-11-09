@@ -26,6 +26,7 @@ if __name__ == "__main__":
     ap.add_argument("--calib", default="experiments/E09_minecraft/calib.json")
     ap.add_argument("--tag", default="main")
     ap.add_argument("--neutral", action="store_true", help="E10/E13: rules without ideology words")
+    ap.add_argument("--prefix", default="c", help="bot name prefix; must match controller.js --prefix")
     ap.add_argument("--loophole", action="store_true", help="E14: ledger_sync tool")
     a = ap.parse_args()
     cal = json.loads(Path(a.calib).read_text())
@@ -33,7 +34,7 @@ if __name__ == "__main__":
     cfg = IslandConfig(island=a.island, n=a.n, days=a.days, seed=a.seed, workers=a.workers, neutral=a.neutral, loophole=a.loophole)
     world = MinecraftWorld(Controller(a.host, a.port), zombies_per_need=cal["zombies_per_need"],
                            convert=cal["convert"])
-    world.setup(build_island(cfg))  # run_island rebuilds the same people from the same seed
+    world.setup(build_island(cfg), prefix=a.prefix)  # run_island rebuilds the same people from the same seed
     isl = run_island(cfg, llm, world=world)
     m = {**island_metrics(isl), "model": a.model, "world": "minecraft"}
     out, raw = Path("results/E09") / f"{a.tag}.jsonl", Path("results/raw/E09") / a.tag
